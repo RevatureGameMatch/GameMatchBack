@@ -4,4 +4,7 @@
   <artifactId>g2g</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>war</packaging>
+  <build>
+    <finalName>g2g</finalName>
+  </build>
 </project>

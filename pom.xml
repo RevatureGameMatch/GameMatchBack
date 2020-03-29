@@ -7,4 +7,48 @@
   <build>
     <finalName>g2g</finalName>
   </build>
+  <dependencies>
+  	<!-- https://mvnrepository.com/artifact/com.oracle/ojdbc7 -->
+  	<dependency>
+		<groupId>com.oracle</groupId>
+		<artifactId>ojdbc8</artifactId>
+		<version>12.2.0.1</version>
+	</dependency>
+	<!-- Jackson databind -->
+    <dependency>
+		<groupId>com.fasterxml.jackson.core</groupId>
+		<artifactId>jackson-databind</artifactId>
+		<version>2.10.3</version>
+	</dependency>
+  	<!-- https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api -->
+    <dependency>
+		<groupId>javax.servlet</groupId>
+		<artifactId>javax.servlet-api</artifactId>
+		<version>3.1.0</version>
+    </dependency>
+	<!-- https://logging.apache.org/log4j/2.x/maven-artifacts.html -->
+	<dependency>
+		<groupId>org.apache.logging.log4j</groupId>
+		<artifactId>log4j-core</artifactId>
+		<version>2.13.1</version>
+	</dependency>
+	<dependency>
+		<groupId>org.apache.logging.log4j</groupId>
+		<artifactId>log4j-api</artifactId>
+		<version>2.13.1</version>
+	</dependency>
+	<!-- https://github.com/wg/scrypt -->
+	<dependency>
+		<groupId>com.lambdaworks</groupId>
+		<artifactId>scrypt</artifactId>
+		<version>1.4.0</version>
+	</dependency>
+	<!-- https://mvnrepository.com/artifact/junit/junit -->
+	<dependency>
+		<groupId>junit</groupId>
+		<artifactId>junit</artifactId>
+		<version>4.13</version>
+		<scope>test</scope>
+	</dependency>
+  </dependencies>
 </project>

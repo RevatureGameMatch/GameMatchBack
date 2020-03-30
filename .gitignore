@@ -2,3 +2,4 @@
 .*
 target/*
 hibernate.cfg.xml
+*.log

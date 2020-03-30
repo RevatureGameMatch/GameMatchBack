@@ -7,6 +7,14 @@
   <build>
     <finalName>g2g</finalName>
   </build>
+	<properties>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+		<sonar.projectKey>RevatureGameMatch_GameMatchBack</sonar.projectKey>
+		<sonar.organization>revature-game-match</sonar.organization>
+		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
+		<sonar.login>43e9236abc1f848a91e32f8b4beb06b8ad1c5f3a</sonar.login>
+	</properties>
   <dependencies>
   	<!-- https://mvnrepository.com/artifact/com.oracle/ojdbc7 -->
   	<dependency>

@@ -19,7 +19,7 @@ public class SkillGameJT implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "skill_game_jt_id")
-	private int gameSkillJTId;
+	private int skillGameJTId;
 	
 	@ManyToOne()
 	@JoinColumn(name = "skill_id")
@@ -35,18 +35,18 @@ public class SkillGameJT implements Serializable {
 	public SkillGameJT() {
 		super();
 	}
-	public SkillGameJT(int gameSkillJTId, Skill skill, Game game, int relevance) {
+	public SkillGameJT(int skillGameJTId, Skill skill, Game game, int relevance) {
 		super();
-		this.gameSkillJTId = gameSkillJTId;
+		this.skillGameJTId = skillGameJTId;
 		this.skill = skill;
 		this.game = game;
 		this.relevance = relevance;
 	}
 	public int getGameSkillJTId() {
-		return gameSkillJTId;
+		return skillGameJTId;
 	}
-	public void setGameSkillJTId(int gameSkillJTId) {
-		this.gameSkillJTId = gameSkillJTId;
+	public void setGameSkillJTId(int skillGameJTId) {
+		this.skillGameJTId = skillGameJTId;
 	}
 	public Skill getSkill() {
 		return skill;
@@ -71,7 +71,7 @@ public class SkillGameJT implements Serializable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((game == null) ? 0 : game.hashCode());
-		result = prime * result + gameSkillJTId;
+		result = prime * result + skillGameJTId;
 		result = prime * result + relevance;
 		result = prime * result + ((skill == null) ? 0 : skill.hashCode());
 		return result;
@@ -92,7 +92,7 @@ public class SkillGameJT implements Serializable {
 		} else if (!game.equals(other.game)) {
 			return false;
 		}
-		if (gameSkillJTId != other.gameSkillJTId) {
+		if (skillGameJTId != other.skillGameJTId) {
 			return false;
 		}
 		if (relevance != other.relevance) {
@@ -109,7 +109,7 @@ public class SkillGameJT implements Serializable {
 	}
 	@Override
 	public String toString() {
-		return "SkillGameJT [gameSkillJTId=" + gameSkillJTId + ", skill=" + skill + ", game=" + game + ", relevance="
+		return "SkillGameJT [skillGameJTId=" + skillGameJTId + ", skill=" + skill + ", game=" + game + ", relevance="
 				+ relevance + "]";
 	}
 }

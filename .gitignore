@@ -1,3 +1,4 @@
 /.metadata/
 .*
 target/*
+hibernate.cfg.xml

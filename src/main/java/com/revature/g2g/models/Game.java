@@ -10,7 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "G2G_Game")
+@Table(name = "G2G_GAME")
 public class Game implements Serializable{
 	private static final long serialVersionUID = 2159855250913785420L;
 

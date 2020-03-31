@@ -39,7 +39,7 @@ public class SkillPlayerJT implements Serializable{
 	@Column(name = "player_skill_exertise")
 	private double expertise;
 
-	@OneToMany(mappedBy = "skill_id", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "skillPlayerJT", fetch = FetchType.LAZY)
 	private Set<SkillPlayerChangeJT> changes = new HashSet<>();
 
 	public SkillPlayerJT() {

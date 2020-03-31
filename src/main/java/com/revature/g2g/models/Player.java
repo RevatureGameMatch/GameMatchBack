@@ -35,16 +35,16 @@ public class Player implements Serializable {
 	@Column(name = "player_role")
 	private PlayerRole  playerRole;
 	
-	@OneToMany(mappedBy = "player_id", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "player", fetch = FetchType.LAZY)
 	private Set<PlayerRoomJT> roomJT = new HashSet<>();
 
-	@OneToMany(mappedBy = "player_id", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "player", fetch = FetchType.LAZY)
 	private Set<SkillPlayerChangeJT> changesToSelf = new HashSet<>();
 
-	@OneToMany(mappedBy = "modified_by_id", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "modifiedBy", fetch = FetchType.LAZY)
 	private Set<SkillPlayerChangeJT> changesToOthers = new HashSet<>();
 
-	@OneToMany(mappedBy = "modified_by_id", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "player", fetch = FetchType.LAZY)
 	private Set<SkillPlayerJT> skills = new HashSet<>();
 
 	public Player() {

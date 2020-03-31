@@ -32,7 +32,7 @@ public class Game implements Serializable{
 	@Column(name = "game_description")
 	private String description;
 
-	@OneToMany(mappedBy = "game_id", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "game", fetch = FetchType.LAZY)
 	private Set<SkillGameJT> skills = new HashSet<>();
 	
 	public Game() {

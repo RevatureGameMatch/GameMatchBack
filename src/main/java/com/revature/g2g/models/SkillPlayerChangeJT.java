@@ -38,7 +38,7 @@ public class SkillPlayerChangeJT implements Serializable{
 	
 	@ManyToOne
 	@JoinColumn(name = "room_id")
-	private Room roomId;
+	private Room room;
 	
 	@Column(name = "value")
 	private double value;
@@ -47,14 +47,14 @@ public class SkillPlayerChangeJT implements Serializable{
 		super();
 	}
 	public SkillPlayerChangeJT(int skillPlayerChangeJTId, SkillPlayerJT skillPlayerJT, Player player, Player modifiedBy,
-			double expertise, Room roomId, double value) {
+			double expertise, Room room, double value) {
 		super();
 		this.skillPlayerChangeJTId = skillPlayerChangeJTId;
 		this.skillPlayerJT = skillPlayerJT;
 		this.player = player;
 		this.modifiedBy = modifiedBy;
 		this.expertise = expertise;
-		this.roomId = roomId;
+		this.room = room;
 		this.value = value;
 	}
 	public int getSkillPlayerChangeJTId() {
@@ -87,11 +87,11 @@ public class SkillPlayerChangeJT implements Serializable{
 	public void setExpertise(double expertise) {
 		this.expertise = expertise;
 	}
-	public Room getRoomId() {
-		return roomId;
+	public Room getRoom() {
+		return room;
 	}
-	public void setRoomId(Room roomId) {
-		this.roomId = roomId;
+	public void setRoom(Room room) {
+		this.room = room;
 	}
 	public double getValue() {
 		return value;
@@ -108,7 +108,7 @@ public class SkillPlayerChangeJT implements Serializable{
 		result = prime * result + (int) (temp ^ (temp >>> 32));
 		result = prime * result + ((modifiedBy == null) ? 0 : modifiedBy.hashCode());
 		result = prime * result + ((player == null) ? 0 : player.hashCode());
-		result = prime * result + ((roomId == null) ? 0 : roomId.hashCode());
+		result = prime * result + ((room == null) ? 0 : room.hashCode());
 		result = prime * result + skillPlayerChangeJTId;
 		result = prime * result + ((skillPlayerJT == null) ? 0 : skillPlayerJT.hashCode());
 		temp = Double.doubleToLongBits(value);
@@ -141,11 +141,11 @@ public class SkillPlayerChangeJT implements Serializable{
 		} else if (!player.equals(other.player)) {
 			return false;
 		}
-		if (roomId == null) {
-			if (other.roomId != null) {
+		if (room == null) {
+			if (other.room != null) {
 				return false;
 			}
-		} else if (!roomId.equals(other.roomId)) {
+		} else if (!room.equals(other.room)) {
 			return false;
 		}
 		if (skillPlayerChangeJTId != other.skillPlayerChangeJTId) {
@@ -167,6 +167,6 @@ public class SkillPlayerChangeJT implements Serializable{
 	public String toString() {
 		return "SkillPlayerChangeJT [skillPlayerChangeJTId=" + skillPlayerChangeJTId + ", skillPlayerJT="
 				+ skillPlayerJT + ", player=" + player + ", modifiedBy=" + modifiedBy + ", expertise=" + expertise
-				+ ", roomId=" + roomId + ", value=" + value + "]";
+				+ ", room=" + room + ", value=" + value + "]";
 	}
 }

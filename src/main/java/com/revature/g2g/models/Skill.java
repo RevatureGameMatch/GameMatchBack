@@ -32,16 +32,16 @@ public class Skill implements Serializable{
 	@JoinColumn(name="parent_id")
 	private Skill parentSkill;
 	
-	@OneToMany(mappedBy = "parent_id", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "parentSkill", fetch = FetchType.LAZY)
 	private Set<Skill> childSkills = new HashSet<>();
 	
-	@OneToMany(mappedBy = "skill_id", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "skill", fetch = FetchType.LAZY)
 	private Set<SkillGameJT> games = new HashSet<>();
 
-	@OneToMany(mappedBy = "skill_id", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "skill", fetch = FetchType.LAZY)
 	private Set<SkillPlayerJT> players = new HashSet<>();
 
-	@OneToMany(mappedBy = "skill_id", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "skill", fetch = FetchType.LAZY)
 	private Set<SkillRoomJT> rooms = new HashSet<>();
 
 	public Skill() {

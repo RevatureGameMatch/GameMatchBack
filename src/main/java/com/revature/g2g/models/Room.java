@@ -39,13 +39,13 @@ public class Room implements Serializable{
 	@Column(name = "room_status")
 	private RoomStatus status;
 	
-	@OneToMany(mappedBy = "room_id", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "room", fetch = FetchType.LAZY)
 	private Set<PlayerRoomJT> playerJT = new HashSet<>();
 
-	@OneToMany(mappedBy = "room_id", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "room", fetch = FetchType.LAZY)
 	private Set<SkillPlayerChangeJT> roomChangesToSkill = new HashSet<>();
 
-	@OneToMany(mappedBy = "room_id", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "room", fetch = FetchType.LAZY)
 	private Set<SkillRoomJT> skills = new HashSet<>();
 
 	public Room() {

@@ -21,7 +21,7 @@ public class Skill implements Serializable{
 	@Column(name = "skill_id")
 	private int skillId;
 	
-	@Column(name = "skill_name")
+	@Column(name = "skill_name", unique = true)
 	private String name;
 	
 	@ManyToOne()

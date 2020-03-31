@@ -19,7 +19,7 @@ public class Game implements Serializable{
 	@Column(name = "game_id")
 	private int gameId;
 	
-	@Column(name = "game_name")
+	@Column(name = "game_name", unique = true)
 	private String name;
 	
 	@Column(name = "game_link")

@@ -1,7 +1,6 @@
 package com.revature.g2g.repositories;
 
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;

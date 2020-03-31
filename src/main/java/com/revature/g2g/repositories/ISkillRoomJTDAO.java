@@ -6,7 +6,7 @@ import com.revature.g2g.models.Room;
 import com.revature.g2g.models.Skill;
 import com.revature.g2g.models.SkillRoomJT;
 
-public interface ISkillRoomJT {
+public interface ISkillRoomJTDAO {
 	//Create
 	public void insert(SkillRoomJT sr);
 	//Read

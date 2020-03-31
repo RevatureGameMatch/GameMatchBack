@@ -6,7 +6,7 @@ import com.revature.g2g.models.Game;
 import com.revature.g2g.models.Skill;
 import com.revature.g2g.models.SkillGameJT;
 
-public interface ISkillGame {
+public interface ISkillGameJTDAO {
 	//Create
 	public void insert(SkillGameJT sg);
 	//Read

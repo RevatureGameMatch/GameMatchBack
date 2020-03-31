@@ -2,7 +2,7 @@ package com.revature.g2g.repositories;
 
 import com.revature.g2g.models.SkillPlayerChangeJT;
 
-public interface ISkillPlayerChangeJT {
+public interface ISkillPlayerChangeJTDAO {
 	//Create
 	public void insert(SkillPlayerChangeJT spc);
 	//Read

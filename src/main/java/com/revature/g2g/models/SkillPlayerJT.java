@@ -1,14 +1,18 @@
 package com.revature.g2g.models;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -34,6 +38,9 @@ public class SkillPlayerJT implements Serializable{
 	
 	@Column(name = "player_skill_exertise")
 	private double expertise;
+
+	@OneToMany(mappedBy = "skillPlayerJT", fetch = FetchType.LAZY)
+	private Set<SkillPlayerChangeJT> changes = new HashSet<>();
 
 	public SkillPlayerJT() {
 		super();
@@ -75,6 +82,12 @@ public class SkillPlayerJT implements Serializable{
 	}
 	public void setExpertise(double expertise) {
 		this.expertise = expertise;
+	}
+	public Set<SkillPlayerChangeJT> getChanges() {
+		return changes;
+	}
+	public void setChanges(Set<SkillPlayerChangeJT> changes) {
+		this.changes = changes;
 	}
 	@Override
 	public int hashCode() {

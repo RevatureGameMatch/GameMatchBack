@@ -8,7 +8,7 @@ import com.revature.g2g.models.SkillRoomJT;
 
 public interface ISkillRoomJT {
 	//Create
-	public boolean insert(SkillRoomJT sr);
+	public void insert(SkillRoomJT sr);
 	//Read
 	public SkillRoomJT findById(int id);
 	public SkillRoomJT findByName(String name);
@@ -16,7 +16,7 @@ public interface ISkillRoomJT {
 	public Set<SkillRoomJT> findBySkill(Skill skill);
 	public Set<SkillRoomJT> findByRoom(Room room);
 	//Update
-	public boolean update(SkillRoomJT sr);
+	public void update(SkillRoomJT sr);
 	//Delete
-	public boolean delete(SkillRoomJT sr);
+	public void delete(SkillRoomJT sr);
 }

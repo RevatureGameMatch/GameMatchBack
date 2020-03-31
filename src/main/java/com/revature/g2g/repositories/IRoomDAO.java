@@ -8,7 +8,7 @@ import com.revature.g2g.models.SkillPlayerJT;
 
 public interface IRoomDAO {
 	//Create
-	public boolean insert(Room r);
+	public void insert(Room r);
 	//Read
 	public Room findById(int id);
 	public Set<Room> findAll();
@@ -16,7 +16,7 @@ public interface IRoomDAO {
 	//Find rooms someone can log into
 	public Set<Room> findBySkill(RoomStatus status, SkillPlayerJT[] skills);
 	//Update
-	public boolean update(Room r);
+	public void update(Room r);
 	//Delete
-	public boolean delete(Room r);
+	public void delete(Room r);
 }

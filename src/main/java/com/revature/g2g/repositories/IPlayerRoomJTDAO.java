@@ -8,7 +8,7 @@ import com.revature.g2g.models.Room;
 
 public interface IPlayerRoomJTDAO {
 	//Create
-	public boolean insert(PlayerRoomJT pr);
+	public void insert(PlayerRoomJT pr);
 	//Read
 	public PlayerRoomJT findById(int id);
 	public int countCurrentPlayers();
@@ -17,7 +17,7 @@ public interface IPlayerRoomJTDAO {
 	public Set<Player> findPlayers(Room room);
 	public Set<Room> findRooms(Player player);
 	//Update
-	public boolean update(PlayerRoomJT pr);
+	public void update(PlayerRoomJT pr);
 	//Delete
-	public boolean delete(PlayerRoomJT pr);
+	public void delete(PlayerRoomJT pr);
 }

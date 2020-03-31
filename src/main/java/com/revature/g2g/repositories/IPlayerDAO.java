@@ -7,7 +7,7 @@ import com.revature.g2g.models.PlayerRole;
 
 public interface IPlayerDAO {
 	//Create
-	public boolean insert(Player p);
+	public void insert(Player p);
 	//Read
 	public Player findById(int id);
 	public Player findByUsername(String username);
@@ -15,7 +15,7 @@ public interface IPlayerDAO {
 	public Set<Player> findAll();
 	public Set<Player> findByRole(PlayerRole role);
 	//Update
-	public boolean update(Player p);
+	public void update(Player p);
 	//Delete
-	public boolean delete(Player p);
+	public void delete(Player p);
 }

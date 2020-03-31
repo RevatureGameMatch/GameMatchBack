@@ -1,5 +1,7 @@
 package com.revature.g2g.models;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,7 +13,9 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "G2G_SKILL_PLAYER_CHANGE_JT")
-public class SkillPlayerChangeJT {
+public class SkillPlayerChangeJT implements Serializable{
+	private static final long serialVersionUID = -253737794481944410L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "skill_player_change_jt")

@@ -1,17 +1,24 @@
 package com.revature.g2g.models;
 
+import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "G2G_ROOM")
-public class Room {
+public class Room implements Serializable{
+	private static final long serialVersionUID = -5444471863298926133L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "room_id")
@@ -31,6 +38,15 @@ public class Room {
 	
 	@Column(name = "room_status")
 	private RoomStatus status;
+	
+	@OneToMany(mappedBy = "room_id", fetch = FetchType.LAZY)
+	private Set<PlayerRoomJT> playerJT = new HashSet<>();
+
+	@OneToMany(mappedBy = "room_id", fetch = FetchType.LAZY)
+	private Set<SkillPlayerChangeJT> roomChangesToSkill = new HashSet<>();
+
+	@OneToMany(mappedBy = "room_id", fetch = FetchType.LAZY)
+	private Set<SkillRoomJT> skills = new HashSet<>();
 
 	public Room() {
 		super();
@@ -80,6 +96,24 @@ public class Room {
 	}
 	public void setStatus(RoomStatus status) {
 		this.status = status;
+	}
+	public Set<PlayerRoomJT> getPlayerJT() {
+		return playerJT;
+	}
+	public void setPlayerJT(Set<PlayerRoomJT> playerJT) {
+		this.playerJT = playerJT;
+	}
+	public Set<SkillPlayerChangeJT> getRoomChangesToSkill() {
+		return roomChangesToSkill;
+	}
+	public void setRoomChangesToSkill(Set<SkillPlayerChangeJT> roomChangesToSkill) {
+		this.roomChangesToSkill = roomChangesToSkill;
+	}
+	public Set<SkillRoomJT> getSkills() {
+		return skills;
+	}
+	public void setSkills(Set<SkillRoomJT> skills) {
+		this.skills = skills;
 	}
 	@Override
 	public int hashCode() {

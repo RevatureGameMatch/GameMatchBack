@@ -1,12 +1,16 @@
 package com.revature.g2g.models;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -30,6 +34,18 @@ public class Player implements Serializable {
 	
 	@Column(name = "player_role")
 	private PlayerRole  playerRole;
+	
+	@OneToMany(mappedBy = "player_id", fetch = FetchType.LAZY)
+	private Set<PlayerRoomJT> roomJT = new HashSet<>();
+
+	@OneToMany(mappedBy = "player_id", fetch = FetchType.LAZY)
+	private Set<SkillPlayerChangeJT> changesToSelf = new HashSet<>();
+
+	@OneToMany(mappedBy = "modified_by_id", fetch = FetchType.LAZY)
+	private Set<SkillPlayerChangeJT> changesToOthers = new HashSet<>();
+
+	@OneToMany(mappedBy = "modified_by_id", fetch = FetchType.LAZY)
+	private Set<SkillPlayerJT> skills = new HashSet<>();
 
 	public Player() {
 		super();
@@ -72,6 +88,30 @@ public class Player implements Serializable {
 	}
 	public void setPlayerRole(PlayerRole playerRole) {
 		this.playerRole = playerRole;
+	}
+	public Set<PlayerRoomJT> getRoomJT() {
+		return roomJT;
+	}
+	public void setRoomJT(Set<PlayerRoomJT> roomJT) {
+		this.roomJT = roomJT;
+	}
+	public Set<SkillPlayerChangeJT> getChangesToSelf() {
+		return changesToSelf;
+	}
+	public void setChangesToSelf(Set<SkillPlayerChangeJT> changesToSelf) {
+		this.changesToSelf = changesToSelf;
+	}
+	public Set<SkillPlayerChangeJT> getChangesToOthers() {
+		return changesToOthers;
+	}
+	public void setChangesToOthers(Set<SkillPlayerChangeJT> changesToOthers) {
+		this.changesToOthers = changesToOthers;
+	}
+	public Set<SkillPlayerJT> getSkills() {
+		return skills;
+	}
+	public void setSkills(Set<SkillPlayerJT> skills) {
+		this.skills = skills;
 	}
 	@Override
 	public int hashCode() {

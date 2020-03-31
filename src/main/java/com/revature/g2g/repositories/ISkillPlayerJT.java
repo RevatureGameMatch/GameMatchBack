@@ -8,14 +8,14 @@ import com.revature.g2g.models.SkillPlayerJT;
 
 public interface ISkillPlayerJT {
 	//Create
-	public boolean insert(SkillPlayerJT sp);
+	public void insert(SkillPlayerJT sp);
 	//Read
 	public SkillPlayerJT findById(int id);
 	public int findValue(Player player, Skill skill);
 	public Set<SkillPlayerJT> findAll();
 	public Set<SkillPlayerJT> findBySkill(Skill skill);
 	//Update
-	public boolean update(SkillPlayerJT sp);
+	public void update(SkillPlayerJT sp);
 	//Delete
-	public boolean delete(SkillPlayerJT sp);
+	public void delete(SkillPlayerJT sp);
 }

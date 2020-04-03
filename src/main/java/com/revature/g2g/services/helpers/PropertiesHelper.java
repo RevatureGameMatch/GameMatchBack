@@ -24,7 +24,6 @@ public class PropertiesHelper {
 			} catch (IOException e) {
 				LoggerSingleton.getExceptionLogger().warn("Properties retrieval failed: ", e);
 			}
-//			System.out.println(properties.getProperty("discordKey"));
 		}
 		return PropertiesHelper.properties;
 	}

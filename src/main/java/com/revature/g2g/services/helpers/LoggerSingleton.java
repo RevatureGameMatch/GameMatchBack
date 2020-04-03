@@ -4,9 +4,10 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class LoggerSingleton {
-	private static org.apache.logging.log4j.Logger exceptionLog;
+	private static Logger exceptionLog;
 	private static Logger businessLog;
 	private static Logger accessDeniedLog;
+	private static Logger discordLog;
 	private LoggerSingleton() {
 	}
 	public static Logger getExceptionLogger() {
@@ -26,5 +27,11 @@ public class LoggerSingleton {
 			accessDeniedLog = LogManager.getLogger("accessLogger");
 		}
 		return accessDeniedLog;
+	}
+	public static Logger getDiscordLog() {
+		if(discordLog == null) {
+			discordLog = LogManager.getLogger("discordLogger");
+		}
+		return discordLog;
 	}
 }

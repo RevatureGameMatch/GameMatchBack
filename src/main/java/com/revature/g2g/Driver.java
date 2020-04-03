@@ -1,7 +1,8 @@
 package com.revature.g2g;
 
 import com.revature.g2g.services.helpers.JDASingleton;
-import com.revature.g2g.services.helpers.PropertiesHelper;
+
+import net.dv8tion.jda.api.JDA;
 
 public class Driver {
 	public static void main(String[] args) {

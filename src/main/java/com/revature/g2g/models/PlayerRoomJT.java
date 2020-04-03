@@ -1,5 +1,6 @@
 package com.revature.g2g.models;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -13,7 +14,9 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "G2G_PLAYER_ROOM_JT")
-public class PlayerRoomJT {
+public class PlayerRoomJT implements Serializable{
+	private static final long serialVersionUID = -7131529712503037883L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "player_room_jt_id")

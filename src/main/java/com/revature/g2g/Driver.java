@@ -1,8 +1,10 @@
 package com.revature.g2g;
 
-import com.revature.g2g.services.helpers.JDASingleton;
+import com.revature.g2g.services.jda.JDASingleton;
 
 import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.utils.cache.SnowflakeCacheView;
 
 public class Driver {
 	public static void main(String[] args) {

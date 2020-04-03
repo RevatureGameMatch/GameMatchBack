@@ -1,9 +1,11 @@
-package com.revature.g2g.services.helpers;
+package com.revature.g2g.services.jda;
 
 import javax.security.auth.login.LoginException;
 
-import com.revature.g2g.services.jda.MessageListener;
-import com.revature.g2g.services.jda.ReadyListener;
+import com.revature.g2g.services.helpers.LoggerSingleton;
+import com.revature.g2g.services.helpers.PropertiesHelper;
+import com.revature.g2g.services.jda.listeners.MessageListener;
+import com.revature.g2g.services.jda.listeners.ReadyListener;
 
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;

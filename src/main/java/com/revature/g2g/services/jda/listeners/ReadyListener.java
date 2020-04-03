@@ -1,4 +1,4 @@
-package com.revature.g2g.services.jda;
+package com.revature.g2g.services.jda.listeners;
 
 import com.revature.g2g.services.helpers.LoggerSingleton;
 

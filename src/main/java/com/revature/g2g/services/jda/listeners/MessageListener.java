@@ -1,15 +1,14 @@
-package com.revature.g2g.services.jda;
+package com.revature.g2g.services.jda.listeners;
 
 import com.revature.g2g.services.helpers.LoggerSingleton;
+import com.revature.g2g.services.jda.helpers.VoiceChannelHelper;
 
 import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
-import net.dv8tion.jda.api.entities.VoiceChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
-import net.dv8tion.jda.api.requests.restaction.ChannelAction;
 
 public class MessageListener extends ListenerAdapter{
 	@Override
@@ -43,8 +42,7 @@ public class MessageListener extends ListenerAdapter{
 		try {
 			String msg = event.getMessage().getContentRaw();
 			String name = msg.substring(msg.indexOf(' '));
-			ChannelAction<VoiceChannel> action = guild.createVoiceChannel(name);
-			action.queue();
+			VoiceChannelHelper.create(guild, name);
 		}catch (Exception e) {
 			e.printStackTrace();
 		}

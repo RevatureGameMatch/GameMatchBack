@@ -3,3 +3,4 @@
 target/*
 hibernate.cfg.xml
 *.log
+config.properties

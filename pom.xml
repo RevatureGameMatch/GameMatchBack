@@ -22,6 +22,12 @@
 		<artifactId>ojdbc8</artifactId>
 		<version>12.2.0.1</version>
 	</dependency>
+	<!-- https://github.com/DV8FromTheWorld/JDA/blob/master/README.md -->
+	<dependency>
+		<groupId>net.dv8tion</groupId>
+		<artifactId>JDA</artifactId>
+		<version>4.1.1_127</version>
+	</dependency>
 	<!-- Jackson databind -->
     <dependency>
 		<groupId>com.fasterxml.jackson.core</groupId>
@@ -82,4 +88,12 @@
 	    <version>5.4.12.Final</version>
 	</dependency>
   </dependencies>
+  <repositories>
+	<!-- https://github.com/DV8FromTheWorld/JDA/blob/master/README.md -->
+	<repository>
+		<id>jcenter</id>
+		<name>jcenter-bintray</name>
+		<url>https://jcenter.bintray.com</url>
+	</repository>
+  </repositories>
 </project>

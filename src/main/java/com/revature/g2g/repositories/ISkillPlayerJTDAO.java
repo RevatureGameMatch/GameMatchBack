@@ -11,7 +11,7 @@ public interface ISkillPlayerJTDAO {
 	public void insert(SkillPlayerJT sp);
 	//Read
 	public SkillPlayerJT findById(int id);
-	public int findValue(Player player, Skill skill);
+	public double findValue(Player player, Skill skill);
 	public Set<SkillPlayerJT> findAll();
 	public Set<SkillPlayerJT> findBySkill(Skill skill);
 	//Update

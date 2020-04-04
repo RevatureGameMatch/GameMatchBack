@@ -14,7 +14,7 @@ public interface IRoomDAO {
 	public Set<Room> findAll();
 	public Set<Room> findByStatus(RoomStatus status);
 	//Find rooms someone can log into
-	public Set<Room> findBySkill(RoomStatus status, SkillPlayerJT[] skills);
+	//public Set<Room> findBySkill(RoomStatus status, SkillPlayerJT[] skills);
 	//Update
 	public void update(Room r);
 	//Delete

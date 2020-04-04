@@ -115,6 +115,7 @@ public class PlayerDAO implements IPlayerDAO {
 		
 		tx.commit();
 		HibernateUtil.closeSession();
+		
 		return set;
 	}
 
@@ -137,11 +138,9 @@ public class PlayerDAO implements IPlayerDAO {
 		set = player.getResultStream()
 				.collect(Collectors.toSet());
 		
-		
 		tx.commit();
-		
-		
 		HibernateUtil.closeSession();
+		
 		return set;
 	}
 

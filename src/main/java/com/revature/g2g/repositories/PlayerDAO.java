@@ -56,14 +56,19 @@ public class PlayerDAO implements IPlayerDAO {
 		Root<Player> root = query.from(Player.class);
 		
 		query.select(root).where(builder.equal(root.get("playerUsername"), username));
-		
+	
 		Query<Player> player = ses.createQuery(query);
 		
-		Player p = player.getSingleResult();
-		
-		tx.commit();
-		HibernateUtil.closeSession();
-		return p;
+		try {
+			Player p = player.getSingleResult();
+			
+			tx.commit();
+			HibernateUtil.closeSession();
+			return p;
+		} catch (javax.persistence.NoResultException e) {
+			return null;	
+		}
+	
 	}
 
 	@Override
@@ -104,7 +109,6 @@ public class PlayerDAO implements IPlayerDAO {
 				.collect(Collectors.toSet());
 		
 		tx.commit();
-		
 		HibernateUtil.closeSession();
 		return set;
 	}

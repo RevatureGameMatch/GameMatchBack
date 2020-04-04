@@ -11,7 +11,6 @@ import com.revature.g2g.models.RoomStatus;
 import com.revature.g2g.models.SkillPlayerJT;
 import com.revature.g2g.repositories.IRoomDAO;
 import com.revature.g2g.repositories.RoomDAO;
-import com.revature.g2g.services.spring.ApplicationContextSingleton;
 
 @Service
 @Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
@@ -19,7 +18,8 @@ public class RoomHandler {
 	private IRoomDAO repository;
 	public RoomHandler() {
 		super();
-		this.repository = (RoomDAO) ApplicationContextSingleton.getApplicationContext().getBean("roomDAO");
+//		this.repository = (RoomDAO) ApplicationContextSingleton.getApplicationContext().getBean("roomDAO");
+		this.repository = new RoomDAO();
 	}
 	public RoomHandler(IRoomDAO repository) {
 		super();

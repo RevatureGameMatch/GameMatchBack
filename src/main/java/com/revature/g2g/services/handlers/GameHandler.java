@@ -36,9 +36,6 @@ public class GameHandler {
 	public Set<Game> findAll(){
 		return this.repository.findAll();
 	}
-	public Set<Game> findBySkill(Skill skill){
-		return this.repository.findBySkill(skill);
-	}
 	public void update(Game g) {
 		this.repository.update(g);
 	}

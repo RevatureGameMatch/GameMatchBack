@@ -98,7 +98,6 @@ public class PlayerDAO implements IPlayerDAO {
 		CriteriaBuilder builder = ses.getCriteriaBuilder();
 		CriteriaQuery<Player> query = builder.createQuery(Player.class);
 		
-		
 		Query<Player> player = ses.createQuery(query);
 		
 		set = player.getResultStream()

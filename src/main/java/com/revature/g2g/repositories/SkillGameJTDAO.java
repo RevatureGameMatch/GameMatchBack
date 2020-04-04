@@ -4,12 +4,17 @@ import java.util.Set;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Repository;
 
 import com.revature.g2g.models.Game;
 import com.revature.g2g.models.Skill;
 import com.revature.g2g.models.SkillGameJT;
 import com.revature.g2g.services.helpers.HibernateUtil;
 
+@Repository
+@Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
 public class SkillGameJTDAO implements ISkillGameJTDAO {
 
 	@Override

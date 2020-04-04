@@ -34,20 +34,20 @@ public class SkillPlayerChangeJT implements Serializable{
 	private Player modifiedBy;
 	
 	@Column(name = "modified_by_expertise")
-	private double expertise;
+	private float expertise;
 	
 	@ManyToOne
 	@JoinColumn(name = "room_id")
 	private Room room;
 	
 	@Column(name = "value")
-	private double value;
+	private float value;
 
 	public SkillPlayerChangeJT() {
 		super();
 	}
 	public SkillPlayerChangeJT(int skillPlayerChangeJTId, SkillPlayerJT skillPlayerJT, Player player, Player modifiedBy,
-			double expertise, Room room, double value) {
+			float expertise, Room room, float value) {
 		super();
 		this.skillPlayerChangeJTId = skillPlayerChangeJTId;
 		this.skillPlayerJT = skillPlayerJT;
@@ -84,7 +84,7 @@ public class SkillPlayerChangeJT implements Serializable{
 	public double getExpertise() {
 		return expertise;
 	}
-	public void setExpertise(double expertise) {
+	public void setExpertise(float expertise) {
 		this.expertise = expertise;
 	}
 	public Room getRoom() {
@@ -96,7 +96,7 @@ public class SkillPlayerChangeJT implements Serializable{
 	public double getValue() {
 		return value;
 	}
-	public void setValue(double value) {
+	public void setValue(float value) {
 		this.value = value;
 	}
 	@Override

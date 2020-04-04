@@ -1,5 +1,6 @@
 package com.revature.g2g.repositories;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -119,7 +120,7 @@ public class PlayerRoomJTDAO implements IPlayerRoomJTDAO {
 
 	@Override
 	public Set<Player> findPlayers(Room room) {
-		Set<Player> set = null;
+		Set<Player> set = new HashSet<>();
 		
 		Session ses = HibernateUtil.getSession();
 		Transaction tx = ses.beginTransaction();
@@ -140,12 +141,9 @@ public class PlayerRoomJTDAO implements IPlayerRoomJTDAO {
 			PlayerRoomJT r = roomJTList.get(i);
 			Player player = r.getPlayer();
 			
-			try {
-			set.add(player);
-			} catch (NullPointerException e) {
-				e.printStackTrace();
+			if(player != null) {
+				set.add(player);
 			}
-			
 		}
 		
 		tx.commit();
@@ -156,8 +154,35 @@ public class PlayerRoomJTDAO implements IPlayerRoomJTDAO {
 
 	@Override
 	public Set<Room> findRooms(Player player) {
-		// TODO Auto-generated method stub
-		return null;
+		Set<Room> set = new HashSet<>();
+		
+		Session ses = HibernateUtil.getSession();
+		Transaction tx = ses.beginTransaction();
+		
+		CriteriaBuilder builder = ses.getCriteriaBuilder();
+		CriteriaQuery <PlayerRoomJT> query = builder.createQuery(PlayerRoomJT.class);
+		
+		Root <PlayerRoomJT> root = query.from(PlayerRoomJT.class);
+		
+		query.select(root).where(builder.equal(root.get("player"), player));
+		
+		Query<PlayerRoomJT> roomJT = ses.createQuery(query);
+		
+		List<PlayerRoomJT> roomJTList = roomJT.list();
+		
+		for (int i = 0; i < roomJTList.size(); i++) {
+			
+			PlayerRoomJT r = roomJTList.get(i);
+			Room room = r.getRoom();
+			
+			if(room != null) {
+				set.add(room);
+			}
+		}
+		
+		tx.commit();
+		HibernateUtil.closeSession();
+		return set;
 	}
 
 	@Override

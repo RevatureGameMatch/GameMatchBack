@@ -37,9 +37,9 @@ public class RoomHandler {
 	public Set<Room> findByStatus(RoomStatus status){
 		return this.repository.findByStatus(status);
 	}
-	public Set<Room> findBySkill(RoomStatus status, SkillPlayerJT[] skills){
-		return this.repository.findBySkill(status, skills);
-	}
+//	public Set<Room> findBySkill(RoomStatus status, SkillPlayerJT[] skills){
+//		return this.repository.findBySkill(status, skills);
+//	}
 	public void update(Room r) {
 		this.repository.update(r);
 	}

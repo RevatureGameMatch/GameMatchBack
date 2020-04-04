@@ -2,9 +2,6 @@ package com.revature.g2g;
 
 import com.revature.g2g.services.jda.JDASingleton;
 
-import net.dv8tion.jda.api.JDA;
-import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.utils.cache.SnowflakeCacheView;
 
 public class Driver {
 	public static void main(String[] args) {
@@ -24,6 +21,26 @@ public class Driver {
 //		
 //		tx.commit();
 //		HibernateUtil.closeSession();
-		JDASingleton.getJda();
+//		
+//		Session s = HibernateUtil.getSession();
+//		Transaction tx = s.beginTransaction();
+//		
+//		Player player = new Player();
+//		player.setPlayerUsername("kfilio");
+//		player.setPlayerEmail("kfilio@email.com");
+//		player.setPlayerPassword("password");
+//		player.setPlayerRole(PlayerRole.PLAYER);
+		
+//		Player player = new Player();
+//		player.setPlayerUsername("nyuan");
+//		player.setPlayerEmail("nyuan@email.com");
+//		player.setPlayerPassword("password");
+//		player.setPlayerRole(PlayerRole.MODERATOR);
+		
+//		Player player = new Player();
+//		player.setPlayerUsername("plawrence");
+//		player.setPlayerEmail("plawrence@email.com");
+//		player.setPlayerPassword("password");
+//		player.setPlayerRole(PlayerRole.ADMIN);
 	}
 }

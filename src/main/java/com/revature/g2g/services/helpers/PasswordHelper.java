@@ -1,7 +1,13 @@
 package com.revature.g2g.services.helpers;
 
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Service;
+
 import com.lambdaworks.crypto.SCryptUtil;
 
+@Service
+@Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
 public class PasswordHelper {
 	private PasswordHelper() {
 	}

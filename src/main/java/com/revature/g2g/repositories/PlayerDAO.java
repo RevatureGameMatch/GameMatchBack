@@ -10,11 +10,16 @@ import javax.persistence.criteria.Root;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Repository;
 
 import com.revature.g2g.models.Player;
 import com.revature.g2g.models.PlayerRole;
 import com.revature.g2g.services.helpers.HibernateUtil;
 
+@Repository
+@Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
 public class PlayerDAO implements IPlayerDAO {
 
 	@Override

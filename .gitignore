@@ -4,3 +4,4 @@ target/*
 hibernate.cfg.xml
 *.log
 config.properties
+spring-front-controller-servlet.xml

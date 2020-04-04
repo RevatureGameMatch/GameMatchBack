@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/context 
+    http://www.springframework.org/schema/context/spring-context.xsd">
+    
+    <context:component-scan base-package="com.revature.g2g"></context:component-scan>
+<!-- <bean name="game" class="com.revature.g2g.models.Game" scope="prototype">
+	</bean>
+	<bean name="player" class="com.revature.g2g.models.Player" scope="prototype">
+	</bean>
+	<bean name="playerRoomJT" class="com.revature.g2g.models.PlayerRoomJT" scope="prototype">
+		<property name="player" ref="player"/>
+		<property name="room" ref="room"/>
+	</bean>
+	<bean name="room" class="com.revature.g2g.models.Room" scope="prototype">
+	</bean>
+	<bean name="skill" class="com.revature.g2g.models.Skill" scope="prototype">
+		<property name="parentSkill" ref="skill"/>
+	</bean>
+	<bean name="skillGameJT" class="com.revature.g2g.models.SkillGameJT" scope="prototype">
+		<property name="skill" ref="skill"/>
+		<property name="game" ref="game"/>
+	</bean>
+	<bean name="skillPlayerChangeJT" class="com.revature.g2g.models.SkillPlayerChangeJT" scope="prototype">
+		<property name="skillPlayerJT" ref="skillPlayerJT"/>
+		<property name="player" ref="player"/>
+		<property name="modifiedBy" ref="player"/>
+		<property name="room" ref="room"/>
+	</bean>
+	<bean name="skillPlayerJT" class="com.revature.g2g.models.SkillPlayerJT" scope="prototype">
+		<property name="skill" ref="skill"/>
+		<property name="player" ref="player"/>
+	</bean>
+	<bean name="skillRoomJT" class="com.revature.g2g.models.SkillRoomJT" scope="prototype">
+		<property name="skill" ref="skill"/>
+		<property name="room" ref="room"/>
+	</bean>-->
+</beans>

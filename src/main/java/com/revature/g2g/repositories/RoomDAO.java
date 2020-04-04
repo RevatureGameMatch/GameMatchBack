@@ -8,6 +8,7 @@ import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Repository;
 
+import com.revature.g2g.models.Player;
 import com.revature.g2g.models.Room;
 import com.revature.g2g.models.RoomStatus;
 import com.revature.g2g.models.SkillPlayerJT;
@@ -30,14 +31,20 @@ public class RoomDAO implements IRoomDAO {
 
 	@Override
 	public Room findById(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		Session ses = HibernateUtil.getSession();
+		Transaction tx = ses.beginTransaction();
+		
+		Room r = ses.get(Room.class, id);
+		
+		tx.commit();
+		HibernateUtil.closeSession();
+		return r;
 	}
 
 	@Override
 	public Set<Room> findAll() {
-		// TODO Auto-generated method stub
-		return null;
+		Set<Room> set = null;
+		return set;
 	}
 
 	@Override

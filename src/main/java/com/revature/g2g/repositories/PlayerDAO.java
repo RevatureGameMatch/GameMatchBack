@@ -60,13 +60,18 @@ public class PlayerDAO implements IPlayerDAO {
 		Query<Player> player = ses.createQuery(query);
 		
 		try {
-			Player p = player.getSingleResult();
+			
+			return player.getSingleResult();
+			
+		} catch (javax.persistence.NoResultException e) {
+			
+			return null;	
+			
+		} finally {
 			
 			tx.commit();
 			HibernateUtil.closeSession();
-			return p;
-		} catch (javax.persistence.NoResultException e) {
-			return null;	
+			
 		}
 	
 	}

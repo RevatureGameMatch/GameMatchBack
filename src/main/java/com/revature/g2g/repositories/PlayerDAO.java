@@ -147,7 +147,7 @@ public class PlayerDAO implements IPlayerDAO {
 	public void delete(Player p) {
 		Session ses = HibernateUtil.getSession();
 		Transaction tx = ses.beginTransaction();
-
+		
 		ses.delete(p);
 
 		tx.commit();

@@ -48,10 +48,8 @@ public class Driver {
 //		player.setPlayerEmail("plawrence@email.com");
 //		player.setPlayerPassword("password");
 //		player.setPlayerRole(PlayerRole.ADMIN);
-//		
-//		new PlayerDAO().insert(player);
 		
-		System.out.println(new PlayerDAO().findByUsername("kfilio"));
+	
 		
 	}
 }

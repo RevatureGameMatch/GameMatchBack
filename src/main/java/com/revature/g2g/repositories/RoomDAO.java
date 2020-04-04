@@ -84,13 +84,25 @@ public class RoomDAO implements IRoomDAO {
 		
 		Query<Room> room = ses.createQuery(query);
 		
-		set = room.getResultStream()
-				.collect(Collectors.toSet());
+		try {
 		
-		tx.commit();
-		HibernateUtil.closeSession();
+			set = room.getResultStream()
+					.collect(Collectors.toSet());
+			
+			return set;
+			
+		} catch (javax.persistence.NoResultException e) {
+			
+			return null;
+			
+		} finally {
+			
+			tx.commit();
+			HibernateUtil.closeSession();
+			
+		}
+			
 		
-		return set;
 	}
 
 //	@Override

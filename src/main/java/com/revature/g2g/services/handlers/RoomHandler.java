@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import com.revature.g2g.models.Room;
 import com.revature.g2g.models.RoomStatus;
-import com.revature.g2g.models.SkillPlayerJT;
 import com.revature.g2g.repositories.IRoomDAO;
 import com.revature.g2g.repositories.RoomDAO;
 

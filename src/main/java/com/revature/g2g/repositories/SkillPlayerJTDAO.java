@@ -16,7 +16,6 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Repository;
 
 import com.revature.g2g.models.Player;
-import com.revature.g2g.models.PlayerRoomJT;
 import com.revature.g2g.models.Skill;
 import com.revature.g2g.models.SkillPlayerJT;
 import com.revature.g2g.services.helpers.HibernateUtil;

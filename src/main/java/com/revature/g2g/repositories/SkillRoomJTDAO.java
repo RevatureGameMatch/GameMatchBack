@@ -1,6 +1,5 @@
 package com.revature.g2g.repositories;
 
-import java.util.Iterator;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -15,7 +14,6 @@ import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Repository;
 
-import com.revature.g2g.models.Player;
 import com.revature.g2g.models.Room;
 import com.revature.g2g.models.Skill;
 import com.revature.g2g.models.SkillRoomJT;
@@ -49,25 +47,25 @@ public class SkillRoomJTDAO implements ISkillRoomJTDAO {
 		return sr;
 	}
 
-	@Override //find by game name or skill name
-	public SkillRoomJT findBySkillName(String name) {
-		Set<SkillRoomJT> set = findAll();
-		
-		for (Iterator<SkillRoomJT> it = set.iterator(); it.hasNext(); ) {
-			
-			SkillRoomJT sr = it.next();
-			String skillName = sr.getSkill().getName();
-			
-			if (skillName.equals(name)) {
-				
-				return sr;
-				
-			}
-			
-		}
-		
-		return null;
-	}
+//	@Override //find by game name or skill name
+//	public SkillRoomJT findBySkillName(String name) {
+//		Set<SkillRoomJT> set = findAll();
+//		
+//		for (Iterator<SkillRoomJT> it = set.iterator(); it.hasNext(); ) {
+//			
+//			SkillRoomJT sr = it.next();
+//			String skillName = sr.getSkill().getName();
+//			
+//			if (skillName.equals(name)) {
+//				
+//				return sr;
+//				
+//			}
+//			
+//		}
+//		
+//		return null;
+//	}
 	
 
 	@Override

@@ -14,10 +14,8 @@ import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Repository;
 
-import com.revature.g2g.models.Player;
 import com.revature.g2g.models.Room;
 import com.revature.g2g.models.RoomStatus;
-import com.revature.g2g.models.SkillPlayerJT;
 import com.revature.g2g.services.helpers.HibernateUtil;
 
 @Repository

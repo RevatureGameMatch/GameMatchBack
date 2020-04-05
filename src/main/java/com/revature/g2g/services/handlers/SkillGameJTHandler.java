@@ -42,6 +42,9 @@ public class SkillGameJTHandler {
 	public Set<Skill> findByGame(Game game){
 		return this.repository.findByGame(game);
 	}
+	public SkillGameJT findBySkillGame(Skill skill, Game game) {
+		return this.repository.findBySkillGame(skill, game);
+	}
 	public void update(SkillGameJT sg) {
 		this.repository.update(sg);
 	}

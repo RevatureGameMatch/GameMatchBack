@@ -48,7 +48,7 @@ public class PlayerRoomJTDAO implements IPlayerRoomJTDAO {
 		return room;
 	}
 
-	@Override
+	@Override //double check with empty values in PlayerRoomJTDAO
 	public int countCurrentPlayers() {
 		Session ses = HibernateUtil.getSession();
 		Transaction tx = ses.beginTransaction();
@@ -59,17 +59,28 @@ public class PlayerRoomJTDAO implements IPlayerRoomJTDAO {
 		
 		Root<PlayerRoomJT> root = query.from(PlayerRoomJT.class);
 		
-		subquery.select(builder.count(root.get("left")));
+//		subquery.select(builder.count(root.get("left")));
+		subquery.select(builder.count(subquery.from(PlayerRoomJT.class)));
 		subquery.where(builder.equal(root.get("left"), null));
 		
-		Query<Long> total = ses.createQuery(subquery);
+		try {
+			
+			Query<Long> total = ses.createQuery(subquery);
+			Long number = total.getSingleResult();
+			
+			return number.intValue();
 		
-		Long number = total.getSingleResult();
-		int finalNumber = number.intValue();
-		
-		tx.commit();
-		HibernateUtil.closeSession();
-		return finalNumber;
+		} catch (NullPointerException e) {
+			
+			return 0;
+			
+		} finally {
+			
+			tx.commit();
+			HibernateUtil.closeSession();
+			
+		}
+	
 	}
 
 	@Override
@@ -83,18 +94,28 @@ public class PlayerRoomJTDAO implements IPlayerRoomJTDAO {
 		
 		Root <PlayerRoomJT> root = query.from(PlayerRoomJT.class);
 		
-		subquery.select(builder.count(root.get("left")));
+//		subquery.select(builder.count(root.get("left")));
+		subquery.select(builder.count(subquery.from(PlayerRoomJT.class)));
 		subquery.where(builder.equal(root.get("room"), room));
 		subquery.where(builder.equal(root.get("left"), null));
 		
-		Query<Long> total = ses.createQuery(subquery);
+		try {
+			
+			Query<Long> total = ses.createQuery(subquery);
+			Long number = total.getSingleResult();
+			
+			return number.intValue();
 		
-		Long number = total.getSingleResult();
-		int finalNumber = number.intValue();
-		
-		tx.commit();
-		HibernateUtil.closeSession();
-		return finalNumber;
+		} catch (NullPointerException e) {
+			
+			return 0;
+			
+		} finally {
+			
+			tx.commit();
+			HibernateUtil.closeSession();
+			
+		}
 	}
 
 	@Override
@@ -114,6 +135,7 @@ public class PlayerRoomJTDAO implements IPlayerRoomJTDAO {
 		
 		tx.commit();
 		HibernateUtil.closeSession();
+		
 		return set;
 		
 	}

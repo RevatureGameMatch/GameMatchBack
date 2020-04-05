@@ -192,6 +192,55 @@ public class SkillGameJTDAO implements ISkillGameJTDAO {
 			
 		}
 	}
+	
+	@Override
+	public SkillGameJT findBySkillGame(Skill skill, Game game) {
+		Set<SkillGameJT> set = null;
+		
+		Session ses = HibernateUtil.getSession();
+		Transaction tx = ses.beginTransaction();
+		
+		CriteriaBuilder builder = ses.getCriteriaBuilder();
+		CriteriaQuery<SkillGameJT> query = builder.createQuery(SkillGameJT.class);
+		
+		Root<SkillGameJT> root = query.from(SkillGameJT.class);
+		
+		query.where(builder.equal(root.get("game"), game));
+		query.where(builder.equal(root.get("skill"), skill));
+		
+		Query<SkillGameJT> sg = ses.createQuery(query);
+		
+		set = sg.getResultStream()
+				.collect(Collectors.toSet());
+		
+		if(set.size() == 1) {
+			
+			SkillGameJT sgJT = sg.getSingleResult();
+			
+			return sgJT;
+			
+		}
+		
+		if(set.size() > 1) {
+			
+			SkillGameJT sgJT = set.iterator().next();
+			
+			return sgJT;
+			
+		}
+		
+		if(set.isEmpty()) {
+			
+			return null;
+			
+		}
+		
+		tx.commit();
+		HibernateUtil.closeSession();
+		
+		return null;
+		
+	}
 
 	@Override
 	public void update(SkillGameJT sg) {

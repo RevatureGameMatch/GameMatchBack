@@ -12,6 +12,7 @@ import com.revature.g2g.repositories.GameDAO;
 import com.revature.g2g.repositories.PlayerDAO;
 import com.revature.g2g.repositories.PlayerRoomJTDAO;
 import com.revature.g2g.repositories.RoomDAO;
+import com.revature.g2g.repositories.SkillDAO;
 import com.revature.g2g.services.helpers.HibernateUtil;
 
 public class Driver {
@@ -55,9 +56,11 @@ public class Driver {
 //		player.setPlayerRole(PlayerRole.ADMIN);
 	
 		
-		Room room = new RoomDAO().findById(47);
+		System.out.println(new SkillDAO().findAll());
 		
-		System.out.println(new PlayerRoomJTDAO().findPlayers(room));
+//		Room room = new RoomDAO().findById(47);
+//		
+//		System.out.println(new PlayerRoomJTDAO().findPlayers(room));
 	
 		//System.out.println(new PlayerRoomJTDAO().countCurrentPlayers());
 		

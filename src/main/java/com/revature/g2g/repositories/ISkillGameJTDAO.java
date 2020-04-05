@@ -19,4 +19,5 @@ public interface ISkillGameJTDAO {
 	public void update(SkillGameJT sg);
 	//Delete
 	public void delete(SkillGameJT sg);
+	SkillGameJT findBySkillGame(Skill skill, Game game);
 }

@@ -217,7 +217,11 @@ public class SkillGameJTDAO implements ISkillGameJTDAO {
 			
 			SkillGameJT sgJT = sg.getSingleResult();
 			
+			tx.commit();
+			HibernateUtil.closeSession();
+			
 			return sgJT;
+			
 			
 		}
 		
@@ -225,20 +229,21 @@ public class SkillGameJTDAO implements ISkillGameJTDAO {
 			
 			SkillGameJT sgJT = set.iterator().next();
 			
-			return sgJT;
+			tx.commit();
+			HibernateUtil.closeSession();
 			
+			return sgJT;
+		
 		}
 		
-		if(set.isEmpty()) {
+		else {
+			
+			tx.commit();
+			HibernateUtil.closeSession();
 			
 			return null;
-			
+	
 		}
-		
-		tx.commit();
-		HibernateUtil.closeSession();
-		
-		return null;
 		
 	}
 

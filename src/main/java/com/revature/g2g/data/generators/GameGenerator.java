@@ -5,7 +5,7 @@ import com.revature.g2g.models.Game;
 import com.revature.g2g.services.handlers.GameHandler;
 
 public class GameGenerator implements DataGenerator {
-	private GameHandler gameHandler = new GameHandler();
+	private static GameHandler gameHandler = new GameHandler();
 	@Override
 	public void generate() {
 		make("DnD5e", "Classic TTRPG to go adventuring with friends", "https://dnd.wizards.com/");

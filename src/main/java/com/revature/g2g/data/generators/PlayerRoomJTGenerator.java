@@ -30,6 +30,13 @@ public class PlayerRoomJTGenerator implements DataGenerator {
 			playerRoomJT.setLeft(new Date(new Date().getTime() + new Random().nextInt(400)));
 			playerRoomJTHandler.insert(playerRoomJT);
 		}
+		for(int a=0; a<10; a++) {
+			PlayerRoomJT playerRoomJT = new PlayerRoomJT();
+			playerRoomJT.setPlayer(randPlayer());
+			playerRoomJT.setRoom(randRoom());
+			playerRoomJT.setJoined(new Date());
+			playerRoomJTHandler.insert(playerRoomJT);
+		}
 	}
 	private Player randPlayer() {
 		int count = players.size();

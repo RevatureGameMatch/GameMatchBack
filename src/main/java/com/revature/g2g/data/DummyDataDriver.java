@@ -1,8 +1,8 @@
 package com.revature.g2g.data;
 
-import com.revature.g2g.data.generator.PlayerGenerator;
-import com.revature.g2g.data.generator.PlayerRoomJTGenerator;
-import com.revature.g2g.data.generator.RoomGenerator;
+import com.revature.g2g.data.generators.PlayerGenerator;
+import com.revature.g2g.data.generators.PlayerRoomJTGenerator;
+import com.revature.g2g.data.generators.RoomGenerator;
 
 public class DummyDataDriver {
 	public static void main(String[] args) {

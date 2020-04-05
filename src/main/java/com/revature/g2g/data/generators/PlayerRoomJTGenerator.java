@@ -1,4 +1,4 @@
-package com.revature.g2g.data.generator;
+package com.revature.g2g.data.generators;
 
 import java.util.Date;
 import java.util.Random;

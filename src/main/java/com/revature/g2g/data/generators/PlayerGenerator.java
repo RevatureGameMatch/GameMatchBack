@@ -1,4 +1,4 @@
-package com.revature.g2g.data.generator;
+package com.revature.g2g.data.generators;
 
 import com.revature.g2g.data.DataGenerator;
 import com.revature.g2g.models.Player;

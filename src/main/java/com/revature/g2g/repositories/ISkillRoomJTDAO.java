@@ -11,7 +11,7 @@ public interface ISkillRoomJTDAO {
 	public void insert(SkillRoomJT sr);
 	//Read
 	public SkillRoomJT findById(int id);
-	public SkillRoomJT findByName(String name);
+	public SkillRoomJT findBySkillName(String name);
 	public Set<SkillRoomJT> findAll();
 	public Set<SkillRoomJT> findBySkill(Skill skill);
 	public Set<SkillRoomJT> findByRoom(Room room);

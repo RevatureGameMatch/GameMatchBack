@@ -55,11 +55,14 @@ public class GameDAO implements IGameDAO {
 		
 		Query<Game> game = ses.createQuery(query);
 		
-		Game g = game.getSingleResult();
-		
-		tx.commit();
-		HibernateUtil.closeSession();
-		return g;
+		try {
+			return game.getSingleResult();
+		} catch (javax.persistence.NoResultException e) {
+			return null;	
+		} finally {
+			tx.commit();
+			HibernateUtil.closeSession();
+		}
 	}
 
 	public Set<Game> findAll() {

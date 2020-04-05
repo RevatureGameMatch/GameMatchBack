@@ -1,5 +1,6 @@
 package com.revature.g2g.repositories;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -126,7 +127,42 @@ public class SkillPlayerJTDAO implements ISkillPlayerJTDAO{
 		
 		return set;
 	}
-
+	
+	@Override
+	public Set<Skill> findPlayerSkills(Player player) {
+		Set<Skill> set = new HashSet<>();
+		
+		Session ses = HibernateUtil.getSession();
+		Transaction tx = ses.beginTransaction();
+		
+		CriteriaBuilder builder = ses.getCriteriaBuilder();
+		CriteriaQuery<SkillPlayerJT> query = builder.createQuery(SkillPlayerJT.class);
+		
+		Root<SkillPlayerJT> root = query.from(SkillPlayerJT.class);
+		
+		query.select(root).where(builder.equal(root.get("player"), player));
+		
+		Query<SkillPlayerJT> sp = ses.createQuery(query);
+		
+		List<SkillPlayerJT> list = sp.getResultList();
+		
+		for (int i = 0; i < list.size(); i++) {
+			
+			SkillPlayerJT spJT = list.get(i);
+			
+			Skill skill = spJT.getSkill();
+			
+			set.add(skill);
+				
+		}
+		
+		tx.commit();
+		HibernateUtil.closeSession();
+		return set;
+		
+	}
+	
+	
 	@Override
 	public void update(SkillPlayerJT sp) {
 		Session ses = HibernateUtil.getSession();

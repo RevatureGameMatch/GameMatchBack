@@ -18,4 +18,5 @@ public interface ISkillPlayerJTDAO {
 	public void update(SkillPlayerJT sp);
 	//Delete
 	public void delete(SkillPlayerJT sp);
+	Set<Skill> findPlayerSkills(Player player);
 }

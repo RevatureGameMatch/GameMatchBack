@@ -33,6 +33,10 @@ public class FrontController extends HttpServlet{
 		}catch(Exception e) {
 			res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 			LoggerSingleton.getExceptionLogger().warn("FrontController: General Exception:", e);
+		}catch(Error e) {
+			res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			LoggerSingleton.getExceptionLogger().fatal("Error from Command: ", e);
+			throw new Error("Error from Command: ", e);
 		}
 	}
 	@Override
@@ -48,6 +52,10 @@ public class FrontController extends HttpServlet{
 		}catch(Exception e) {
 			res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 			LoggerSingleton.getExceptionLogger().warn("FrontController: General Exception:", e);
+		}catch(Error e) {
+			res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			LoggerSingleton.getExceptionLogger().fatal("Error from Command: ", e);
+			throw new Error("Error from Command: ", e);
 		}
 	}
 	@Override
@@ -63,6 +71,10 @@ public class FrontController extends HttpServlet{
 		}catch(Exception e) {
 			res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 			LoggerSingleton.getExceptionLogger().warn("FrontController: General Exception:", e);
+		}catch(Error e) {
+			res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			LoggerSingleton.getExceptionLogger().fatal("Error from Command: ", e);
+			throw new Error("Error from Command: ", e);
 		}
 	}
 	@Override
@@ -78,6 +90,10 @@ public class FrontController extends HttpServlet{
 		}catch(Exception e) {
 			res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 			LoggerSingleton.getExceptionLogger().warn("FrontController: General Exception:", e);
+		}catch(Error e) {
+			res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			LoggerSingleton.getExceptionLogger().fatal("Error from Command: ", e);
+			throw new Error("Error from Command: ", e);
 		}
 	}
 	private FrontCommand getCommand(HttpServletRequest req) {

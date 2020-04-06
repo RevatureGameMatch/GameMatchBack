@@ -1,5 +1,7 @@
 package com.revature.g2g.services.business;
 
+import org.springframework.stereotype.Service;
+
 import com.revature.g2g.exceptions.PasswordMatchFailed;
 import com.revature.g2g.exceptions.UserNotFound;
 import com.revature.g2g.models.Player;
@@ -7,6 +9,7 @@ import com.revature.g2g.services.handlers.PlayerHandler;
 import com.revature.g2g.services.helpers.LoggerSingleton;
 import com.revature.g2g.services.helpers.PasswordHelper;
 
+@Service
 public class LoginService {
 	private LoginService() {
 	}

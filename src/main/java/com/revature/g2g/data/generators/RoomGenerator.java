@@ -13,9 +13,9 @@ public class RoomGenerator implements DataGenerator {
 	@Override
 	public void generate() {
 		Set<Room> activeRooms = roomHandler.findByStatus(RoomStatus.OPENED);
-		int roomsToMake = 15 - activeRooms.size();
+		int roomsToMake = 2 - activeRooms.size();
 		for(int a=0; a<roomsToMake; a++) {
-			RoomService.make();
+			RoomService.make("Test Room #" + a);
 		}
 	}
 }

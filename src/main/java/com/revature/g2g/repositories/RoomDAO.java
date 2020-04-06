@@ -18,6 +18,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.revature.g2g.models.Room;
+import com.revature.g2g.models.RoomPlayStyle;
 import com.revature.g2g.models.RoomStatus;
 import com.revature.g2g.services.helpers.HibernateUtil;
 
@@ -107,6 +108,12 @@ public class RoomDAO implements IRoomDAO {
 		}
 			
 		
+	}
+
+	@Override
+	public Set<Room> findByPlayStyle(RoomPlayStyle style) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 //	@Override

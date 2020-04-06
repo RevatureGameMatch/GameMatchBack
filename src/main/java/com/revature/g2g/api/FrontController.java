@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.revature.g2g.api.commands.UnknownCommand;
 import com.revature.g2g.exceptions.ConnectionToDatabaseFailed;
+import com.revature.g2g.services.helpers.LoggerSingleton;
 
 public class FrontController extends HttpServlet{
 	private static final long serialVersionUID = 7302326277418684325L;
@@ -76,6 +77,7 @@ public class FrontController extends HttpServlet{
 				return new UnknownCommand();
 			}
 		}catch (Exception e) {
+			LoggerSingleton.getExceptionLogger().warn("FrontController: exception with request:", e);
 			return new UnknownCommand();
 		}
 	}

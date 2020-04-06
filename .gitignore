@@ -5,3 +5,5 @@ hibernate.cfg.xml
 *.log
 config.properties
 spring-front-controller-servlet.xml
+applicationContext.xml
+!.gitignore

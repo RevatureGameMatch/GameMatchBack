@@ -53,6 +53,7 @@ public class Skill implements Serializable{
 	public Skill() {
 		super();
 	}
+	
 	public Skill(int skillId, String name, Skill parentSkill) {
 		super();
 		this.skillId = skillId;

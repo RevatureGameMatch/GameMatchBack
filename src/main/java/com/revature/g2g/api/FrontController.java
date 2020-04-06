@@ -29,6 +29,10 @@ public class FrontController extends HttpServlet{
 			command.process();
 		}catch(ConnectionToDatabaseFailed e) {
 			res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			LoggerSingleton.getExceptionLogger().warn("FrontController: Connection to database failure:", e);
+		}catch(Exception e) {
+			res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			LoggerSingleton.getExceptionLogger().warn("FrontController: General Exception:", e);
 		}
 	}
 	@Override
@@ -40,6 +44,10 @@ public class FrontController extends HttpServlet{
 			command.process();
 		}catch(ConnectionToDatabaseFailed e) {
 			res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			LoggerSingleton.getExceptionLogger().warn("FrontController: Connection to database failure:", e);
+		}catch(Exception e) {
+			res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			LoggerSingleton.getExceptionLogger().warn("FrontController: General Exception:", e);
 		}
 	}
 	@Override
@@ -51,6 +59,10 @@ public class FrontController extends HttpServlet{
 			command.process();
 		}catch(ConnectionToDatabaseFailed e) {
 			res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			LoggerSingleton.getExceptionLogger().warn("FrontController: Connection to database failure:", e);
+		}catch(Exception e) {
+			res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			LoggerSingleton.getExceptionLogger().warn("FrontController: General Exception:", e);
 		}
 	}
 	@Override
@@ -62,6 +74,10 @@ public class FrontController extends HttpServlet{
 			command.process();
 		}catch(ConnectionToDatabaseFailed e) {
 			res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			LoggerSingleton.getExceptionLogger().warn("FrontController: Connection to database failure:", e);
+		}catch(Exception e) {
+			res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			LoggerSingleton.getExceptionLogger().warn("FrontController: General Exception:", e);
 		}
 	}
 	private FrontCommand getCommand(HttpServletRequest req) {

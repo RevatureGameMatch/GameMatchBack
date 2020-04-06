@@ -161,6 +161,59 @@ public class SkillPlayerJTDAO implements ISkillPlayerJTDAO{
 		return set;
 		
 	}
+
+	@Override
+	public SkillPlayerJT findBySkillPlayer(Skill skill, Player player) {
+		Set<SkillPlayerJT> set = null;
+		
+		Session ses = HibernateUtil.getSession();
+		Transaction tx = ses.beginTransaction();
+		
+		CriteriaBuilder builder = ses.getCriteriaBuilder();
+		CriteriaQuery<SkillPlayerJT> query = builder.createQuery(SkillPlayerJT.class);
+		
+		Root<SkillPlayerJT> root = query.from(SkillPlayerJT.class);
+		
+		query.where(builder.equal(root.get("player"), player));
+		query.where(builder.equal(root.get("skill"), skill));
+		
+		Query<SkillPlayerJT> sg = ses.createQuery(query);
+		
+		set = sg.getResultStream()
+				.collect(Collectors.toSet());
+		
+		if(set.size() == 1) {
+			
+			SkillPlayerJT spJT = sg.getSingleResult();
+			
+			tx.commit();
+			HibernateUtil.closeSession();
+			
+			return spJT;
+			
+			
+		}
+		
+		if(set.size() > 1) {
+			
+			SkillPlayerJT spJT = set.iterator().next();
+			
+			tx.commit();
+			HibernateUtil.closeSession();
+			
+			return spJT;
+		
+		}
+		
+		else {
+			
+			tx.commit();
+			HibernateUtil.closeSession();
+			
+			return null;
+	
+		}
+	}
 	
 	
 	@Override

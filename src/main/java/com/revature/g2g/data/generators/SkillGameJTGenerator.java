@@ -24,7 +24,7 @@ public class SkillGameJTGenerator implements DataGenerator {
 	}
 	private boolean make(String gameName, SkillPriorityTemplate[] skills) {
 		Game game = gameHandler.findByName(gameName);
-		if(game == null) {return false;};
+		if(game == null) {return false;}
 		for (SkillPriorityTemplate skillTemplate : skills) {
 			Skill skill = skillHandler.findByName(skillTemplate.getSkill());
 			if(skill == null) {continue;}

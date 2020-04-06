@@ -64,10 +64,9 @@ public class Room implements Serializable{
 	public Room() {
 		super();
 	}
-	public Room(int roomId, Long discordTextChannelId, Long discordVoiceChannelId, Long discordRoleId, Date created,
+	public Room(Long discordTextChannelId, Long discordVoiceChannelId, Long discordRoleId, Date created,
 			Date closed, String description, RoomStatus status) {
 		super();
-		this.roomId = roomId;
 		this.discordTextChannelId = discordTextChannelId;
 		this.discordVoiceChannelId = discordVoiceChannelId;
 		this.discordRoleId = discordRoleId;

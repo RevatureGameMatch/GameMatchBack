@@ -2,6 +2,7 @@ package com.revature.g2g.models;
 
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -97,17 +98,7 @@ public class SkillPlayerJT implements Serializable{
 	}
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		long temp;
-		temp = Double.doubleToLongBits(expertise);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		result = prime * result + ((player == null) ? 0 : player.hashCode());
-		result = prime * result + ((skill == null) ? 0 : skill.hashCode());
-		result = prime * result + (int) (skillPlayerJtId  ^ (skillPlayerJtId  >>> 32));
-		temp = Double.doubleToLongBits(value);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		return result;
+		return Objects.hash(expertise, player, skill, skillPlayerJtId, value);
 	}
 	@Override
 	public boolean equals(Object obj) {
@@ -118,30 +109,10 @@ public class SkillPlayerJT implements Serializable{
 			return false;
 		}
 		SkillPlayerJT other = (SkillPlayerJT) obj;
-		if (Double.doubleToLongBits(expertise) != Double.doubleToLongBits(other.expertise)) {
-			return false;
-		}
-		if (player == null) {
-			if (other.player != null) {
-				return false;
-			}
-		} else if (!player.equals(other.player)) {
-			return false;
-		}
-		if (skill == null) {
-			if (other.skill != null) {
-				return false;
-			}
-		} else if (!skill.equals(other.skill)) {
-			return false;
-		}
-		if (skillPlayerJtId != other.skillPlayerJtId) {
-			return false;
-		}
-		if (Double.doubleToLongBits(value) != Double.doubleToLongBits(other.value)) {
-			return false;
-		}
-		return true;
+		return Double.doubleToLongBits(expertise) == Double.doubleToLongBits(other.expertise)
+				&& Objects.equals(player, other.player) && Objects.equals(skill, other.skill)
+				&& skillPlayerJtId == other.skillPlayerJtId
+				&& Double.doubleToLongBits(value) == Double.doubleToLongBits(other.value);
 	}
 	@Override
 	public String toString() {

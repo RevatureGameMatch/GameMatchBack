@@ -2,6 +2,7 @@ package com.revature.g2g.models;
 
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -13,15 +14,9 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.springframework.beans.factory.config.ConfigurableBeanFactory;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(value = { "roomJT","changesToSelf", "changesToOthers", "skills" })
-@Component()
-@Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 @Entity
 @Table(name = "G2G_PLAYER")
 public class Player implements Serializable {
@@ -124,14 +119,7 @@ public class Player implements Serializable {
 	}
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((playerEmail == null) ? 0 : playerEmail.hashCode());
-		result = prime * result + playerId;
-		result = prime * result + ((playerPassword == null) ? 0 : playerPassword.hashCode());
-		result = prime * result + ((playerRole == null) ? 0 : playerRole.hashCode());
-		result = prime * result + ((playerUsername == null) ? 0 : playerUsername.hashCode());
-		return result;
+		return Objects.hash(playerEmail, playerId, playerPassword, playerRole, playerUsername);
 	}
 	@Override
 	public boolean equals(Object obj) {
@@ -142,34 +130,9 @@ public class Player implements Serializable {
 			return false;
 		}
 		Player other = (Player) obj;
-		if (playerEmail == null) {
-			if (other.playerEmail != null) {
-				return false;
-			}
-		} else if (!playerEmail.equals(other.playerEmail)) {
-			return false;
-		}
-		if (playerId != other.playerId) {
-			return false;
-		}
-		if (playerPassword == null) {
-			if (other.playerPassword != null) {
-				return false;
-			}
-		} else if (!playerPassword.equals(other.playerPassword)) {
-			return false;
-		}
-		if (playerRole != other.playerRole) {
-			return false;
-		}
-		if (playerUsername == null) {
-			if (other.playerUsername != null) {
-				return false;
-			}
-		} else if (!playerUsername.equals(other.playerUsername)) {
-			return false;
-		}
-		return true;
+		return Objects.equals(playerEmail, other.playerEmail) && playerId == other.playerId
+				&& Objects.equals(playerPassword, other.playerPassword) && playerRole == other.playerRole
+				&& Objects.equals(playerUsername, other.playerUsername);
 	}
 	@Override
 	public String toString() {

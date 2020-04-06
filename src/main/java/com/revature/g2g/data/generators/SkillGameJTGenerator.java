@@ -1,7 +1,7 @@
 package com.revature.g2g.data.generators;
 
 import com.revature.g2g.data.DataGenerator;
-import com.revature.g2g.data.genTemplates.SkillPriorityTemplate;
+import com.revature.g2g.data.gentemplates.SkillPriorityTemplate;
 import com.revature.g2g.models.Game;
 import com.revature.g2g.models.Skill;
 import com.revature.g2g.models.SkillGameJT;
@@ -24,7 +24,7 @@ public class SkillGameJTGenerator implements DataGenerator {
 	}
 	private boolean make(String gameName, SkillPriorityTemplate[] skills) {
 		Game game = gameHandler.findByName(gameName);
-		if(game == null) {return false;};
+		if(game == null) {return false;}
 		for (SkillPriorityTemplate skillTemplate : skills) {
 			Skill skill = skillHandler.findByName(skillTemplate.getSkill());
 			if(skill == null) {continue;}

@@ -40,12 +40,12 @@ public class PlayerRoomJTGenerator implements DataGenerator {
 	}
 	private Player randPlayer() {
 		int count = players.size();
-		int random = (int) Math.floor(Math.random() * count);
+		int random = new Random().nextInt(count);
 		return (Player) players.toArray()[random];
 	}
 	private Room randRoom() {
 		int count = rooms.size();
-		int random = (int) Math.floor(Math.random() * count);
+		int random = new Random().nextInt(count);
 		return (Room) rooms.toArray()[random];
 	}
 }

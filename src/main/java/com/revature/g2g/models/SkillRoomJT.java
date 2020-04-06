@@ -1,6 +1,7 @@
 package com.revature.g2g.models;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,12 +12,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import org.springframework.beans.factory.config.ConfigurableBeanFactory;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
-
-@Component()
-@Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 @Entity
 @Table(name = "G2G_SKILL_ROOM_JT")
 public class SkillRoomJT implements Serializable{
@@ -74,15 +69,7 @@ public class SkillRoomJT implements Serializable{
 	}
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		long temp;
-		temp = Double.doubleToLongBits(minValue);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		result = prime * result + ((room == null) ? 0 : room.hashCode());
-		result = prime * result + ((skill == null) ? 0 : skill.hashCode());
-		result = prime * result + skillRoomJTId;
-		return result;
+		return Objects.hash(minValue, room, skill, skillRoomJTId);
 	}
 	@Override
 	public boolean equals(Object obj) {
@@ -93,27 +80,9 @@ public class SkillRoomJT implements Serializable{
 			return false;
 		}
 		SkillRoomJT other = (SkillRoomJT) obj;
-		if (Double.doubleToLongBits(minValue) != Double.doubleToLongBits(other.minValue)) {
-			return false;
-		}
-		if (room == null) {
-			if (other.room != null) {
-				return false;
-			}
-		} else if (!room.equals(other.room)) {
-			return false;
-		}
-		if (skill == null) {
-			if (other.skill != null) {
-				return false;
-			}
-		} else if (!skill.equals(other.skill)) {
-			return false;
-		}
-		if (skillRoomJTId != other.skillRoomJTId) {
-			return false;
-		}
-		return true;
+		return Double.doubleToLongBits(minValue) == Double.doubleToLongBits(other.minValue)
+				&& Objects.equals(room, other.room) && Objects.equals(skill, other.skill)
+				&& skillRoomJTId == other.skillRoomJTId;
 	}
 	@Override
 	public String toString() {

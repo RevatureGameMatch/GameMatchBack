@@ -15,12 +15,9 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.springframework.beans.factory.config.ConfigurableBeanFactory;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-@Component()
-@Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+@JsonIgnoreProperties(value = { "playerJT", "roomChangesToSkill", "skills" })
 @Entity
 @Table(name = "G2G_ROOM")
 public class Room implements Serializable{
@@ -64,10 +61,9 @@ public class Room implements Serializable{
 	public Room() {
 		super();
 	}
-	public Room(int roomId, Long discordTextChannelId, Long discordVoiceChannelId, Long discordRoleId, Date created,
+	public Room(Long discordTextChannelId, Long discordVoiceChannelId, Long discordRoleId, Date created,
 			Date closed, String description, RoomStatus status) {
 		super();
-		this.roomId = roomId;
 		this.discordTextChannelId = discordTextChannelId;
 		this.discordVoiceChannelId = discordVoiceChannelId;
 		this.discordRoleId = discordRoleId;

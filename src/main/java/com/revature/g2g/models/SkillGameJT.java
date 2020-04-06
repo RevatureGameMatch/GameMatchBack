@@ -11,12 +11,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import org.springframework.beans.factory.config.ConfigurableBeanFactory;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
-
-@Component()
-@Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 @Entity
 @Table(name = "G2G_SKILL_GAME_JT")
 public class SkillGameJT implements Serializable {

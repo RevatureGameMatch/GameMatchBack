@@ -1,6 +1,7 @@
 package com.revature.g2g.models;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,12 +12,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import org.springframework.beans.factory.config.ConfigurableBeanFactory;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
-
-@Component()
-@Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 @Entity
 @Table(name = "G2G_SKILL_PLAYER_CHANGE_JT")
 public class SkillPlayerChangeJT implements Serializable{
@@ -107,19 +102,7 @@ public class SkillPlayerChangeJT implements Serializable{
 	}
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		long temp;
-		temp = Double.doubleToLongBits(expertise);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		result = prime * result + ((modifiedBy == null) ? 0 : modifiedBy.hashCode());
-		result = prime * result + ((player == null) ? 0 : player.hashCode());
-		result = prime * result + ((room == null) ? 0 : room.hashCode());
-		result = prime * result + skillPlayerChangeJTId;
-		result = prime * result + ((skillPlayerJT == null) ? 0 : skillPlayerJT.hashCode());
-		temp = Double.doubleToLongBits(value);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		return result;
+		return Objects.hash(expertise, modifiedBy, player, room, skillPlayerChangeJTId, skillPlayerJT, value);
 	}
 	@Override
 	public boolean equals(Object obj) {
@@ -130,44 +113,11 @@ public class SkillPlayerChangeJT implements Serializable{
 			return false;
 		}
 		SkillPlayerChangeJT other = (SkillPlayerChangeJT) obj;
-		if (Double.doubleToLongBits(expertise) != Double.doubleToLongBits(other.expertise)) {
-			return false;
-		}
-		if (modifiedBy == null) {
-			if (other.modifiedBy != null) {
-				return false;
-			}
-		} else if (!modifiedBy.equals(other.modifiedBy)) {
-			return false;
-		}
-		if (player == null) {
-			if (other.player != null) {
-				return false;
-			}
-		} else if (!player.equals(other.player)) {
-			return false;
-		}
-		if (room == null) {
-			if (other.room != null) {
-				return false;
-			}
-		} else if (!room.equals(other.room)) {
-			return false;
-		}
-		if (skillPlayerChangeJTId != other.skillPlayerChangeJTId) {
-			return false;
-		}
-		if (skillPlayerJT == null) {
-			if (other.skillPlayerJT != null) {
-				return false;
-			}
-		} else if (!skillPlayerJT.equals(other.skillPlayerJT)) {
-			return false;
-		}
-		if (Double.doubleToLongBits(value) != Double.doubleToLongBits(other.value)) {
-			return false;
-		}
-		return true;
+		return Float.floatToIntBits(expertise) == Float.floatToIntBits(other.expertise)
+				&& Objects.equals(modifiedBy, other.modifiedBy) && Objects.equals(player, other.player)
+				&& Objects.equals(room, other.room) && skillPlayerChangeJTId == other.skillPlayerChangeJTId
+				&& Objects.equals(skillPlayerJT, other.skillPlayerJT)
+				&& Float.floatToIntBits(value) == Float.floatToIntBits(other.value);
 	}
 	@Override
 	public String toString() {

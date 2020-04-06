@@ -37,7 +37,7 @@ public class SkillRoomJTGenerator implements DataGenerator{
 	}
 	private Skill randomSkill() {
 		int count = skills.size();
-		int random = (int) Math.floor(Math.random() * count);
+		int random = new Random().nextInt(count);
 		return (Skill) skills.toArray()[random];
 	}
 }

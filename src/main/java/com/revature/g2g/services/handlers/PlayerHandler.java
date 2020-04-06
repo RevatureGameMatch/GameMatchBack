@@ -2,6 +2,7 @@ package com.revature.g2g.services.handlers;
 
 import java.util.Set;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,7 @@ public class PlayerHandler {
 //		this.repository = (PlayerDAO) ApplicationContextSingleton.getApplicationContext().getBean("playerDAO");
 		this.repository = new PlayerDAO();
 	}
+	@Autowired
 	public PlayerHandler(IPlayerDAO repository) {
 		super();
 		this.repository = repository;

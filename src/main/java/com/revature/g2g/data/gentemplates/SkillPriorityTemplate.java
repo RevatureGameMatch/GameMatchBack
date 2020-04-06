@@ -1,4 +1,4 @@
-package com.revature.g2g.data.genTemplates;
+package com.revature.g2g.data.gentemplates;
 
 import java.util.Objects;
 

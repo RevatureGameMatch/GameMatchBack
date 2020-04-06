@@ -2,6 +2,7 @@ package com.revature.g2g.models;
 
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -15,12 +16,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.springframework.beans.factory.config.ConfigurableBeanFactory;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-@Component()
-@Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+@JsonIgnoreProperties(value = { "childSkills", "games", "players", "rooms" })
 @Entity
 @Table(name = "G2G_SKILL")
 public class Skill implements Serializable{
@@ -104,12 +102,9 @@ public class Skill implements Serializable{
 	}
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		result = prime * result + skillId;
-		return result;
+		return Objects.hash(name, parentSkill, skillId);
 	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
@@ -119,18 +114,10 @@ public class Skill implements Serializable{
 			return false;
 		}
 		Skill other = (Skill) obj;
-		if (name == null) {
-			if (other.name != null) {
-				return false;
-			}
-		} else if (!name.equals(other.name)) {
-			return false;
-		}
-		if (skillId != other.skillId) {
-			return false;
-		}
-		return true;
+		return Objects.equals(name, other.name) && Objects.equals(parentSkill, other.parentSkill)
+				&& skillId == other.skillId;
 	}
+
 	@Override
 	public String toString() {
 		return "Skill [skillId=" + skillId + ", name=" + name + "]";

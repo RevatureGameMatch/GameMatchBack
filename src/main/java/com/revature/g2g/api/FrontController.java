@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.revature.g2g.api.commands.UnknownCommand;
 import com.revature.g2g.exceptions.ConnectionToDatabaseFailed;
+import com.revature.g2g.services.helpers.LoggerSingleton;
 
 public class FrontController extends HttpServlet{
 	private static final long serialVersionUID = 7302326277418684325L;
@@ -28,6 +29,14 @@ public class FrontController extends HttpServlet{
 			command.process();
 		}catch(ConnectionToDatabaseFailed e) {
 			res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			LoggerSingleton.getExceptionLogger().warn("FrontController: Connection to database failure:", e);
+		}catch(Exception e) {
+			res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			LoggerSingleton.getExceptionLogger().warn("FrontController: General Exception:", e);
+		}catch(Error e) {
+			res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			LoggerSingleton.getExceptionLogger().fatal("Error from Command: ", e);
+			throw new Error("Error from Command: ", e);
 		}
 	}
 	@Override
@@ -39,6 +48,14 @@ public class FrontController extends HttpServlet{
 			command.process();
 		}catch(ConnectionToDatabaseFailed e) {
 			res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			LoggerSingleton.getExceptionLogger().warn("FrontController: Connection to database failure:", e);
+		}catch(Exception e) {
+			res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			LoggerSingleton.getExceptionLogger().warn("FrontController: General Exception:", e);
+		}catch(Error e) {
+			res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			LoggerSingleton.getExceptionLogger().fatal("Error from Command: ", e);
+			throw new Error("Error from Command: ", e);
 		}
 	}
 	@Override
@@ -50,6 +67,14 @@ public class FrontController extends HttpServlet{
 			command.process();
 		}catch(ConnectionToDatabaseFailed e) {
 			res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			LoggerSingleton.getExceptionLogger().warn("FrontController: Connection to database failure:", e);
+		}catch(Exception e) {
+			res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			LoggerSingleton.getExceptionLogger().warn("FrontController: General Exception:", e);
+		}catch(Error e) {
+			res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			LoggerSingleton.getExceptionLogger().fatal("Error from Command: ", e);
+			throw new Error("Error from Command: ", e);
 		}
 	}
 	@Override
@@ -61,21 +86,32 @@ public class FrontController extends HttpServlet{
 			command.process();
 		}catch(ConnectionToDatabaseFailed e) {
 			res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			LoggerSingleton.getExceptionLogger().warn("FrontController: Connection to database failure:", e);
+		}catch(Exception e) {
+			res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			LoggerSingleton.getExceptionLogger().warn("FrontController: General Exception:", e);
+		}catch(Error e) {
+			res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			LoggerSingleton.getExceptionLogger().fatal("Error from Command: ", e);
+			throw new Error("Error from Command: ", e);
 		}
 	}
 	private FrontCommand getCommand(HttpServletRequest req) {
 		try {
 			final String URI = req.getRequestURI();
+			LoggerSingleton.getExceptionLogger().trace("FrontController: uri check: " + URI);
 			String[] uriArray = URI.split("/");
 			if(uriArray.length > 2) {
 				String firstUri = uriArray[2];
 				String classPath = "com.revature.g2g.api.commands." + firstUri + "Command";
+				LoggerSingleton.getExceptionLogger().trace("FrontController: classPath for debug : " + classPath);
 				Class<?> type = Class.forName(classPath);
 				return (FrontCommand) type.asSubclass(FrontCommand.class).newInstance();
 			}else {
 				return new UnknownCommand();
 			}
 		}catch (Exception e) {
+			LoggerSingleton.getExceptionLogger().warn("FrontController: exception with request:", e);
 			return new UnknownCommand();
 		}
 	}

@@ -180,9 +180,14 @@ public class SkillPlayerJTDAO implements ISkillPlayerJTDAO{
 		CriteriaQuery<SkillPlayerJT> query = builder.createQuery(SkillPlayerJT.class);
 		
 		Root<SkillPlayerJT> root = query.from(SkillPlayerJT.class);
+		Path<Object> skillPath = root.get("skill");
+		Path<Object> playerPath = root.get("player");
 		
-		query.where(builder.equal(root.get("player"), player));
-		query.where(builder.equal(root.get("skill"), skill));
+		Predicate skillPredicate = builder.equal(skillPath, skill);
+		Predicate playerPredicate = builder.equal(playerPath, player);
+		Predicate skillAndPlayerPredicate = builder.and(skillPredicate,playerPredicate);
+		
+		query.select(root).where(skillAndPlayerPredicate);
 		
 		Query<SkillPlayerJT> sg = ses.createQuery(query);
 		
@@ -197,7 +202,6 @@ public class SkillPlayerJTDAO implements ISkillPlayerJTDAO{
 			HibernateUtil.closeSession();
 			
 			return spJT;
-			
 			
 		}
 		

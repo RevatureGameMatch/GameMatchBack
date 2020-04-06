@@ -11,11 +11,13 @@ public interface ISkillPlayerJTDAO {
 	public void insert(SkillPlayerJT sp);
 	//Read
 	public SkillPlayerJT findById(int id);
-	public int findValue(Player player, Skill skill);
+	public double findValue(Player player, Skill skill);
 	public Set<SkillPlayerJT> findAll();
 	public Set<SkillPlayerJT> findBySkill(Skill skill);
+	public SkillPlayerJT findBySkillPlayer(Skill skill, Player player);
 	//Update
 	public void update(SkillPlayerJT sp);
 	//Delete
 	public void delete(SkillPlayerJT sp);
+	Set<Skill> findPlayerSkills(Player player);
 }

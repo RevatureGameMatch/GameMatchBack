@@ -1,8 +1,5 @@
 package com.revature.g2g;
 
-import com.revature.g2g.services.jda.JDASingleton;
-
-
 public class Driver {
 	public static void main(String[] args) {
 //		Session s = HibernateUtil.getSession();
@@ -42,5 +39,12 @@ public class Driver {
 //		player.setPlayerEmail("plawrence@email.com");
 //		player.setPlayerPassword("password");
 //		player.setPlayerRole(PlayerRole.ADMIN);
+		
+//		Room room = new RoomDAO().findById(47);
+//		
+//		System.out.println(new PlayerRoomJTDAO().findPlayers(room));
+	
+		//System.out.println(new PlayerRoomJTDAO().countCurrentPlayers());
+		
 	}
 }

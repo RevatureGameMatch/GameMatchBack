@@ -67,10 +67,12 @@ public class FrontController extends HttpServlet{
 	private FrontCommand getCommand(HttpServletRequest req) {
 		try {
 			final String URI = req.getRequestURI();
+			LoggerSingleton.getExceptionLogger().trace("FrontController: uri check: " + URI);
 			String[] uriArray = URI.split("/");
 			if(uriArray.length > 2) {
 				String firstUri = uriArray[2];
 				String classPath = "com.revature.g2g.api.commands." + firstUri + "Command";
+				LoggerSingleton.getExceptionLogger().trace("FrontController: classPath for debug : " + classPath);
 				Class<?> type = Class.forName(classPath);
 				return (FrontCommand) type.asSubclass(FrontCommand.class).newInstance();
 			}else {

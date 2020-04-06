@@ -26,7 +26,6 @@ public class SkillPlayerJTGenerator implements DataGenerator {
 		if(player != null) {
 			for (String skillName : skillNames) {
 				Skill skill = skillHandler.findByName(skillName);
-				System.out.println(skill);
 				if (skill == null)continue;
 				SkillPlayerJT skillPlayerJT = null;
 				boolean preExistant = true;
@@ -36,8 +35,6 @@ public class SkillPlayerJTGenerator implements DataGenerator {
 					skillPlayerJT.setPlayer(player);
 					skillPlayerJT.setSkill(skill);
 				}
-				System.out.println(skillPlayerJT);
-				System.out.println(preExistant);
 				skillPlayerJT.setExpertise(new Random().nextDouble());
 				skillPlayerJT.setValue(new Random().nextDouble() * 100d);
 				if(preExistant) {

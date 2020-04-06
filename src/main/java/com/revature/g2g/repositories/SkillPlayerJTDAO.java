@@ -71,7 +71,7 @@ public class SkillPlayerJTDAO implements ISkillPlayerJTDAO{
 			
 		} catch (javax.persistence.NoResultException e) {
 			
-			return -1;
+			return -1d;
 			
 		} finally {
 			

@@ -7,6 +7,8 @@ import java.util.stream.Collectors;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Path;
+import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import org.hibernate.Session;
@@ -58,9 +60,14 @@ public class SkillPlayerJTDAO implements ISkillPlayerJTDAO{
 		CriteriaQuery <SkillPlayerJT> query = builder.createQuery(SkillPlayerJT.class);
 		
 		Root<SkillPlayerJT> root = query.from(SkillPlayerJT.class);
+		Path<Object> playerPath = root.get("player");
+		Path<Object> skillPath = root.get("skill");
 		
-		query.select(root).where(builder.equal(root.get("player"), player));
-		query.select(root).where(builder.equal(root.get("skill"), skill));
+		Predicate playerPredicate = builder.equal(playerPath, player);
+		Predicate skillPredicate = builder.equal(skillPath, skill);
+		Predicate skillAndPlayerPredicate = builder.and(playerPredicate, skillPredicate);
+		
+		query.select(root).where(skillAndPlayerPredicate);
 		
 		Query<SkillPlayerJT> pr = ses.createQuery(query);
 		

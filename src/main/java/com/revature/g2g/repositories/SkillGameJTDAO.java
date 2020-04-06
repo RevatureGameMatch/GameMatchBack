@@ -118,7 +118,6 @@ public class SkillGameJTDAO implements ISkillGameJTDAO {
 
 	@Override
 	public Skill findTopSkill(Game game) {
-		
 		Session ses = HibernateUtil.getSession();
 		Transaction tx = ses.beginTransaction();
 		

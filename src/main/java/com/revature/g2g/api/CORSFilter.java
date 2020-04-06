@@ -1,8 +1,5 @@
 package com.revature.g2g.api;
 
-import java.io.IOException;
-
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -14,9 +11,8 @@ public class CORSFilter {
 	private CORSFilter() {
 	}
 	
-	public static void doFilter(HttpServletRequest req, HttpServletResponse res)
-			throws IOException, ServletException {
-//		res.addHeader("Access-Control-Allow-Origin","http://localhost:4200");
+	public static void doFilter(HttpServletRequest req, HttpServletResponse res) {
+//		res.addHeader("Access-Control-Allow-Origin","https://g2g.revatureprojects.com");
 		res.setHeader("Access-Control-Allow-Origin","*");
 		res.setHeader("Access-Control-Allow-Methods","GET, OPTIONS, HEAD, PUT, POST");
 		res.setHeader("Access-Control-Allow-Headers", "Access-Control-Allow-Headers, Origin, Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers, Authorization, reimbursmentid, submitter");

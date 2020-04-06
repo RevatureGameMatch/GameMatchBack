@@ -4,7 +4,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.revature.g2g.models.Game;
-import com.revature.g2g.repositories.GameDAO;
 
 public class SpringDriver {
 	public static void main(String[] args) {
@@ -15,7 +14,5 @@ public class SpringDriver {
 		Game game2 = (Game) ac.getBean("game");
 		game2.setDescription("A basic description of some game");
 		game2.setName("Fake Game 301");
-		System.out.println(game);
-		System.out.println(game2);
 	}
 }

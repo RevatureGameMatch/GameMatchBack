@@ -54,7 +54,6 @@ public class Driver {
 //		player.setPlayerEmail("plawrence@email.com");
 //		player.setPlayerPassword("password");
 //		player.setPlayerRole(PlayerRole.ADMIN);
-	
 		
 		System.out.println(new SkillDAO().findAll());
 		

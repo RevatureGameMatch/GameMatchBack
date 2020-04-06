@@ -16,8 +16,11 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.springframework.stereotype.Component;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+@Component
 @JsonIgnoreProperties(value = { "childSkills", "games", "players", "rooms" })
 @Entity
 @Table(name = "G2G_SKILL")

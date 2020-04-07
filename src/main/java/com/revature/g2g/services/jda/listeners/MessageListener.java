@@ -42,9 +42,9 @@ public class MessageListener extends ListenerAdapter{
 		try {
 			String msg = event.getMessage().getContentRaw();
 			String name = msg.substring(msg.indexOf(' '));
-			VoiceChannelHelper.create(guild, name);
+			VoiceChannelHelper.create(guild, name).complete();
 		}catch (Exception e) {
-			e.printStackTrace();
+			LoggerSingleton.getExceptionLogger().warn("Exception from chat creating new voice channel: ", e);
 		}
 	}
 }

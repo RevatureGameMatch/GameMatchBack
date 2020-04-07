@@ -6,6 +6,7 @@ import javax.security.auth.login.LoginException;
 
 import com.revature.g2g.services.helpers.LoggerSingleton;
 import com.revature.g2g.services.helpers.PropertiesHelper;
+import com.revature.g2g.services.jda.listeners.GuildVoiceLeaveEventListener;
 import com.revature.g2g.services.jda.listeners.MessageListener;
 import com.revature.g2g.services.jda.listeners.ReadyListener;
 
@@ -27,6 +28,7 @@ public class JDASingleton {
 				builder.setActivity(Activity.watching("Users for new commands."));
 				builder.addEventListeners(new ReadyListener());
 				builder.addEventListeners(new MessageListener());
+				builder.addEventListeners(new GuildVoiceLeaveEventListener());
 				jda = builder.build();
 			} catch (LoginException e) {
 				jda = null;

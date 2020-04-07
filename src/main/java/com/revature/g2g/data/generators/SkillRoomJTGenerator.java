@@ -16,36 +16,23 @@ import com.revature.g2g.models.SkillRoomJT;
 import com.revature.g2g.services.handlers.RoomHandler;
 import com.revature.g2g.services.handlers.SkillHandler;
 import com.revature.g2g.services.handlers.SkillRoomJTHandler;
+import com.revature.g2g.services.helpers.LoggerSingleton;
 
 @Service
 @Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
 public class SkillRoomJTGenerator implements DataGenerator{
-	private SkillHandler skillHandler;
-	private RoomHandler roomHandler;
-	private SkillRoomJTHandler skillRoomJTHandler;
-	private Set<Skill> skills;
-	public SkillRoomJTGenerator() {
-		super();
-	}
 	@Autowired
-	public SkillRoomJTGenerator(SkillHandler skillHandler, RoomHandler roomHandler,
-			SkillRoomJTHandler skillRoomJTHandler) {
-		super();
-		this.skillHandler = skillHandler;
-		this.roomHandler = roomHandler;
-		this.skillRoomJTHandler = skillRoomJTHandler;
-		this.skills = skillHandler.findAll();
-	}
-	public SkillRoomJTGenerator(SkillHandler skillHandler, RoomHandler roomHandler,
-			SkillRoomJTHandler skillRoomJTHandler, Set<Skill> skills) {
-		super();
-		this.skillHandler = skillHandler;
-		this.roomHandler = roomHandler;
-		this.skillRoomJTHandler = skillRoomJTHandler;
-		this.skills = skills;
-	}
+	private SkillHandler skillHandler;
+	@Autowired
+	private RoomHandler roomHandler;
+	@Autowired
+	private SkillRoomJTHandler skillRoomJTHandler;
+	@Autowired
+	private LoggerSingleton loggerSingleton;
+	private Set<Skill> skills;
 	@Override
 	public void generate() {
+		skills = skillHandler.findAll();
 		Set<Room> rooms = roomHandler.findByStatus(RoomStatus.OPENED);
 		for (Room room : rooms) {
 			make(room);
@@ -63,7 +50,12 @@ public class SkillRoomJTGenerator implements DataGenerator{
 	}
 	private Skill randomSkill() {
 		int count = skills.size();
-		int random = new Random().nextInt(count);
-		return (Skill) skills.toArray()[random];
+		if(count != 0) {
+			int random = new Random().nextInt(count);
+			return (Skill) skills.toArray()[random];
+		}else {
+			loggerSingleton.getExceptionLogger().warn("SkillRoomGenerator: Random skill count of 0");
+		}
+		return null;
 	}
 }

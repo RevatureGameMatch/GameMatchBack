@@ -16,10 +16,9 @@ import javax.persistence.Table;
 
 import org.springframework.stereotype.Component;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Component
-@JsonIgnoreProperties(value = { "roomJT","changesToSelf", "changesToOthers", "skills" })
 @Entity
 @Table(name = "G2G_PLAYER")
 public class Player implements Serializable {
@@ -42,15 +41,19 @@ public class Player implements Serializable {
 	@Column(name = "player_role")
 	private PlayerRole  playerRole;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy = "player", fetch = FetchType.LAZY)
 	private Set<PlayerRoomJT> roomJT = new HashSet<>();
 
+	@JsonIgnore
 	@OneToMany(mappedBy = "player", fetch = FetchType.LAZY)
 	private Set<SkillPlayerChangeJT> changesToSelf = new HashSet<>();
 
+	@JsonIgnore
 	@OneToMany(mappedBy = "modifiedBy", fetch = FetchType.LAZY)
 	private Set<SkillPlayerChangeJT> changesToOthers = new HashSet<>();
 
+	@JsonIgnore
 	@OneToMany(mappedBy = "player", fetch = FetchType.LAZY)
 	private Set<SkillPlayerJT> skills = new HashSet<>();
 

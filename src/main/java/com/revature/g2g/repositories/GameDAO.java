@@ -1,5 +1,6 @@
 package com.revature.g2g.repositories;
 
+import java.util.Collections;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -9,7 +10,6 @@ import javax.persistence.criteria.Root;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
@@ -18,39 +18,32 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.revature.g2g.models.Game;
-import com.revature.g2g.services.helpers.HibernateUtil;
 
 @Transactional
 @Repository
 @Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
 public class GameDAO implements IGameDAO {
+	
 	@Autowired
 	private SessionFactory sf;
 
 	public void insert(Game g) {
-		Session ses = HibernateUtil.getSession();
-		Transaction tx = ses.beginTransaction();
-
-		ses.save(g);
-
-		tx.commit();
-		HibernateUtil.closeSession();
+		
+		Session s = sf.getCurrentSession();
+		s.save(g);
+		
 	}
 
 	public Game findById(int id) {
-		Session ses = HibernateUtil.getSession();
-		Transaction tx = ses.beginTransaction();
 		
-		Game g = ses.get(Game.class, id);
+		Session s = sf.getCurrentSession();
+		return s.get(Game.class, id);
 		
-		tx.commit();
-		HibernateUtil.closeSession();
-		return g;
 	}
 
 	public Game findByName(String name) {
-		Session ses = HibernateUtil.getSession();
-		Transaction tx = ses.beginTransaction();
+		
+		Session ses = sf.getCurrentSession();
 		
 		CriteriaBuilder builder = ses.getCriteriaBuilder();
 		CriteriaQuery<Game> query = builder.createQuery(Game.class);
@@ -62,52 +55,52 @@ public class GameDAO implements IGameDAO {
 		Query<Game> game = ses.createQuery(query);
 		
 		try {
+			
 			return game.getSingleResult();
+			
 		} catch (javax.persistence.NoResultException e) {
+			
 			return null;	
-		} finally {
-			tx.commit();
-			HibernateUtil.closeSession();
-		}
+			
+		} 
+		
 	}
 
 	public Set<Game> findAll() {
-		Set<Game> set = null;
 		
-		Session ses = HibernateUtil.getSession();
-		Transaction tx = ses.beginTransaction();
+		Session ses = sf.getCurrentSession();
 		
 		CriteriaBuilder builder = ses.getCriteriaBuilder();
 		CriteriaQuery<Game> query = builder.createQuery(Game.class);
 		
+		query.from(Game.class);
+		
 		Query<Game> game = ses.createQuery(query);
 		
-		set = game.getResultStream()
-				.collect(Collectors.toSet());
-
-		tx.commit();
-		
-		HibernateUtil.closeSession();
-		return set;
+		try {
+			
+			return game.getResultStream()
+					.collect(Collectors.toSet());
+			
+		} catch (javax.persistence.NoResultException e) {
+			
+			return Collections.emptySet();	
+			
+		} 
+	
 	}
 
 	public void update(Game g) {
-		Session ses = HibernateUtil.getSession();
-		Transaction tx = ses.beginTransaction();
 		
-		ses.update(g);
+		Session s = sf.getCurrentSession();
+		s.update(g);
 		
-		tx.commit();
-		HibernateUtil.closeSession();
 	}
 
 	public void delete(Game g) {
-		Session ses = HibernateUtil.getSession();
-		Transaction tx = ses.beginTransaction();
 		
-		ses.delete(g);
+		Session s = sf.getCurrentSession();
+		s.delete(g);
 		
-		tx.commit();
-		HibernateUtil.closeSession();
 	}
 }

@@ -1,5 +1,6 @@
 package com.revature.g2g.repositories;
 
+import java.util.Collections;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -9,7 +10,6 @@ import javax.persistence.criteria.Root;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
@@ -19,42 +19,35 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.revature.g2g.models.Player;
 import com.revature.g2g.models.PlayerRole;
-import com.revature.g2g.services.helpers.HibernateUtil;
 
 @Transactional
 @Repository
 @Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
 public class PlayerDAO implements IPlayerDAO {
+	
 	@Autowired
 	private SessionFactory sf;
 
 	@Override
 	public void insert(Player p) {
-		Session ses = HibernateUtil.getSession();
-		Transaction tx = ses.beginTransaction();
-
-		ses.save(p);
 		
-		tx.commit();
-		HibernateUtil.closeSession();
+		Session s = sf.getCurrentSession();
+		s.save(p);
+		
 	}
 
 	@Override
 	public Player findById(int id) {
-		Session ses = HibernateUtil.getSession();
-		Transaction tx = ses.beginTransaction();
 		
-		Player p = ses.get(Player.class, id);
+		Session s = sf.getCurrentSession();
+		return s.get(Player.class, id);
 		
-		tx.commit();
-		HibernateUtil.closeSession();
-		return p;
 	}
 
 	@Override
 	public Player findByUsername(String username) {
-		Session ses = HibernateUtil.getSession();
-		Transaction tx = ses.beginTransaction();
+		
+		Session ses = sf.getCurrentSession();
 		
 		CriteriaBuilder builder = ses.getCriteriaBuilder();
 		CriteriaQuery<Player> query = builder.createQuery(Player.class);
@@ -73,19 +66,14 @@ public class PlayerDAO implements IPlayerDAO {
 			
 			return null;	
 			
-		} finally {
-			
-			tx.commit();
-			HibernateUtil.closeSession();
-			
-		}
+		} 
 	
 	}
 
 	@Override
 	public Player findByEmail(String email) {
-		Session ses = HibernateUtil.getSession();
-		Transaction tx = ses.beginTransaction();
+		
+		Session ses = sf.getCurrentSession();
 		
 		CriteriaBuilder builder = ses.getCriteriaBuilder();
 		CriteriaQuery<Player> query = builder.createQuery(Player.class);
@@ -96,41 +84,47 @@ public class PlayerDAO implements IPlayerDAO {
 		
 		Query<Player> player = ses.createQuery(query);
 		
-		Player p = player.getSingleResult();
+		try {
+			
+			return player.getSingleResult();
+			
+		} catch (javax.persistence.NoResultException e) {
+			
+			return null;
+			
+		}
 		
-		
-		tx.commit();
-		HibernateUtil.closeSession();
-		return p;
 	}
 
 	@Override
 	public Set<Player> findAll() {
-		Set<Player> set = null;
 		
-		Session ses = HibernateUtil.getSession();
-		Transaction tx = ses.beginTransaction();
+		Session ses = sf.getCurrentSession();
 		
 		CriteriaBuilder builder = ses.getCriteriaBuilder();
 		CriteriaQuery<Player> query = builder.createQuery(Player.class);
 		
+		query.from(Player.class);
+		
 		Query<Player> player = ses.createQuery(query);
 		
-		set = player.getResultStream()
-				.collect(Collectors.toSet());
+		try {
+			
+			return player.getResultStream()
+					.collect(Collectors.toSet());
+			
+		} catch (javax.persistence.NoResultException e) {
+			
+			return Collections.emptySet();
+			
+		}
 		
-		tx.commit();
-		HibernateUtil.closeSession();
-		
-		return set;
 	}
 
 	@Override
 	public Set<Player> findByRole(PlayerRole role) {
-		Set<Player> set = null;
 		
-		Session ses = HibernateUtil.getSession();
-		Transaction tx = ses.beginTransaction();
+		Session ses = sf.getCurrentSession();
 		
 		CriteriaBuilder builder = ses.getCriteriaBuilder();
 		CriteriaQuery<Player> query = builder.createQuery(Player.class);
@@ -141,35 +135,33 @@ public class PlayerDAO implements IPlayerDAO {
 		
 		Query<Player> player = ses.createQuery(query);
 		
-		set = player.getResultStream()
-				.collect(Collectors.toSet());
+		try {
+			
+			return player.getResultStream()
+					.collect(Collectors.toSet());
+			
+		} catch (javax.persistence.NoResultException e) {
+			
+			return Collections.emptySet();
+			
+		}
 		
-		tx.commit();
-		HibernateUtil.closeSession();
-		
-		return set;
 	}
 
 	@Override
 	public void update(Player p) {
-		Session ses = HibernateUtil.getSession();
-		Transaction tx = ses.beginTransaction();
-
-		ses.update(p);
-
-		tx.commit();
-		HibernateUtil.closeSession();
+		
+		Session s = sf.getCurrentSession();
+		s.update(p);
+		
 	}
 
 	@Override
 	public void delete(Player p) {
-		Session ses = HibernateUtil.getSession();
-		Transaction tx = ses.beginTransaction();
 		
-		ses.delete(p);
-
-		tx.commit();
-		HibernateUtil.closeSession();
+		Session s = sf.getCurrentSession();
+		s.delete(p);
+		
 	}
 
 }

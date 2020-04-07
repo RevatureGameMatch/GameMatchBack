@@ -52,6 +52,9 @@ public class Room implements Serializable{
 	@Column(name = "room_status")
 	private RoomStatus status;
 	
+	@Column(name = "room_play_style")
+	private RoomPlayStyle style;
+	
 	@OneToMany(mappedBy = "room", fetch = FetchType.LAZY)
 	private Set<PlayerRoomJT> playerJT = new HashSet<>();
 
@@ -65,15 +68,15 @@ public class Room implements Serializable{
 		super();
 	}
 	public Room(Long discordTextChannelId, Long discordVoiceChannelId, Long discordRoleId, Date created,
-			Date closed, String description, RoomStatus status) {
+			String description, RoomStatus status, RoomPlayStyle style) {
 		super();
 		this.discordTextChannelId = discordTextChannelId;
 		this.discordVoiceChannelId = discordVoiceChannelId;
 		this.discordRoleId = discordRoleId;
 		this.created = created;
-		this.closed = closed;
 		this.description = description;
 		this.status = status;
+		this.style = style;
 	}
 	public int getRoomId() {
 		return roomId;
@@ -123,6 +126,12 @@ public class Room implements Serializable{
 	public void setStatus(RoomStatus status) {
 		this.status = status;
 	}
+	public RoomPlayStyle getStyle() {
+		return style;
+	}
+	public void setStyle(RoomPlayStyle style) {
+		this.style = style;
+	}
 	public Set<PlayerRoomJT> getPlayerJT() {
 		return playerJT;
 	}
@@ -144,7 +153,7 @@ public class Room implements Serializable{
 	@Override
 	public int hashCode() {
 		return Objects.hash(closed, created, description, discordRoleId, discordTextChannelId, discordVoiceChannelId,
-				roomId, status);
+				roomId, status, style);
 	}
 	@Override
 	public boolean equals(Object obj) {
@@ -159,12 +168,12 @@ public class Room implements Serializable{
 				&& Objects.equals(description, other.description) && Objects.equals(discordRoleId, other.discordRoleId)
 				&& Objects.equals(discordTextChannelId, other.discordTextChannelId)
 				&& Objects.equals(discordVoiceChannelId, other.discordVoiceChannelId) && roomId == other.roomId
-				&& status == other.status;
+				&& status == other.status && style == other.style;
 	}
 	@Override
 	public String toString() {
 		return "Room [roomId=" + roomId + ", discordTextChannelId=" + discordTextChannelId + ", discordVoiceChannelId="
 				+ discordVoiceChannelId + ", discordRoleId=" + discordRoleId + ", created=" + created + ", closed="
-				+ closed + ", description=" + description + ", status=" + status + "]";
+				+ closed + ", description=" + description + ", status=" + status + ", style=" + style + "]";
 	}
 }

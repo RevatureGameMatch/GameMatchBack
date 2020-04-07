@@ -12,6 +12,8 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import javax.persistence.metamodel.EntityType;
+import javax.persistence.metamodel.Metamodel;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -63,9 +65,11 @@ public class PlayerRoomJTDAO implements IPlayerRoomJTDAO {
 		
 		Root <PlayerRoomJT> root = query.from(PlayerRoomJT.class);
 		
+		Metamodel m = ses.getMetamodel();
+		EntityType<PlayerRoomJT> entity = m.entity(PlayerRoomJT.class);
 		
-		subquery.select(builder.count(subquery.from(PlayerRoomJT.class)));
-		subquery.where(builder.equal(root.get("left"), null));
+		subquery.select(builder.count(subquery.from(PlayerRoomJT.class)))
+			.where(builder.isNull(root.get("left")));
 		
 		try {
 			

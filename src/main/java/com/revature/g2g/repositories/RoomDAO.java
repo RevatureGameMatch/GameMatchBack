@@ -1,10 +1,13 @@
 package com.revature.g2g.repositories;
 
+import java.util.Collections;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Path;
+import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import org.hibernate.Session;
@@ -26,18 +29,16 @@ import com.revature.g2g.services.helpers.HibernateUtil;
 @Repository
 @Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
 public class RoomDAO implements IRoomDAO {
+	
 	@Autowired
 	private SessionFactory sf;
 
 	@Override
 	public void insert(Room r) {
-		Session ses = HibernateUtil.getSession();
-		Transaction tx = ses.beginTransaction();
-
+		
+		Session ses = sf.getCurrentSession();
 		ses.save(r);
-
-		tx.commit();
-		HibernateUtil.closeSession();
+		
 	}
 
 	@Override
@@ -50,6 +51,32 @@ public class RoomDAO implements IRoomDAO {
 		tx.commit();
 		HibernateUtil.closeSession();
 		return r;
+	}
+	
+	@Override
+	public Room findRoomByDiscordVoice(Long discordVoiceId) {
+		
+		Session ses = sf.getCurrentSession();
+		
+		CriteriaBuilder builder = ses.getCriteriaBuilder();
+		CriteriaQuery<Room> query = builder.createQuery(Room.class);
+		
+		Root<Room> root = query.from(Room.class);
+		
+		query.select(root).where(builder.equal(root.get("discordVoiceChannelId"), discordVoiceId));
+		
+		Query<Room> room = ses.createQuery(query);
+		
+		try {
+			
+			return room.getSingleResult();
+			
+		} catch (javax.persistence.NoResultException e) {
+			
+			return null;
+			
+		}
+		
 	}
 
 	@Override
@@ -72,13 +99,44 @@ public class RoomDAO implements IRoomDAO {
 		
 		return set;
 	}
+	
+	@Override
+	public Set<Room> findStatusPlayStyle(RoomStatus status, RoomPlayStyle style){
+		
+		Session ses = sf.getCurrentSession();
+		
+		CriteriaBuilder builder = ses.getCriteriaBuilder();
+		CriteriaQuery<Room> query = builder.createQuery(Room.class);
+		
+		Root<Room> root = query.from(Room.class);
+		Path<Object> statusPath = root.get("status");
+		Path<Object> stylePath = root.get("style");
+		
+		Predicate statusPredicate = builder.equal(statusPath, status);
+		Predicate stylePredicate = builder.equal(stylePath, style);
+		Predicate statusAndStylePredicate = builder.and(statusPredicate,stylePredicate);
+		
+		query.select(root).where(statusAndStylePredicate);
+		
+		Query<Room> room = ses.createQuery(query);
+		
+		try {
+			
+			return room.getResultStream()
+					.collect(Collectors.toSet());
+			
+		} catch (javax.persistence.NoResultException e) {
+			
+			return null;
+			
+		}
+		
+	}
 
 	@Override
 	public Set<Room> findByStatus(RoomStatus status) {
-		Set<Room> set = null;
 		
-		Session ses = HibernateUtil.getSession();
-		Transaction tx = ses.beginTransaction();
+		Session ses = sf.getCurrentSession();
 		
 		CriteriaBuilder builder = ses.getCriteriaBuilder();
 		CriteriaQuery<Room> query = builder.createQuery(Room.class);
@@ -90,30 +148,43 @@ public class RoomDAO implements IRoomDAO {
 		Query<Room> room = ses.createQuery(query);
 		
 		try {
-		
-			set = room.getResultStream()
-					.collect(Collectors.toSet());
 			
-			return set;
+			return room.getResultStream()
+					.collect(Collectors.toSet());
 			
 		} catch (javax.persistence.NoResultException e) {
 			
-			return null;
-			
-		} finally {
-			
-			tx.commit();
-			HibernateUtil.closeSession();
+			return Collections.emptySet();
 			
 		}
-			
 		
 	}
 
 	@Override
 	public Set<Room> findByPlayStyle(RoomPlayStyle style) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		Session ses = sf.getCurrentSession();
+		
+		CriteriaBuilder builder = ses.getCriteriaBuilder();
+		CriteriaQuery<Room> query = builder.createQuery(Room.class);
+		
+		Root<Room> root = query.from(Room.class);
+		
+		query.select(root).where(builder.equal(root.get("style"), style));
+		
+		Query<Room> room = ses.createQuery(query);
+		
+		try {
+			
+			return room.getResultStream()
+					.collect(Collectors.toSet());
+			
+		} catch (javax.persistence.NoResultException e) {
+			
+			return Collections.emptySet();
+			
+		}
+		
 	}
 
 //	@Override
@@ -143,24 +214,17 @@ public class RoomDAO implements IRoomDAO {
 
 	@Override
 	public void update(Room r) {
-		Session ses = HibernateUtil.getSession();
-		Transaction tx = ses.beginTransaction();
-
+		
+		Session ses = sf.getCurrentSession();
 		ses.update(r);
-
-		tx.commit();
-		HibernateUtil.closeSession();
 	}
 
 	@Override
 	public void delete(Room r) {
-		Session ses = HibernateUtil.getSession();
-		Transaction tx = ses.beginTransaction();
-
+		
+		Session ses = sf.getCurrentSession();
 		ses.delete(r);
-
-		tx.commit();
-		HibernateUtil.closeSession();
+		
 	}
 
 }

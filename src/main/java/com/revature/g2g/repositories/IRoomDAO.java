@@ -20,4 +20,6 @@ public interface IRoomDAO {
 	public void update(Room r);
 	//Delete
 	public void delete(Room r);
+	Set<Room> findStatusPlayStyle(RoomStatus status, RoomPlayStyle style);
+	Room findRoomByDiscordVoice(Long discordVoiceId);
 }

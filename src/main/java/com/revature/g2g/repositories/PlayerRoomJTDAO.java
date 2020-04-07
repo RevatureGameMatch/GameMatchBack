@@ -1,12 +1,16 @@
 package com.revature.g2g.repositories;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Path;
+import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import org.hibernate.Session;
@@ -28,64 +32,56 @@ import com.revature.g2g.services.helpers.HibernateUtil;
 @Repository
 @Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
 public class PlayerRoomJTDAO implements IPlayerRoomJTDAO {
+	
 	@Autowired
 	private SessionFactory sf;
 
 	@Override
 	public void insert(PlayerRoomJT pr) {
-		Session ses = HibernateUtil.getSession();
-		Transaction tx = ses.beginTransaction();
-
-		ses.save(pr);
-
-		tx.commit();
-		HibernateUtil.closeSession();
+		
+		Session s = sf.getCurrentSession();
+		s.save(pr);
+		
 	}
 
 	@Override
 	public PlayerRoomJT findById(int id) {
-		Session ses = HibernateUtil.getSession();
-		Transaction tx = ses.beginTransaction();
 		
-		PlayerRoomJT room = ses.get(PlayerRoomJT.class, id);
+		Session s = sf.getCurrentSession();
+		return s.get(PlayerRoomJT.class, id);
 		
-		tx.commit();
-		HibernateUtil.closeSession();
-		return room;
 	}
 
 	@Override //double check with empty values in PlayerRoomJTDAO
 	public int countCurrentPlayers() {
-		Session ses = HibernateUtil.getSession();
-		Transaction tx = ses.beginTransaction();
+		
+		Session ses = sf.getCurrentSession();
 		
 		CriteriaBuilder builder = ses.getCriteriaBuilder();
 		CriteriaQuery <PlayerRoomJT> query = builder.createQuery(PlayerRoomJT.class);
 		CriteriaQuery <Long> subquery = builder.createQuery(Long.class);
 		
-		Root<PlayerRoomJT> root = query.from(PlayerRoomJT.class);
+		Root <PlayerRoomJT> root = query.from(PlayerRoomJT.class);
 		
-//		subquery.select(builder.count(root.get("left")));
+		
 		subquery.select(builder.count(subquery.from(PlayerRoomJT.class)));
 		subquery.where(builder.equal(root.get("left"), null));
 		
 		try {
 			
-			Query<Long> total = ses.createQuery(subquery);
+			TypedQuery<Long> total = ses.createQuery(subquery);
+			
+			//Query<Long> total = ses.createQuery(subquery);
 			Long number = total.getSingleResult();
 			
+			System.out.println("made it!");
 			return number.intValue();
 		
 		} catch (NullPointerException e) {
 			
 			return 0;
 			
-		} finally {
-			
-			tx.commit();
-			HibernateUtil.closeSession();
-			
-		}
+		} 
 	
 	}
 
@@ -215,24 +211,18 @@ public class PlayerRoomJTDAO implements IPlayerRoomJTDAO {
 
 	@Override
 	public void update(PlayerRoomJT pr) {
-		Session ses = HibernateUtil.getSession();
-		Transaction tx = ses.beginTransaction();
-
-		ses.update(pr);
-
-		tx.commit();
-		HibernateUtil.closeSession();
+		
+		Session s = sf.getCurrentSession();
+		s.update(pr);
+		
 	}
 
 	@Override
 	public void delete(PlayerRoomJT pr) {
-		Session ses = HibernateUtil.getSession();
-		Transaction tx = ses.beginTransaction();
-
-		ses.delete(pr);
-
-		tx.commit();
-		HibernateUtil.closeSession();
+		
+		Session s = sf.getCurrentSession();
+		s.delete(pr);
+		
 	}
 
 }

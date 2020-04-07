@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import com.revature.g2g.models.Skill;
 import com.revature.g2g.repositories.ISkillDAO;
-import com.revature.g2g.repositories.SkillDAO;
 
 @Service
 @Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
@@ -17,8 +16,6 @@ public class SkillHandler {
 	private ISkillDAO repository;
 	public SkillHandler() {
 		super();
-//		this.repository = (SkillDAO) ApplicationContextSingleton.getApplicationContext().getBean("skillDAO");
-		this.repository = new SkillDAO();
 	}
 	@Autowired
 	public SkillHandler(ISkillDAO repository) {

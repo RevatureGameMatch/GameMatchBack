@@ -14,12 +14,12 @@ public interface IRoomDAO {
 	public Set<Room> findAll();
 	public Set<Room> findByStatus(RoomStatus status);
 	public Set<Room> findByPlayStyle(RoomPlayStyle style);
+	public Set<Room> findStatusPlayStyle(RoomStatus status, RoomPlayStyle style);
+	public Room findRoomByDiscordVoice(Long discordVoiceId);
 	//Find rooms someone can log into
 	//public Set<Room> findBySkill(RoomStatus status, SkillPlayerJT[] skills);
 	//Update
 	public void update(Room r);
 	//Delete
 	public void delete(Room r);
-	Set<Room> findStatusPlayStyle(RoomStatus status, RoomPlayStyle style);
-	Room findRoomByDiscordVoice(Long discordVoiceId);
 }

@@ -22,7 +22,7 @@ public class PlayerCommand extends FrontCommand{
 			Player template = om.readValue(body,  Player.class);
 			Player usernameCheck = playerHandler.findByUsername(template.getPlayerUsername());
 			if(usernameCheck == null) {
-				template.setPlayerPassword(PasswordHelper.encryptPassword(template.getPlayerPassword()));
+//				template.setPlayerPassword(PasswordHelper.encryptPassword(template.getPlayerPassword()));
 				template.setPlayerRole(PlayerRole.PLAYER);
 				playerHandler.insert(template);
 				Player result = playerHandler.findByUsername(template.getPlayerUsername());
@@ -36,7 +36,7 @@ public class PlayerCommand extends FrontCommand{
 		}else {
 			res.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
 			String invalidMessage = "Invalid request of type: " + type + " to NewAccountCommand. Body: " + body;
-			LoggerSingleton.getAccessLog().warn(invalidMessage);
+//			LoggerSingleton.getAccessLog().warn(invalidMessage);
 		}
 	}
 

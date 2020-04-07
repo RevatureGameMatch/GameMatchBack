@@ -9,12 +9,12 @@ import com.lambdaworks.crypto.SCryptUtil;
 @Service
 @Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
 public class PasswordHelper {
-	private PasswordHelper() {
+	public PasswordHelper() {
 	}
-	public static String encryptPassword(String unencryptedPassword) {
+	public String encryptPassword(String unencryptedPassword) {
 		return SCryptUtil.scrypt(unencryptedPassword, 16384, 8, 1);
 	}
-	public static boolean checkPassword(String unencryptedPassword, String passwordHash) {
+	public boolean checkPassword(String unencryptedPassword, String passwordHash) {
 		return SCryptUtil.check(unencryptedPassword, passwordHash);
 	}
 }

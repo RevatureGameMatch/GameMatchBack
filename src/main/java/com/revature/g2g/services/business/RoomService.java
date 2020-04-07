@@ -2,6 +2,7 @@ package com.revature.g2g.services.business;
 
 import java.util.Date;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.revature.g2g.models.Room;
@@ -18,23 +19,33 @@ import net.dv8tion.jda.api.requests.restaction.ChannelAction;
 
 @Service
 public class RoomService {
-	private static RoomHandler roomHandler = new RoomHandler();
-	private static Guild guild = JDASingleton.getGuild();
-	private RoomService() {
+	@Autowired
+	private JDASingleton jDASingleton;
+	private RoomHandler roomHandler;
+	public RoomService() {
+		super();
 	}
-	public static Room make(String name) {
+	@Autowired
+	public RoomService(RoomHandler roomHandler) {
+		super();
+		this.roomHandler = roomHandler;
+	}
+	public RoomHandler getRoomHandler() {
+		return roomHandler;
+	}
+	public void setRoomHandler(RoomHandler roomHandler) {
+		this.roomHandler = roomHandler;
+	}
+	public Room make(String name) {
+		Guild guild = jDASingleton.getGuild();
 		Room room = new Room();
 		room.setCreated(new Date());
 		room.setStatus(RoomStatus.OPENED);
-//		CompletableFuture<VoiceChannel> voiceChannel = VoiceChannelHelper.create(guild, name, room);
-//		CompletableFuture<TextChannel> textChannel = TextChannelHelper.create(guild, name, room);
-//		CompletableFuture<Void> allReady = CompletableFuture.allOf(voiceChannel, textChannel);
-//		allReady.then
 		ChannelAction<VoiceChannel> voiceChannel = VoiceChannelHelper.create(guild, name);
 		ChannelAction<TextChannel> textChannel = TextChannelHelper.create(guild, name);
 		room.setDiscordVoiceChannelId(voiceChannel.complete().getIdLong());
 		room.setDiscordTextChannelId(textChannel.complete().getIdLong());
-		roomHandler.insert(room);
+		this.roomHandler.insert(room);
 		return room;
 	}
 }

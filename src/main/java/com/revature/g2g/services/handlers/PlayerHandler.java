@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import com.revature.g2g.models.Player;
 import com.revature.g2g.models.PlayerRole;
 import com.revature.g2g.repositories.IPlayerDAO;
-import com.revature.g2g.repositories.PlayerDAO;
 
 @Service
 @Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
@@ -18,8 +17,6 @@ public class PlayerHandler {
 	private IPlayerDAO repository;
 	public PlayerHandler() {
 		super();
-//		this.repository = (PlayerDAO) ApplicationContextSingleton.getApplicationContext().getBean("playerDAO");
-		this.repository = new PlayerDAO();
 	}
 	@Autowired
 	public PlayerHandler(IPlayerDAO repository) {

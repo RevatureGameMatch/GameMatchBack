@@ -2,6 +2,11 @@ package com.revature.g2g.data.generators;
 
 import java.util.Random;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Service;
+
 import com.revature.g2g.data.DataGenerator;
 import com.revature.g2g.models.Player;
 import com.revature.g2g.models.Skill;
@@ -10,17 +15,62 @@ import com.revature.g2g.services.handlers.PlayerHandler;
 import com.revature.g2g.services.handlers.SkillHandler;
 import com.revature.g2g.services.handlers.SkillPlayerJTHandler;
 
+@Service
+@Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
 public class SkillPlayerJTGenerator implements DataGenerator {
-	private SkillHandler skillHandler = new SkillHandler();
-	private PlayerHandler playerHandler = new PlayerHandler();
-	private SkillPlayerJTHandler skillPlayerJTHandler = new SkillPlayerJTHandler();
-	private String[] skillNames = new String[] {"Participation", "Communicator", "Listner", "Coach", "Empower Team Decisions", "Interest in others Success", "Productive", "Fun to Play With", "Good at Game", "Strategic", "Roleplay"};
-
+	private SkillHandler skillHandler;
+	private PlayerHandler playerHandler;
+	private SkillPlayerJTHandler skillPlayerJTHandler;
+	private String[] skillNames;
+	public SkillPlayerJTGenerator() {
+		super();
+	}
 	@Override
 	public void generate() {
 		make(playerHandler.findByUsername("Kayla"));
 		make(playerHandler.findByUsername("Nancy"));
 		make(playerHandler.findByUsername("Philip"));
+	}
+	@Autowired
+	public SkillPlayerJTGenerator(SkillHandler skillHandler, PlayerHandler playerHandler,
+			SkillPlayerJTHandler skillPlayerJTHandler) {
+		super();
+		this.skillHandler = skillHandler;
+		this.playerHandler = playerHandler;
+		this.skillPlayerJTHandler = skillPlayerJTHandler;
+		this.skillNames = new String[] {"Participation", "Communicator", "Listner", "Coach", "Empower Team Decisions", "Interest in others Success", "Productive", "Fun to Play With", "Good at Game", "Strategic", "Roleplay"};
+	}
+	public SkillPlayerJTGenerator(SkillHandler skillHandler, PlayerHandler playerHandler,
+			SkillPlayerJTHandler skillPlayerJTHandler, String[] skillNames) {
+		super();
+		this.skillHandler = skillHandler;
+		this.playerHandler = playerHandler;
+		this.skillPlayerJTHandler = skillPlayerJTHandler;
+		this.skillNames = skillNames;
+	}
+	public SkillHandler getSkillHandler() {
+		return skillHandler;
+	}
+	public void setSkillHandler(SkillHandler skillHandler) {
+		this.skillHandler = skillHandler;
+	}
+	public PlayerHandler getPlayerHandler() {
+		return playerHandler;
+	}
+	public void setPlayerHandler(PlayerHandler playerHandler) {
+		this.playerHandler = playerHandler;
+	}
+	public SkillPlayerJTHandler getSkillPlayerJTHandler() {
+		return skillPlayerJTHandler;
+	}
+	public void setSkillPlayerJTHandler(SkillPlayerJTHandler skillPlayerJTHandler) {
+		this.skillPlayerJTHandler = skillPlayerJTHandler;
+	}
+	public String[] getSkillNames() {
+		return skillNames;
+	}
+	public void setSkillNames(String[] skillNames) {
+		this.skillNames = skillNames;
 	}
 	private void make(Player player){
 		if(player != null) {

@@ -3,6 +3,11 @@ package com.revature.g2g.data.generators;
 import java.util.Random;
 import java.util.Set;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Service;
+
 import com.revature.g2g.data.DataGenerator;
 import com.revature.g2g.models.Room;
 import com.revature.g2g.models.RoomStatus;
@@ -12,12 +17,33 @@ import com.revature.g2g.services.handlers.RoomHandler;
 import com.revature.g2g.services.handlers.SkillHandler;
 import com.revature.g2g.services.handlers.SkillRoomJTHandler;
 
+@Service
+@Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
 public class SkillRoomJTGenerator implements DataGenerator{
-	private static SkillHandler skillHandler = new SkillHandler();
-	private static RoomHandler roomHandler = new RoomHandler();
-	private static SkillRoomJTHandler skillRoomJTHandler = new SkillRoomJTHandler();
-	private static Set<Skill> skills = skillHandler.findAll();
-
+	private SkillHandler skillHandler;
+	private RoomHandler roomHandler;
+	private SkillRoomJTHandler skillRoomJTHandler;
+	private Set<Skill> skills;
+	public SkillRoomJTGenerator() {
+		super();
+	}
+	@Autowired
+	public SkillRoomJTGenerator(SkillHandler skillHandler, RoomHandler roomHandler,
+			SkillRoomJTHandler skillRoomJTHandler) {
+		super();
+		this.skillHandler = skillHandler;
+		this.roomHandler = roomHandler;
+		this.skillRoomJTHandler = skillRoomJTHandler;
+		this.skills = skillHandler.findAll();
+	}
+	public SkillRoomJTGenerator(SkillHandler skillHandler, RoomHandler roomHandler,
+			SkillRoomJTHandler skillRoomJTHandler, Set<Skill> skills) {
+		super();
+		this.skillHandler = skillHandler;
+		this.roomHandler = roomHandler;
+		this.skillRoomJTHandler = skillRoomJTHandler;
+		this.skills = skills;
+	}
 	@Override
 	public void generate() {
 		Set<Room> rooms = roomHandler.findByStatus(RoomStatus.OPENED);

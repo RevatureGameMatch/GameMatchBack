@@ -19,7 +19,7 @@ public class PlayerLoginCommand extends FrontCommand {
 		if (type.equals("POST")) {
 			Player player = om.readValue(body,  Player.class);
 			try {
-				player = LoginService.login(player.getPlayerUsername(), player.getPlayerPassword());
+//				player = LoginService.login(player.getPlayerUsername(), player.getPlayerPassword());
 				if(player != null) {
 					player.setPlayerPassword("****");
 					res.setStatus(HttpServletResponse.SC_ACCEPTED);
@@ -27,19 +27,19 @@ public class PlayerLoginCommand extends FrontCommand {
 				}
 			}catch(PasswordMatchFailed e) {
 				String invalidPasswordMessage = "INVALID PASSWORD login fail: " + player.getPlayerUsername();
-				LoggerSingleton.getAccessLog().warn(invalidPasswordMessage);
+//				LoggerSingleton.getAccessLog().warn(invalidPasswordMessage);
 				res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 				out.println("{\"error\":\"User login failed\"}");
 			}catch(UserNotFound e) {
 				String invalidUsername = "USER NOT FOUND login fail: " + player.getPlayerUsername();
-				LoggerSingleton.getAccessLog().warn(invalidUsername);
+//				LoggerSingleton.getAccessLog().warn(invalidUsername);
 				res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 				out.println("{\"error\":\"User login failed\"}");
 			}
 		}else {
 			res.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
 			String invalidMessage = "Invalid request of type: " + type + " to NewAccountCommand. Body: " + body;
-			LoggerSingleton.getAccessLog().warn(invalidMessage);
+//			LoggerSingleton.getAccessLog().warn(invalidMessage);
 		}
 	}
 

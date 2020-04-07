@@ -13,7 +13,7 @@ public class HelloCommand extends FrontCommand {
 	@Override
 	public void process() throws ServletException, IOException {
 		if (type.equals("GET")) {
-			LoggerSingleton.getBusinessLog().trace("HelloCommand: Hello World requested.");
+//			LoggerSingleton.getBusinessLog().trace("HelloCommand: Hello World requested.");
 			PrintWriter out = res.getWriter();
 			out.println("{\"message\":\"Hello World\"}");
 		}else {

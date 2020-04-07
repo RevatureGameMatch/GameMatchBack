@@ -36,7 +36,7 @@ public class PlayerRoomJT implements Serializable{
 	@Column(name = "joined")
 	private Date joined;
 	
-	@Column(name = "left")
+	@Column(name = "left_room")
 	private Date left;
 
 	public PlayerRoomJT() {

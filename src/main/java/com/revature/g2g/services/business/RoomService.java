@@ -1,5 +1,6 @@
 package com.revature.g2g.services.business;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import com.revature.g2g.services.jda.helpers.RoleHelper;
 import com.revature.g2g.services.jda.helpers.TextChannelHelper;
 import com.revature.g2g.services.jda.helpers.VoiceChannelHelper;
 
+import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.TextChannel;
@@ -48,6 +50,7 @@ public class RoomService {
 		ChannelAction<VoiceChannel> voiceChannel = VoiceChannelHelper.insert(guild, name);
 		ChannelAction<TextChannel> textChannel = TextChannelHelper.insert(guild, name);
 		Role role = RoleHelper.insert(guild, name);
+//		voiceChannel.addPermissionOverride(guild.getPublicRole(), new ArrayList<Permission> (Permission.VIEW_CHANNEL, Permission.VOICE_CONNECT, Permission.VOICE_SPEAK, Permission.VOICE_USE_VAD, Permission.VOICE_STREAM), new ArrayList<Permission> ());
 		room.setDiscordVoiceChannelId(voiceChannel.complete().getIdLong());
 		room.setDiscordTextChannelId(textChannel.complete().getIdLong());
 		room.setDiscordRoleId(role.getIdLong());

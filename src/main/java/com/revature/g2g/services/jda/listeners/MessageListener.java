@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.revature.g2g.models.RoomPlayStyle;
 import com.revature.g2g.services.business.RoomService;
+import com.revature.g2g.services.helpers.DiscordHelper;
 import com.revature.g2g.services.helpers.LoggerSingleton;
 
 import net.dv8tion.jda.api.entities.ChannelType;
@@ -22,6 +23,8 @@ public class MessageListener extends ListenerAdapter{
 	private LoggerSingleton loggerSingleton;
 	@Autowired
 	private RoomService roomService;
+	@Autowired
+	private DiscordHelper discordHelper;
 	@Override
 	public void onMessageReceived(MessageReceivedEvent event) {
 		if(event.isFromType(ChannelType.PRIVATE)) {
@@ -50,14 +53,18 @@ public class MessageListener extends ListenerAdapter{
 	}
 	private void newChannel(MessageReceivedEvent event) {
 		String qualifiedUsername = (event.getAuthor().getName() + "#" + event.getAuthor().getDiscriminator());
-		System.out.println(qualifiedUsername);
-		if(! (qualifiedUsername.equals("ProNobis#7047")||qualifiedUsername.equals("kfilio#6124")||qualifiedUsername.equals("shotofthewritten#5186")))
-		try {
-			String msg = event.getMessage().getContentRaw();
-			String name = msg.substring(msg.indexOf(' '));
-			roomService.make(name, RoomPlayStyle.CASUAL);
-		}catch (Exception e) {
-			loggerSingleton.getExceptionLogger().warn("Exception from chat creating new voice channel: ", e);
+		if(discordHelper.adminCheck(qualifiedUsername)) {
+			try {
+				String msg = event.getMessage().getContentRaw();
+				String name = msg.substring(msg.indexOf(' '));
+				roomService.make(name, RoomPlayStyle.CASUAL);
+			}catch (Exception e) {
+				loggerSingleton.getExceptionLogger().warn("Exception from chat creating new voice channel: ", e);
+			}
+		}else {
+			MessageChannel channel = event.getChannel();
+			channel.sendMessage("That command is for Admins only!")
+				.queue();
 		}
 	}
 }

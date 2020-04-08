@@ -78,7 +78,12 @@ public class Player implements Serializable {
 		this.playerUsername = Jsoup.clean(template.getPlayerUsername(), Whitelist.none());
 		this.playerEmail = Jsoup.clean(template.getPlayerEmail(), Whitelist.none());
 		this.playerPassword = Jsoup.clean(template.getPlayerPassword(), Whitelist.none());
-		this.playerRole = template.getPlayerRole();
+		try {
+			PlayerRole role = PlayerRole.valueOf(PlayerRole.class, template.getPlayerRole().toString());
+			this.playerRole = role;
+		}catch ( IllegalArgumentException e ) {
+			this.playerRole = PlayerRole.PLAYER;
+		}
 	}
 	public int getPlayerId() {
 		return playerId;

@@ -53,11 +53,8 @@ public class JDASingleton {
 	}
 	public Guild getGuild() {
 		if(!ready) {
-			try {
-				jda.awaitReady();
-			} catch (InterruptedException e) {
-				loggerSingleton.getExceptionLogger().warn("Waiting for JDA to be ready was interrupted: ", e);
-			}
+			loggerSingleton.getExceptionLogger().warn("JDA not ready when guild called");
+			return null;
 		}
 		if(guild == null) {
 			List<Guild> guilds = jda.getGuilds();

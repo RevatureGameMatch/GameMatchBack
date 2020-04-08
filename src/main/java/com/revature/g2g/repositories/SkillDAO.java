@@ -77,8 +77,7 @@ public class SkillDAO implements ISkillDAO {
 		CriteriaBuilder builder = ses.getCriteriaBuilder();
 		CriteriaQuery<Skill> query = builder.createQuery(Skill.class);
 		
-		Root<Skill> root = query.from(Skill.class);
-		query.select(root);
+		query.from(Skill.class);
 		
 		Query<Skill> skill = ses.createQuery(query);
 		

@@ -73,6 +73,8 @@ public class SkillRoomJTDAO implements ISkillRoomJTDAO {
 		CriteriaBuilder builder = ses.getCriteriaBuilder();
 		CriteriaQuery<SkillRoomJT> query = builder.createQuery(SkillRoomJT.class);
 		
+		query.from(SkillRoomJT.class);
+		
 		Query<SkillRoomJT> sr = ses.createQuery(query);
 		
 		try {

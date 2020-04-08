@@ -81,6 +81,8 @@ public class RoomDAO implements IRoomDAO {
 		CriteriaBuilder builder = ses.getCriteriaBuilder();
 		CriteriaQuery<Room> query = builder.createQuery(Room.class);
 		
+		query.from(Room.class);
+		
 		Query<Room> room = ses.createQuery(query);
 		
 		try {

@@ -14,6 +14,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.jsoup.Jsoup;
+import org.jsoup.safety.Whitelist;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -73,9 +75,9 @@ public class Player implements Serializable {
 	public Player(PlayerTemplate template) {
 		super();
 		this.playerId = template.getPlayerId();
-		this.playerUsername = template.getPlayerUsername();
-		this.playerEmail = template.getPlayerEmail();
-		this.playerPassword = template.getPlayerPassword();
+		this.playerUsername = Jsoup.clean(template.getPlayerUsername(), Whitelist.none());
+		this.playerEmail = Jsoup.clean(template.getPlayerEmail(), Whitelist.none());
+		this.playerPassword = Jsoup.clean(template.getPlayerPassword(), Whitelist.none());
 		this.playerRole = template.getPlayerRole();
 	}
 	public int getPlayerId() {

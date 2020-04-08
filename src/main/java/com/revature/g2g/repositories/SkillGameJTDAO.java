@@ -14,7 +14,6 @@ import javax.persistence.criteria.Root;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
@@ -25,7 +24,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.revature.g2g.models.Game;
 import com.revature.g2g.models.Skill;
 import com.revature.g2g.models.SkillGameJT;
-import com.revature.g2g.services.helpers.HibernateUtil;
 
 @Transactional
 @Repository
@@ -36,56 +34,49 @@ public class SkillGameJTDAO implements ISkillGameJTDAO {
 
 	@Override
 	public void insert(SkillGameJT sg) {
-		Session ses = HibernateUtil.getSession();
-		Transaction tx = ses.beginTransaction();
 		
+		Session ses = sf.getCurrentSession();
 		ses.save(sg);
-		
-		tx.commit();
-		HibernateUtil.closeSession();
+	
 	}
 
 	@Override
 	public SkillGameJT findById(int id) {
-		Session ses = HibernateUtil.getSession();
-		Transaction tx = ses.beginTransaction();
 		
-		SkillGameJT sg = ses.get(SkillGameJT.class, id);
+		Session ses = sf.getCurrentSession();	
+		return ses.get(SkillGameJT.class, id);
 		
-		tx.commit();
-		HibernateUtil.closeSession();
-		
-		return sg;
 	}
 
 	@Override
 	public Set<SkillGameJT> findAll() {
-		Set<SkillGameJT> set = null;
-		
-		Session ses = HibernateUtil.getSession();
-		Transaction tx = ses.beginTransaction();
+	
+		Session ses = sf.getCurrentSession();
 		
 		CriteriaBuilder builder = ses.getCriteriaBuilder();
 		CriteriaQuery<SkillGameJT> query = builder.createQuery(SkillGameJT.class);
 		
 		Query<SkillGameJT> sg = ses.createQuery(query);
 		
-		set = sg.getResultStream()
-				.collect(Collectors.toSet());
-		
-		tx.commit();
-		HibernateUtil.closeSession();
-		
-		return set;
+		try {
+			
+			return sg.getResultStream()
+					.collect(Collectors.toSet());
+			
+		} catch (javax.persistence.NoResultException e) {
+			
+			return Collections.emptySet();
+			
+		}
 
 	}
 
 	@Override
 	public Set<Game> findBySkill(Skill skill) {
+		
 		Set<Game> set = new HashSet<>();
 		
-		Session ses = HibernateUtil.getSession();
-		Transaction tx = ses.beginTransaction();
+		Session ses = sf.getCurrentSession();
 		
 		CriteriaBuilder builder = ses.getCriteriaBuilder();
 		CriteriaQuery<SkillGameJT> query = builder.createQuery(SkillGameJT.class);
@@ -96,27 +87,25 @@ public class SkillGameJTDAO implements ISkillGameJTDAO {
 		
 		Query<SkillGameJT> sg = ses.createQuery(query);
 		
-		List<SkillGameJT> list = sg.getResultList();
-		
-		if(!list.isEmpty()) {
+		try {
 			
-			for (int i = 0; i < list.size(); i++) {
+			List<SkillGameJT> list = sg.getResultList();
+			
+			if(!list.isEmpty()) {
 				
-				SkillGameJT sgJT = list.get(i);
-				Game game = sgJT.getGame();
+				for (int i = 0; i < list.size(); i++) {
+					
+					SkillGameJT sgJT = list.get(i);
+					Game game = sgJT.getGame();
+					
+					set.add(game);	
+				}
 				
-				set.add(game);	
 			}
-			
-			tx.commit();
-			HibernateUtil.closeSession();
 			
 			return set;
 			
-		} else {
-			
-			tx.commit();
-			HibernateUtil.closeSession();
+		} catch (javax.persistence.NoResultException e) {
 			
 			return Collections.emptySet();
 			
@@ -126,8 +115,8 @@ public class SkillGameJTDAO implements ISkillGameJTDAO {
 
 	@Override
 	public Skill findTopSkill(Game game) {
-		Session ses = HibernateUtil.getSession();
-		Transaction tx = ses.beginTransaction();
+		
+		Session ses = sf.getCurrentSession();
 		
 		CriteriaBuilder builder = ses.getCriteriaBuilder();
 		CriteriaQuery<SkillGameJT> query = builder.createQuery(SkillGameJT.class);
@@ -139,30 +128,25 @@ public class SkillGameJTDAO implements ISkillGameJTDAO {
 		
 		Query<SkillGameJT> sg = ses.createQuery(query);
 		
-		List<SkillGameJT> list = sg.getResultList();
-		
-		if (!list.isEmpty()) {
+		try {
 			
-			tx.commit();
-			HibernateUtil.closeSession();
-			
+			List<SkillGameJT> list = sg.getResultList();
 			return list.get(0).getSkill();
 			
-		} else {
-			
-			tx.commit();
-			HibernateUtil.closeSession();
+		} catch (javax.persistence.NoResultException e) {
 			
 			return null;
+			
 		}
+		
 	}
 
 	@Override
 	public Set<Skill> findByGame(Game game) {
+		
 		Set<Skill> set = new HashSet<>();
 		
-		Session ses = HibernateUtil.getSession();
-		Transaction tx = ses.beginTransaction();
+		Session ses = sf.getCurrentSession();
 		
 		CriteriaBuilder builder = ses.getCriteriaBuilder();
 		CriteriaQuery<SkillGameJT> query = builder.createQuery(SkillGameJT.class);
@@ -173,9 +157,9 @@ public class SkillGameJTDAO implements ISkillGameJTDAO {
 		
 		Query<SkillGameJT> sg = ses.createQuery(query);
 		
-		List<SkillGameJT> list = sg.getResultList();
-		
-		if(!list.isEmpty()) {
+		try {
+			
+			List<SkillGameJT> list = sg.getResultList();
 			
 			for (int i = 0; i < list.size(); i++) {
 				
@@ -185,27 +169,21 @@ public class SkillGameJTDAO implements ISkillGameJTDAO {
 				set.add(skill);	
 			}
 			
-			tx.commit();
-			HibernateUtil.closeSession();
-			
 			return set;
 			
-		} else {
-			
-			tx.commit();
-			HibernateUtil.closeSession();
+		} catch (javax.persistence.NoResultException e) {
 			
 			return Collections.emptySet();
 			
 		}
+		
 	}
 	
 	@Override
 	public SkillGameJT findBySkillGame(Skill skill, Game game) {
 		Set<SkillGameJT> set = null;
 		
-		Session ses = HibernateUtil.getSession();
-		Transaction tx = ses.beginTransaction();
+		Session ses = sf.getCurrentSession();
 		
 		CriteriaBuilder builder = ses.getCriteriaBuilder();
 		CriteriaQuery<SkillGameJT> query = builder.createQuery(SkillGameJT.class);
@@ -222,63 +200,39 @@ public class SkillGameJTDAO implements ISkillGameJTDAO {
 		
 		Query<SkillGameJT> sg = ses.createQuery(query);
 		
-		set = sg.getResultStream()
-				.collect(Collectors.toSet());
-		
-		if(set.size() == 1) {
+		try {
 			
-			SkillGameJT sgJT = sg.getSingleResult();
+			set = sg.getResultStream()
+					.collect(Collectors.toSet());
 			
-			tx.commit();
-			HibernateUtil.closeSession();
+			if(set.size() == 1) {
+				return sg.getSingleResult();
+			} else {
+				return set.iterator().next();
+			}
 			
-			return sgJT;
-			
-			
-		}
-		
-		if(set.size() > 1) {
-			
-			SkillGameJT sgJT = set.iterator().next();
-			
-			tx.commit();
-			HibernateUtil.closeSession();
-			
-			return sgJT;
-		
-		}
-		
-		else {
-			
-			tx.commit();
-			HibernateUtil.closeSession();
+		} catch (javax.persistence.NoResultException e) {
 			
 			return null;
-	
+			
 		}
 		
 	}
 
 	@Override
 	public void update(SkillGameJT sg) {
-		Session ses = HibernateUtil.getSession();
-		Transaction tx = ses.beginTransaction();
 		
+		Session ses = sf.getCurrentSession();
 		ses.update(sg);
 		
-		tx.commit();
-		HibernateUtil.closeSession();
 	}
 
 	@Override
 	public void delete(SkillGameJT sg) {
-		Session ses = HibernateUtil.getSession();
-		Transaction tx = ses.beginTransaction();
 		
+		Session ses = sf.getCurrentSession();
 		ses.delete(sg);
 		
-		tx.commit();
-		HibernateUtil.closeSession();
 	}
 
 }

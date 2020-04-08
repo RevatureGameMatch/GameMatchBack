@@ -10,7 +10,6 @@ import javax.persistence.criteria.Root;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
@@ -19,7 +18,6 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.revature.g2g.models.Skill;
-import com.revature.g2g.services.helpers.HibernateUtil;
 
 @Transactional
 @Repository
@@ -30,32 +28,25 @@ public class SkillDAO implements ISkillDAO {
 
 	@Override
 	public void insert(Skill s) {
-		Session ses = HibernateUtil.getSession();
-		Transaction tx = ses.beginTransaction();
-
+		
+		Session ses = sf.getCurrentSession();
 		ses.save(s);
-
-		tx.commit();
-		HibernateUtil.closeSession();
+		
 	}
 
 	@Override
 	public Skill findById(int id) {
-		Session ses = HibernateUtil.getSession();
-		Transaction tx = ses.beginTransaction();
-
-		Skill skill = ses.get(Skill.class, id);
-
-		tx.commit();
-		HibernateUtil.closeSession();
 		
-		return skill;
+		Session ses = sf.getCurrentSession();
+		
+		return ses.get(Skill.class, id);
+		
 	}
 
 	@Override
 	public Skill findByName(String name) {
-		Session ses = HibernateUtil.getSession();
-		Transaction tx = ses.beginTransaction();
+		
+		Session ses = sf.getCurrentSession();
 		
 		CriteriaBuilder builder = ses.getCriteriaBuilder();
 		CriteriaQuery<Skill> query = builder.createQuery(Skill.class);
@@ -74,20 +65,14 @@ public class SkillDAO implements ISkillDAO {
 			
 			return null;	
 			
-		} finally {
-			
-			tx.commit();
-			HibernateUtil.closeSession();
-			
 		}
+		
 	}
 
 	@Override
 	public Set<Skill> findAll() {
-		Set<Skill> set = null;
 		
-		Session ses = HibernateUtil.getSession();
-		Transaction tx = ses.beginTransaction();
+		Session ses = sf.getCurrentSession();
 		
 		CriteriaBuilder builder = ses.getCriteriaBuilder();
 		CriteriaQuery<Skill> query = builder.createQuery(Skill.class);
@@ -97,22 +82,22 @@ public class SkillDAO implements ISkillDAO {
 		
 		Query<Skill> skill = ses.createQuery(query);
 		
-		
-		set = skill.getResultStream()
-				.collect(Collectors.toSet());
-		
-		tx.commit();
-		HibernateUtil.closeSession();
-		
-		return set;
+		try {
+			
+			return skill.getResultStream()
+					.collect(Collectors.toSet());
+			
+		} catch (javax.persistence.NoResultException e) {
+			
+			return Collections.emptySet();
+			
+		}
 	}
 
 	@Override
 	public Set<Skill> findByParent(Skill skill) {
-		Set<Skill> set = null;
 		
-		Session ses = HibernateUtil.getSession();
-		Transaction tx = ses.beginTransaction();
+		Session ses = sf.getCurrentSession();
 		
 		CriteriaBuilder builder = ses.getCriteriaBuilder();
 		CriteriaQuery<Skill> query = builder.createQuery(Skill.class);
@@ -125,43 +110,31 @@ public class SkillDAO implements ISkillDAO {
 		
 		try {
 			
-			set = s.getResultStream()
+			return s.getResultStream()
 					.collect(Collectors.toSet());
-			return set;
 			
 		} catch (javax.persistence.NoResultException e) {
 			
 			return Collections.emptySet();
 			
-		} finally {
-			
-			tx.commit();
-			HibernateUtil.closeSession();
-			
-		}
+		} 
 			
 	}
 
 	@Override
 	public void update(Skill s) {
-		Session ses = HibernateUtil.getSession();
-		Transaction tx = ses.beginTransaction();
-
+		
+		Session ses = sf.getCurrentSession();
 		ses.update(s);
-
-		tx.commit();
-		HibernateUtil.closeSession();
+		
 	}
 
 	@Override
 	public void delete(Skill s) {
-		Session ses = HibernateUtil.getSession();
-		Transaction tx = ses.beginTransaction();
-
+		
+		Session ses = sf.getCurrentSession();
 		ses.delete(s);
-
-		tx.commit();
-		HibernateUtil.closeSession();
+		
 	}
 
 }

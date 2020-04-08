@@ -1,5 +1,6 @@
 package com.revature.g2g.repositories;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -13,7 +14,6 @@ import javax.persistence.criteria.Root;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
@@ -24,7 +24,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.revature.g2g.models.Player;
 import com.revature.g2g.models.Skill;
 import com.revature.g2g.models.SkillPlayerJT;
-import com.revature.g2g.services.helpers.HibernateUtil;
 
 @Transactional
 @Repository
@@ -35,32 +34,24 @@ public class SkillPlayerJTDAO implements ISkillPlayerJTDAO{
 
 	@Override
 	public void insert(SkillPlayerJT sp) {
-		Session ses = HibernateUtil.getSession();
-		Transaction tx = ses.beginTransaction();
 		
+		Session ses = sf.getCurrentSession();
 		ses.save(sp);
-		
-		tx.commit();
-		HibernateUtil.closeSession();
+	
 	}
 
 	@Override
 	public SkillPlayerJT findById(int id) {
-		Session ses = HibernateUtil.getSession();
-		Transaction tx = ses.beginTransaction();
 		
-		SkillPlayerJT sp = ses.get(SkillPlayerJT.class, id);
+		Session ses = sf.getCurrentSession();
+		return ses.get(SkillPlayerJT.class, id);
 		
-		tx.commit();
-		HibernateUtil.closeSession();
-		
-		return sp;
 	}
 
 	@Override
 	public double findValue(Player player, Skill skill) {
-		Session ses = HibernateUtil.getSession();
-		Transaction tx = ses.beginTransaction();
+		
+		Session ses = sf.getCurrentSession();
 		
 		CriteriaBuilder builder = ses.getCriteriaBuilder();
 		CriteriaQuery <SkillPlayerJT> query = builder.createQuery(SkillPlayerJT.class);
@@ -86,42 +77,36 @@ public class SkillPlayerJTDAO implements ISkillPlayerJTDAO{
 			
 			return -1d;
 			
-		} finally {
-			
-			tx.commit();
-			HibernateUtil.closeSession();
-			
-		}
+		} 
 		
 	}
 
 	@Override
 	public Set<SkillPlayerJT> findAll() {
-		Set<SkillPlayerJT> set = null;
 		
-		Session ses = HibernateUtil.getSession();
-		Transaction tx = ses.beginTransaction();
+		Session ses = sf.getCurrentSession();
 		
 		CriteriaBuilder builder = ses.getCriteriaBuilder();
 		CriteriaQuery<SkillPlayerJT> query = builder.createQuery(SkillPlayerJT.class);
 		
 		Query<SkillPlayerJT> sp = ses.createQuery(query);
 		
-		set = sp.getResultStream()
-				.collect(Collectors.toSet());
-		
-		tx.commit();
-		HibernateUtil.closeSession();
-		
-		return set;
+		try {
+			
+			return sp.getResultStream()
+					.collect(Collectors.toSet());
+			
+		} catch (javax.persistence.NoResultException e) {
+			
+			return Collections.emptySet();
+			
+		}
 	}
 
 	@Override
 	public Set<SkillPlayerJT> findBySkill(Skill skill) {
-		Set<SkillPlayerJT> set = null;
-		
-		Session ses = HibernateUtil.getSession();
-		Transaction tx = ses.beginTransaction();
+	
+		Session ses = sf.getCurrentSession();
 		
 		CriteriaBuilder builder = ses.getCriteriaBuilder();
 		CriteriaQuery<SkillPlayerJT> query = builder.createQuery(SkillPlayerJT.class);
@@ -132,21 +117,23 @@ public class SkillPlayerJTDAO implements ISkillPlayerJTDAO{
 		
 		Query<SkillPlayerJT> sp = ses.createQuery(query);
 		
-		set = sp.getResultStream()
-				.collect(Collectors.toSet());
-		
-		tx.commit();
-		HibernateUtil.closeSession();
-		
-		return set;
+		try {
+			
+			return sp.getResultStream()
+					.collect(Collectors.toSet());
+			
+		} catch (javax.persistence.NoResultException e) {
+			
+			return Collections.emptySet();
+			
+		}
 	}
 	
 	@Override
 	public Set<Skill> findPlayerSkills(Player player) {
 		Set<Skill> set = new HashSet<>();
 		
-		Session ses = HibernateUtil.getSession();
-		Transaction tx = ses.beginTransaction();
+		Session ses = sf.getCurrentSession();
 		
 		CriteriaBuilder builder = ses.getCriteriaBuilder();
 		CriteriaQuery<SkillPlayerJT> query = builder.createQuery(SkillPlayerJT.class);
@@ -157,21 +144,27 @@ public class SkillPlayerJTDAO implements ISkillPlayerJTDAO{
 		
 		Query<SkillPlayerJT> sp = ses.createQuery(query);
 		
-		List<SkillPlayerJT> list = sp.getResultList();
-		
-		for (int i = 0; i < list.size(); i++) {
+		try {
 			
-			SkillPlayerJT spJT = list.get(i);
+			List<SkillPlayerJT> list = sp.getResultList();
 			
-			Skill skill = spJT.getSkill();
-			
-			set.add(skill);
+			for (int i = 0; i < list.size(); i++) {
 				
-		}
+				SkillPlayerJT spJT = list.get(i);
+				
+				Skill skill = spJT.getSkill();
+				
+				set.add(skill);
+					
+			}
 		
-		tx.commit();
-		HibernateUtil.closeSession();
-		return set;
+			return set;
+			
+		} catch (javax.persistence.NoResultException e) {
+			
+			return Collections.emptySet();
+			
+		}
 		
 	}
 
@@ -179,8 +172,7 @@ public class SkillPlayerJTDAO implements ISkillPlayerJTDAO{
 	public SkillPlayerJT findBySkillPlayer(Skill skill, Player player) {
 		Set<SkillPlayerJT> set = null;
 		
-		Session ses = HibernateUtil.getSession();
-		Transaction tx = ses.beginTransaction();
+		Session ses = sf.getCurrentSession();
 		
 		CriteriaBuilder builder = ses.getCriteriaBuilder();
 		CriteriaQuery<SkillPlayerJT> query = builder.createQuery(SkillPlayerJT.class);
@@ -197,62 +189,40 @@ public class SkillPlayerJTDAO implements ISkillPlayerJTDAO{
 		
 		Query<SkillPlayerJT> sg = ses.createQuery(query);
 		
-		set = sg.getResultStream()
-				.collect(Collectors.toSet());
+		try {
+			set = sg.getResultStream()
+					.collect(Collectors.toSet());
+			
+			if(set.size() == 1) {
+				return sg.getSingleResult();
+			}
+			
+			else{	
+				return set.iterator().next();
+			}
+		} catch (javax.persistence.NoResultException e) {
 		
-		if(set.size() == 1) {
-			
-			SkillPlayerJT spJT = sg.getSingleResult();
-			
-			tx.commit();
-			HibernateUtil.closeSession();
-			
-			return spJT;
-			
-		}
-		
-		if(set.size() > 1) {
-			
-			SkillPlayerJT spJT = set.iterator().next();
-			
-			tx.commit();
-			HibernateUtil.closeSession();
-			
-			return spJT;
-		
-		}
-		
-		else {
-			
-			tx.commit();
-			HibernateUtil.closeSession();
-			
 			return null;
-	
+			
 		}
+		
 	}
 	
 	
 	@Override
 	public void update(SkillPlayerJT sp) {
-		Session ses = HibernateUtil.getSession();
-		Transaction tx = ses.beginTransaction();
 		
+		Session ses = sf.getCurrentSession();
 		ses.update(sp);
 		
-		tx.commit();
-		HibernateUtil.closeSession();
 	}
 
 	@Override
 	public void delete(SkillPlayerJT sp) {
-		Session ses = HibernateUtil.getSession();
-		Transaction tx = ses.beginTransaction();
 		
+		Session ses = sf.getCurrentSession();
 		ses.delete(sp);
 		
-		tx.commit();
-		HibernateUtil.closeSession();
 	}
 
 }

@@ -8,9 +8,9 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import com.revature.g2g.models.Room;
+import com.revature.g2g.models.RoomPlayStyle;
 import com.revature.g2g.models.RoomStatus;
 import com.revature.g2g.repositories.IRoomDAO;
-import com.revature.g2g.repositories.RoomDAO;
 
 @Service
 @Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
@@ -19,7 +19,7 @@ public class RoomHandler {
 	public RoomHandler() {
 		super();
 //		this.repository = (RoomDAO) ApplicationContextSingleton.getApplicationContext().getBean("roomDAO");
-		this.repository = new RoomDAO();
+//		this.repository = new RoomDAO();
 	}
 	@Autowired
 	public RoomHandler(IRoomDAO repository) {
@@ -37,6 +37,15 @@ public class RoomHandler {
 	}
 	public Set<Room> findByStatus(RoomStatus status){
 		return this.repository.findByStatus(status);
+	}
+	public Set<Room> findByPlayStyle(RoomPlayStyle style){
+		return this.repository.findByPlayStyle(style);
+	}
+	public Set<Room> findStatusPlayStyle(RoomStatus status, RoomPlayStyle style){
+		return this.repository.findStatusPlayStyle(status, style);
+	}
+	public Room findRoomByDiscordVoice(Long discordVoiceId) {
+		return this.repository.findRoomByDiscordVoice(discordVoiceId);
 	}
 //	public Set<Room> findBySkill(RoomStatus status, SkillPlayerJT[] skills){
 //		return this.repository.findBySkill(status, skills);

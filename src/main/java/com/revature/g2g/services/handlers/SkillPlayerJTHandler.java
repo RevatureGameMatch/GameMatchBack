@@ -11,7 +11,6 @@ import com.revature.g2g.models.Player;
 import com.revature.g2g.models.Skill;
 import com.revature.g2g.models.SkillPlayerJT;
 import com.revature.g2g.repositories.ISkillPlayerJTDAO;
-import com.revature.g2g.repositories.SkillPlayerJTDAO;
 
 @Service
 @Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
@@ -19,7 +18,6 @@ public class SkillPlayerJTHandler {
 	private ISkillPlayerJTDAO repository;
 	public SkillPlayerJTHandler() {
 		super();
-		this.repository = new SkillPlayerJTDAO();
 	}
 	@Autowired
 	public SkillPlayerJTHandler(ISkillPlayerJTDAO repository) {

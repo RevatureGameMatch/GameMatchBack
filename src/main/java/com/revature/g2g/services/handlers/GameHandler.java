@@ -8,7 +8,6 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import com.revature.g2g.models.Game;
-import com.revature.g2g.repositories.GameDAO;
 import com.revature.g2g.repositories.IGameDAO;
 
 @Service
@@ -17,8 +16,6 @@ public class GameHandler {
 	private IGameDAO repository;
 	public GameHandler() {
 		super();
-//		this.repository = (GameDAO) ApplicationContextSingleton.getApplicationContext().getBean("gameDAO");
-		this.repository = new GameDAO();
 	}
 	@Autowired
 	public GameHandler(IGameDAO repository) {

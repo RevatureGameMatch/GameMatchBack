@@ -14,12 +14,14 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.jsoup.Jsoup;
+import org.jsoup.safety.Whitelist;
 import org.springframework.stereotype.Component;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.revature.g2g.api.templates.PlayerTemplate;
 
 @Component
-@JsonIgnoreProperties(value = { "roomJT","changesToSelf", "changesToOthers", "skills" })
 @Entity
 @Table(name = "G2G_PLAYER")
 public class Player implements Serializable {
@@ -42,15 +44,19 @@ public class Player implements Serializable {
 	@Column(name = "player_role")
 	private PlayerRole  playerRole;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy = "player", fetch = FetchType.LAZY)
 	private Set<PlayerRoomJT> roomJT = new HashSet<>();
 
+	@JsonIgnore
 	@OneToMany(mappedBy = "player", fetch = FetchType.LAZY)
 	private Set<SkillPlayerChangeJT> changesToSelf = new HashSet<>();
 
+	@JsonIgnore
 	@OneToMany(mappedBy = "modifiedBy", fetch = FetchType.LAZY)
 	private Set<SkillPlayerChangeJT> changesToOthers = new HashSet<>();
 
+	@JsonIgnore
 	@OneToMany(mappedBy = "player", fetch = FetchType.LAZY)
 	private Set<SkillPlayerJT> skills = new HashSet<>();
 
@@ -65,6 +71,19 @@ public class Player implements Serializable {
 		this.playerEmail = playerEmail;
 		this.playerPassword = playerPassword;
 		this.playerRole = playerRole;
+	}
+	public Player(PlayerTemplate template) {
+		super();
+		this.playerId = template.getPlayerId();
+		this.playerUsername = Jsoup.clean(template.getPlayerUsername(), Whitelist.none());
+		this.playerEmail = Jsoup.clean(template.getPlayerEmail(), Whitelist.none());
+		this.playerPassword = Jsoup.clean(template.getPlayerPassword(), Whitelist.none());
+		try {
+			PlayerRole role = PlayerRole.valueOf(PlayerRole.class, template.getPlayerRole().toString());
+			this.playerRole = role;
+		}catch ( IllegalArgumentException e ) {
+			this.playerRole = PlayerRole.PLAYER;
+		}
 	}
 	public int getPlayerId() {
 		return playerId;

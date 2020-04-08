@@ -11,7 +11,6 @@ import com.revature.g2g.models.Room;
 import com.revature.g2g.models.Skill;
 import com.revature.g2g.models.SkillRoomJT;
 import com.revature.g2g.repositories.ISkillRoomJTDAO;
-import com.revature.g2g.repositories.SkillRoomJTDAO;
 
 @Service
 @Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
@@ -19,7 +18,6 @@ public class SkillRoomJTHandler {
 	private ISkillRoomJTDAO repository;
 	public SkillRoomJTHandler() {
 		super();
-		this.repository = new SkillRoomJTDAO();
 	}
 	@Autowired
 	public SkillRoomJTHandler(ISkillRoomJTDAO repository) {

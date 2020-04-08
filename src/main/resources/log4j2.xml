@@ -28,12 +28,24 @@
                 <TimeBasedTriggeringPolicy interval="1" modulate="true" />
             </Policies>
         </RollingFile>
+        <RollingFile name="discordLogger" fileName="${basePath}/discord-log.log" filePattern="${basePath}/discord-log-%d{yyyy-MM-dd}.log">
+            <PatternLayout>
+                <pattern>[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n</pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true" />
+            </Policies>
+        </RollingFile>
         <Console name="console" target="SYSTEM_OUT">
             <PatternLayout
                 pattern="[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n" />
         </Console>
     </Appenders>
     <Loggers>
+        <Logger name="discordLogger" level="all" additivity="true">
+            <AppenderRef ref="discordLogger" />
+            <AppenderRef ref="console" />
+        </Logger>
         <Logger name="exceptionLogger" level="all" additivity="true">
             <AppenderRef ref="exceptionLogger" />
             <AppenderRef ref="console" />

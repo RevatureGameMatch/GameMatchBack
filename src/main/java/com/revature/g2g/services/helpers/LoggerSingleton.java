@@ -9,27 +9,41 @@ import org.springframework.stereotype.Service;
 @Service
 @Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
 public class LoggerSingleton {
-	private static org.apache.logging.log4j.Logger exceptionLog;
-	private static Logger businessLog;
-	private static Logger accessDeniedLog;
-	private LoggerSingleton() {
+	private Logger exceptionLog;
+	private Logger businessLog;
+	private Logger accessDeniedLog;
+	private Logger discordLog;
+	public LoggerSingleton() {
 	}
-	public static Logger getExceptionLogger() {
+	public LoggerSingleton(Logger exceptionLog, Logger businessLog, Logger accessDeniedLog, Logger discordLog) {
+		super();
+		this.exceptionLog = exceptionLog;
+		this.businessLog = businessLog;
+		this.accessDeniedLog = accessDeniedLog;
+		this.discordLog = discordLog;
+	}
+	public Logger getExceptionLogger() {
 		if (exceptionLog == null) {
 			exceptionLog =  LogManager.getLogger("exceptionLogger");
 		}
 		return exceptionLog;
 	}
-	public static Logger getBusinessLog() {
+	public Logger getBusinessLog() {
 		if(businessLog == null) {
 			businessLog = LogManager.getLogger("businessLogger");
 		}
 		return businessLog;
 	}
-	public static Logger getAccessLog() {
+	public Logger getAccessLog() {
 		if(accessDeniedLog == null) {
 			accessDeniedLog = LogManager.getLogger("accessLogger");
 		}
 		return accessDeniedLog;
+	}
+	public Logger getDiscordLog() {
+		if(discordLog == null) {
+			discordLog = LogManager.getLogger("discordLogger");
+		}
+		return discordLog;
 	}
 }

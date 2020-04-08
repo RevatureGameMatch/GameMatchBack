@@ -1,13 +1,23 @@
 package com.revature.g2g.data.generators;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Service;
+
 import com.revature.g2g.data.DataGenerator;
 import com.revature.g2g.models.Player;
 import com.revature.g2g.models.PlayerRole;
 import com.revature.g2g.services.handlers.PlayerHandler;
 import com.revature.g2g.services.helpers.PasswordHelper;
 
+@Service
+@Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
 public class PlayerGenerator implements DataGenerator {
-	private static PlayerHandler playerHandler = new PlayerHandler();
+	@Autowired
+	private PasswordHelper passwordHelper;
+	@Autowired
+	private PlayerHandler playerHandler;
 	@Override
 	public void generate() {
 		make("BobTheGreat",PlayerRole.PLAYER);
@@ -34,7 +44,7 @@ public class PlayerGenerator implements DataGenerator {
 		Player player = new Player();
 		player.setPlayerUsername(username);
 		if(playerHandler.findByUsername(player.getPlayerUsername()) == null) {
-			player.setPlayerPassword(PasswordHelper.encryptPassword("password"));
+			player.setPlayerPassword(passwordHelper.encryptPassword("password"));
 			player.setPlayerEmail(username + "@gmail.com");
 			player.setPlayerRole(role);
 			playerHandler.insert(player);

@@ -1,11 +1,32 @@
 package com.revature.g2g.data.generators;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Service;
+
 import com.revature.g2g.data.DataGenerator;
 import com.revature.g2g.models.Game;
 import com.revature.g2g.services.handlers.GameHandler;
 
+@Service
+@Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
 public class GameGenerator implements DataGenerator {
-	private static GameHandler gameHandler = new GameHandler();
+	private GameHandler gameHandler;
+	public GameGenerator() {
+		super();
+	}
+	@Autowired
+	public GameGenerator(GameHandler gameHandler) {
+		super();
+		this.gameHandler = gameHandler;
+	}
+	public GameHandler getGameHandler() {
+		return gameHandler;
+	}
+	public void setGameHandler(GameHandler gameHandler) {
+		this.gameHandler = gameHandler;
+	}
 	@Override
 	public void generate() {
 		make("DnD5e", "Classic TTRPG to go adventuring with friends", "https://dnd.wizards.com/");

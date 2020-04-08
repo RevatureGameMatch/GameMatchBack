@@ -1,7 +1,5 @@
 package com.revature.g2g;
 
-import com.revature.g2g.repositories.SkillDAO;
-
 public class Driver {
 	public static void main(String[] args) {
 //		Session s = HibernateUtil.getSession();
@@ -41,8 +39,6 @@ public class Driver {
 //		player.setPlayerEmail("plawrence@email.com");
 //		player.setPlayerPassword("password");
 //		player.setPlayerRole(PlayerRole.ADMIN);
-		
-		System.out.println(new SkillDAO().findAll());
 		
 //		Room room = new RoomDAO().findById(47);
 //		

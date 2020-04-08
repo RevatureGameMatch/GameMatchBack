@@ -1,11 +1,32 @@
 package com.revature.g2g.data.generators;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Service;
+
 import com.revature.g2g.data.DataGenerator;
 import com.revature.g2g.models.Skill;
 import com.revature.g2g.services.handlers.SkillHandler;
 
+@Service
+@Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
 public class SkillGenerator implements DataGenerator {
-	private static SkillHandler skillHandler = new SkillHandler();
+	private SkillHandler skillHandler;
+	public SkillGenerator() {
+		super();
+	}
+	@Autowired
+	public SkillGenerator(SkillHandler skillHandler) {
+		super();
+		this.skillHandler = skillHandler;
+	}
+	public SkillHandler getSkillHandler() {
+		return skillHandler;
+	}
+	public void setSkillHandler(SkillHandler skillHandler) {
+		this.skillHandler = skillHandler;
+	}
 	@Override
 	public void generate() {
 		final String fun = "Fun to Play With";
@@ -21,6 +42,7 @@ public class SkillGenerator implements DataGenerator {
 		make("Productive", technical);
 		make("Strategic", technical);
 		make("Roleplay", fun);
+		make("Family Friendly", fun);
 	}
 	private void make(String name, String parentSkillName) {
 		Skill skill = null;

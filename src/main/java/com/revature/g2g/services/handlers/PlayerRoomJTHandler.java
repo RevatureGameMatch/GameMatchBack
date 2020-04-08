@@ -11,7 +11,6 @@ import com.revature.g2g.models.Player;
 import com.revature.g2g.models.PlayerRoomJT;
 import com.revature.g2g.models.Room;
 import com.revature.g2g.repositories.IPlayerRoomJTDAO;
-import com.revature.g2g.repositories.PlayerRoomJTDAO;
 
 @Service
 @Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
@@ -19,8 +18,6 @@ public class PlayerRoomJTHandler {
 	private IPlayerRoomJTDAO repository;
 	public PlayerRoomJTHandler() {
 		super();
-//		this.repository = (PlayerRoomJTDAO) ApplicationContextSingleton.getApplicationContext().getBean("playerRoomJTHanlderDAO");
-		this.repository = new PlayerRoomJTDAO();
 	}
 	@Autowired
 	public PlayerRoomJTHandler(IPlayerRoomJTDAO repository) {

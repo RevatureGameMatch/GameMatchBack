@@ -2,6 +2,7 @@
 .*
 target/*
 hibernate.cfg.xml
+config.properties
 *.log
 config.properties
 spring-front-controller-servlet.xml

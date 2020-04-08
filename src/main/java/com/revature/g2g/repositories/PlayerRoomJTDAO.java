@@ -53,7 +53,7 @@ public class PlayerRoomJTDAO implements IPlayerRoomJTDAO {
 	@Override
 	public int countCurrentPlayers() {
 		
-		Session ses = sf.getCurrentSession();
+		Session ses = this.sf.getCurrentSession();
 
 		String sql = "SELECT COUNT(*) FROM ADMIN.G2G_PLAYER_ROOM_JT WHERE LEFT_ROOM IS NULL";
 		
@@ -102,6 +102,8 @@ public class PlayerRoomJTDAO implements IPlayerRoomJTDAO {
 		
 		CriteriaBuilder builder = ses.getCriteriaBuilder();
 		CriteriaQuery <PlayerRoomJT> query = builder.createQuery(PlayerRoomJT.class);
+		
+		query.from(PlayerRoomJT.class);
 		
 		Query <PlayerRoomJT> room = ses.createQuery(query);
 		

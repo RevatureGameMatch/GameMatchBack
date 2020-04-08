@@ -56,6 +56,8 @@ public class SkillGameJTDAO implements ISkillGameJTDAO {
 		CriteriaBuilder builder = ses.getCriteriaBuilder();
 		CriteriaQuery<SkillGameJT> query = builder.createQuery(SkillGameJT.class);
 		
+		query.from(SkillGameJT.class);
+		
 		Query<SkillGameJT> sg = ses.createQuery(query);
 		
 		try {

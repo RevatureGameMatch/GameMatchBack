@@ -99,7 +99,7 @@ public class PlayerDAO implements IPlayerDAO {
 	@Override
 	public Set<Player> findAll() {
 		
-		Session ses = sf.getCurrentSession();
+		Session ses = this.sf.getCurrentSession();
 		
 		CriteriaBuilder builder = ses.getCriteriaBuilder();
 		CriteriaQuery<Player> query = builder.createQuery(Player.class);

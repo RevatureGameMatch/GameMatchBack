@@ -13,6 +13,7 @@ import com.revature.g2g.data.DataGenerator;
 import com.revature.g2g.models.Player;
 import com.revature.g2g.models.PlayerRoomJT;
 import com.revature.g2g.models.Room;
+import com.revature.g2g.models.RoomStatus;
 import com.revature.g2g.services.handlers.PlayerHandler;
 import com.revature.g2g.services.handlers.PlayerRoomJTHandler;
 import com.revature.g2g.services.handlers.RoomHandler;
@@ -34,7 +35,7 @@ public class PlayerRoomJTGenerator implements DataGenerator {
 	@Override
 	public void generate() {
 		players = playerHandler.findAll();
-		rooms = roomHandler.findAll();
+		rooms = roomHandler.findByStatus(RoomStatus.OPENED);
 		for(int a=0; a<20; a++) {
 			PlayerRoomJT playerRoomJT = new PlayerRoomJT();
 			playerRoomJT.setPlayer(randPlayer());

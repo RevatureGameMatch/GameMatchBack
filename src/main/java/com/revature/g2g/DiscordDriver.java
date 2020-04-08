@@ -8,8 +8,8 @@ import com.revature.g2g.services.jda.JDASingleton;
 
 public class DiscordDriver {
 	public static void main(String[] args) {
+		JDASingleton.getJda();
 		ApplicationContext ac = new ClassPathXmlApplicationContext("applicationContext.xml");
-		ac.getBean(JDASingleton.class).getJda();
 		ac.getBean(DummyDataDriver.class).generate();
 	}
 }

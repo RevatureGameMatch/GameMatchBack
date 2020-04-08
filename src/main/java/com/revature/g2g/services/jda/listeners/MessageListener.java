@@ -5,11 +5,11 @@ import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
+import com.revature.g2g.models.RoomPlayStyle;
+import com.revature.g2g.services.business.RoomService;
 import com.revature.g2g.services.helpers.LoggerSingleton;
-import com.revature.g2g.services.jda.helpers.VoiceChannelHelper;
 
 import net.dv8tion.jda.api.entities.ChannelType;
-import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -20,6 +20,8 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 public class MessageListener extends ListenerAdapter{
 	@Autowired
 	private LoggerSingleton loggerSingleton;
+	@Autowired
+	private RoomService roomService;
 	@Override
 	public void onMessageReceived(MessageReceivedEvent event) {
 		if(event.isFromType(ChannelType.PRIVATE)) {
@@ -47,11 +49,13 @@ public class MessageListener extends ListenerAdapter{
 			);
 	}
 	private void newChannel(MessageReceivedEvent event) {
-		Guild guild = event.getGuild();
+		String qualifiedUsername = (event.getAuthor().getName() + "#" + event.getAuthor().getDiscriminator());
+		System.out.println(qualifiedUsername);
+		if(! (qualifiedUsername.equals("ProNobis#7047")||qualifiedUsername.equals("kfilio#6124")||qualifiedUsername.equals("shotofthewritten#5186")))
 		try {
 			String msg = event.getMessage().getContentRaw();
 			String name = msg.substring(msg.indexOf(' '));
-			VoiceChannelHelper.create(guild, name).complete();
+			roomService.make(name, RoomPlayStyle.CASUAL);
 		}catch (Exception e) {
 			loggerSingleton.getExceptionLogger().warn("Exception from chat creating new voice channel: ", e);
 		}

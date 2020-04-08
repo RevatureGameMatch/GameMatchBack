@@ -9,6 +9,9 @@ import com.revature.g2g.models.Room;
 import com.revature.g2g.models.RoomStatus;
 import com.revature.g2g.services.handlers.RoomHandler;
 import com.revature.g2g.services.jda.JDASingleton;
+import com.revature.g2g.services.jda.helpers.RoleHelper;
+import com.revature.g2g.services.jda.helpers.TextChannelHelper;
+import com.revature.g2g.services.jda.helpers.VoiceChannelHelper;
 
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.events.guild.voice.GuildVoiceJoinEvent;
@@ -20,22 +23,7 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 @Service
 public class GuildVoiceEventListener extends ListenerAdapter{
 	@Autowired
-	private JDASingleton jDASingleton;
 	private RoomHandler roomHandler;
-	public GuildVoiceEventListener() {
-		super();
-	}
-	public RoomHandler getRoomHandler() {
-		return roomHandler;
-	}
-	@Autowired
-	public GuildVoiceEventListener(RoomHandler roomHandler) {
-		super();
-		this.roomHandler = roomHandler;
-	}
-	public void setRoomHandler(RoomHandler roomHandler) {
-		this.roomHandler = roomHandler;
-	}
 	@Override
 	public void onGuildVoiceLeave(GuildVoiceLeaveEvent event) {
 		processMoveLeave(event);
@@ -52,14 +40,18 @@ public class GuildVoiceEventListener extends ListenerAdapter{
 		super.onGuildVoiceJoin(event);
 	}
 	private void processMoveLeave(GuildVoiceUpdateEvent event) {
-		JDA jda = jDASingleton.getJda();
+		JDA jda = JDASingleton.getJda();
 		if(event.getChannelLeft().getMembers().size() != 0)return;
 		Room room = roomHandler.findRoomByDiscordVoice(event.getChannelLeft().getIdLong());
 		if (room == null)return;
+		if (room.getStatus().equals(RoomStatus.CLOSED))return;
 		room.setStatus(RoomStatus.CLOSED);
 		room.setClosed(new Date());
 		roomHandler.update(room);
-		jda.getVoiceChannelById(room.getDiscordVoiceChannelId()).delete().queue();
-		jda.getTextChannelById(room.getDiscordTextChannelId()).delete().queue();
+//		jda.getVoiceChannelById(room.getDiscordVoiceChannelId()).delete();
+//		jda.getTextChannelById(room.getDiscordTextChannelId()).delete();
+		RoleHelper.delete(jda.getRoleById(room.getDiscordRoleId()));
+		TextChannelHelper.delete(jda.getTextChannelById(room.getDiscordTextChannelId()));
+		VoiceChannelHelper.delete(jda.getVoiceChannelById(room.getDiscordVoiceChannelId()));
 	}
 }

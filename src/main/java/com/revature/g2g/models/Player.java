@@ -17,6 +17,7 @@ import javax.persistence.Table;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.revature.g2g.api.templates.PlayerTemplate;
 
 @Component
 @Entity
@@ -68,6 +69,14 @@ public class Player implements Serializable {
 		this.playerEmail = playerEmail;
 		this.playerPassword = playerPassword;
 		this.playerRole = playerRole;
+	}
+	public Player(PlayerTemplate template) {
+		super();
+		this.playerId = template.getPlayerId();
+		this.playerUsername = template.getPlayerUsername();
+		this.playerEmail = template.getPlayerEmail();
+		this.playerPassword = template.getPlayerPassword();
+		this.playerRole = template.getPlayerRole();
 	}
 	public int getPlayerId() {
 		return playerId;

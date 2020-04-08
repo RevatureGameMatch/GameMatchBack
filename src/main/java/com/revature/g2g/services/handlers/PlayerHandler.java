@@ -14,37 +14,30 @@ import com.revature.g2g.repositories.IPlayerDAO;
 @Service
 @Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
 public class PlayerHandler {
-	private IPlayerDAO repository;
-	public PlayerHandler() {
-		super();
-	}
 	@Autowired
-	public PlayerHandler(IPlayerDAO repository) {
-		super();
-		this.repository = repository;
-	}
+	private IPlayerDAO repository;
 	public void insert(Player p) {
-		this.repository.insert(p);
+		repository.insert(p);
 	}
 	public Player findById(int id) {
-		return this.repository.findById(id);
+		return repository.findById(id);
 	}
 	public Player findByUsername(String username) {
-		return this.repository.findByUsername(username);
+		return repository.findByUsername(username);
 	}
 	public Player findByEmail(String email) {
-		return this.repository.findByEmail(email);
+		return repository.findByEmail(email);
 	}
 	public Set<Player> findAll(){
-		return this.repository.findAll();
+		return repository.findAll();
 	}
 	public Set<Player> findByRole(PlayerRole role){
-		return this.repository.findByRole(role);
+		return repository.findByRole(role);
 	}
 	public void update(Player p) {
-		this.repository.update(p);
+		repository.update(p);
 	}
 	public void delete(Player p) {
-		this.repository.delete(p);
+		repository.delete(p);
 	}
 }

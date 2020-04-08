@@ -19,9 +19,11 @@ public class LoginService {
 	private LoggerSingleton loggerSingleton;
 	@Autowired
 	private PasswordHelper passwordHelper;
+	@Autowired
+	private PlayerHandler playerHandler;
 	public Player login(String username, String password) {
 		Player result = null;
-		Player checkUser = new PlayerHandler().findByUsername(username);
+		Player checkUser = playerHandler.findByUsername(username);
 		if (checkUser == null) {
 			String messageUser = "Login Failed, invalid user: "+ username;
 			loggerSingleton.getAccessLog().warn(messageUser);

@@ -12,7 +12,6 @@ import javax.persistence.criteria.Root;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
@@ -23,7 +22,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.revature.g2g.models.Room;
 import com.revature.g2g.models.RoomPlayStyle;
 import com.revature.g2g.models.RoomStatus;
-import com.revature.g2g.services.helpers.HibernateUtil;
 
 @Transactional
 @Repository
@@ -43,14 +41,10 @@ public class RoomDAO implements IRoomDAO {
 
 	@Override
 	public Room findById(int id) {
-		Session ses = HibernateUtil.getSession();
-		Transaction tx = ses.beginTransaction();
 		
-		Room r = ses.get(Room.class, id);
+		Session ses = sf.getCurrentSession();	
+		return ses.get(Room.class, id);
 		
-		tx.commit();
-		HibernateUtil.closeSession();
-		return r;
 	}
 	
 	@Override
@@ -81,23 +75,25 @@ public class RoomDAO implements IRoomDAO {
 
 	@Override
 	public Set<Room> findAll() {
-		Set<Room> set = null;
 		
-		Session ses = HibernateUtil.getSession();
-		Transaction tx = ses.beginTransaction();
+		Session ses = sf.getCurrentSession();
 		
 		CriteriaBuilder builder = ses.getCriteriaBuilder();
 		CriteriaQuery<Room> query = builder.createQuery(Room.class);
 		
 		Query<Room> room = ses.createQuery(query);
 		
-		set = room.getResultStream()
-				.collect(Collectors.toSet());
-		
-		tx.commit();
-		HibernateUtil.closeSession();
-		
-		return set;
+		try {
+			
+			return room.getResultStream()
+					.collect(Collectors.toSet());
+			
+		} catch (javax.persistence.NoResultException e) {
+			
+			return Collections.emptySet();
+			
+		}
+	
 	}
 	
 	@Override
@@ -127,7 +123,7 @@ public class RoomDAO implements IRoomDAO {
 			
 		} catch (javax.persistence.NoResultException e) {
 			
-			return null;
+			return Collections.emptySet();
 			
 		}
 		

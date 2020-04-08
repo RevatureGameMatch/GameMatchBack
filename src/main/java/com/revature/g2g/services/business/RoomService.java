@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.revature.g2g.models.Room;
+import com.revature.g2g.models.RoomPlayStyle;
 import com.revature.g2g.models.RoomStatus;
 import com.revature.g2g.services.handlers.RoomHandler;
 import com.revature.g2g.services.jda.JDASingleton;
@@ -36,11 +37,12 @@ public class RoomService {
 	public void setRoomHandler(RoomHandler roomHandler) {
 		this.roomHandler = roomHandler;
 	}
-	public Room make(String name) {
+	public Room make(String name, RoomPlayStyle style) {
 		Guild guild = jDASingleton.getGuild();
 		Room room = new Room();
 		room.setCreated(new Date());
 		room.setStatus(RoomStatus.OPENED);
+		room.setStyle(style);
 		ChannelAction<VoiceChannel> voiceChannel = VoiceChannelHelper.create(guild, name);
 		ChannelAction<TextChannel> textChannel = TextChannelHelper.create(guild, name);
 		room.setDiscordVoiceChannelId(voiceChannel.complete().getIdLong());

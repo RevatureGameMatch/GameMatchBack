@@ -128,6 +128,32 @@ public class SkillPlayerJTDAO implements ISkillPlayerJTDAO{
 			
 		}
 	}
+
+	@Override
+	public Set<SkillPlayerJT> findByPlayer(Player player) {
+	
+		Session ses = sf.getCurrentSession();
+		
+		CriteriaBuilder builder = ses.getCriteriaBuilder();
+		CriteriaQuery<SkillPlayerJT> query = builder.createQuery(SkillPlayerJT.class);
+		
+		Root<SkillPlayerJT> root = query.from(SkillPlayerJT.class);
+		
+		query.select(root).where(builder.equal(root.get("player"), player));
+		
+		Query<SkillPlayerJT> sp = ses.createQuery(query);
+		
+		try {
+			
+			return sp.getResultStream()
+					.collect(Collectors.toSet());
+			
+		} catch (javax.persistence.NoResultException e) {
+			
+			return Collections.emptySet();
+			
+		}
+	}
 	
 	@Override
 	public Set<Skill> findPlayerSkills(Player player) {

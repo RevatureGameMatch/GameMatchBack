@@ -1,7 +1,7 @@
 package com.revature.g2g.services.business;
 
-import java.util.ArrayList;
 import java.util.Date;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,7 +15,6 @@ import com.revature.g2g.services.jda.helpers.RoleHelper;
 import com.revature.g2g.services.jda.helpers.TextChannelHelper;
 import com.revature.g2g.services.jda.helpers.VoiceChannelHelper;
 
-import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.TextChannel;
@@ -44,8 +43,11 @@ public class RoomService {
 	public Room make(String name, RoomPlayStyle style) {
 		Guild guild = guildHelper.getGuild();
 		Room room = new Room();
+		room.setName(name);
+		room.setMaxPlayers(new Random().nextInt(6) + 3);
+		room.setCurrentPlayers(new Random().nextInt(3));
 		room.setCreated(new Date());
-		room.setStatus(RoomStatus.OPENED);
+		room.setStatus(RoomStatus.JOINING);
 		room.setStyle(style);
 		ChannelAction<VoiceChannel> voiceChannel = VoiceChannelHelper.insert(guild, name);
 		ChannelAction<TextChannel> textChannel = TextChannelHelper.insert(guild, name);

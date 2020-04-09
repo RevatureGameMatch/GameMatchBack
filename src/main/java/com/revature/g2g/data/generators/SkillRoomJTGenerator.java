@@ -33,7 +33,7 @@ public class SkillRoomJTGenerator implements DataGenerator{
 	@Override
 	public void generate() {
 		skills = skillHandler.findAll();
-		Set<Room> rooms = roomHandler.findByStatus(RoomStatus.OPENED);
+		Set<Room> rooms = roomHandler.findByStatus(RoomStatus.JOINING);
 		for (Room room : rooms) {
 			make(room);
 		}

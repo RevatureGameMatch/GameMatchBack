@@ -43,7 +43,7 @@ public class RoomGenerator implements DataGenerator {
 	}
 	@Override
 	public void generate() {
-		Set<Room> activeRooms = roomHandler.findByStatus(RoomStatus.OPENED);
+		Set<Room> activeRooms = roomHandler.findByStatus(RoomStatus.JOINING);
 		int roomsToMake = 5 - activeRooms.size() + 1;
 		for(int a=1; a<roomsToMake; a++) {
 			roomService.make("Test Room #" + a, randomStyle());

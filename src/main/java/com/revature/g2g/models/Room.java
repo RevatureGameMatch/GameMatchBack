@@ -12,6 +12,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -46,6 +48,15 @@ public class Room implements Serializable{
 	@Column(name = "room_closed")
 	private Date closed;
 	
+	@Column(name = "room_name")
+	private String name;
+	
+	@Column(name= "room_current_players")
+	private int currentPlayers;
+	
+	@Column(name = "room_max_players")
+	private int maxPlayers;
+	
 	@Column(name = "room_description")
 	private String description;
 	
@@ -54,6 +65,10 @@ public class Room implements Serializable{
 	
 	@Column(name = "room_play_style")
 	private RoomPlayStyle style;
+	
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "room_game")
+	private Game game;
 	
 	@OneToMany(mappedBy = "room", fetch = FetchType.LAZY)
 	private Set<PlayerRoomJT> playerJT = new HashSet<>();
@@ -114,6 +129,24 @@ public class Room implements Serializable{
 	public void setClosed(Date closed) {
 		this.closed = closed;
 	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public int getCurrentPlayers() {
+		return currentPlayers;
+	}
+	public void setCurrentPlayers(int currentPlayers) {
+		this.currentPlayers = currentPlayers;
+	}
+	public int getMaxPlayers() {
+		return maxPlayers;
+	}
+	public void setMaxPlayers(int maxPlayers) {
+		this.maxPlayers = maxPlayers;
+	}
 	public String getDescription() {
 		return description;
 	}
@@ -131,6 +164,12 @@ public class Room implements Serializable{
 	}
 	public void setStyle(RoomPlayStyle style) {
 		this.style = style;
+	}
+	public Game getGame() {
+		return game;
+	}
+	public void setGame(Game game) {
+		this.game = game;
 	}
 	public Set<PlayerRoomJT> getPlayerJT() {
 		return playerJT;
@@ -152,8 +191,8 @@ public class Room implements Serializable{
 	}
 	@Override
 	public int hashCode() {
-		return Objects.hash(closed, created, description, discordRoleId, discordTextChannelId, discordVoiceChannelId,
-				roomId, status, style);
+		return Objects.hash(closed, created, currentPlayers, description, discordRoleId, discordTextChannelId,
+				discordVoiceChannelId, game, maxPlayers, name, roomId, status, style);
 	}
 	@Override
 	public boolean equals(Object obj) {
@@ -165,15 +204,19 @@ public class Room implements Serializable{
 		}
 		Room other = (Room) obj;
 		return Objects.equals(closed, other.closed) && Objects.equals(created, other.created)
-				&& Objects.equals(description, other.description) && Objects.equals(discordRoleId, other.discordRoleId)
+				&& currentPlayers == other.currentPlayers && Objects.equals(description, other.description)
+				&& Objects.equals(discordRoleId, other.discordRoleId)
 				&& Objects.equals(discordTextChannelId, other.discordTextChannelId)
-				&& Objects.equals(discordVoiceChannelId, other.discordVoiceChannelId) && roomId == other.roomId
-				&& status == other.status && style == other.style;
+				&& Objects.equals(discordVoiceChannelId, other.discordVoiceChannelId)
+				&& Objects.equals(game, other.game) && maxPlayers == other.maxPlayers
+				&& Objects.equals(name, other.name) && roomId == other.roomId && status == other.status
+				&& style == other.style;
 	}
 	@Override
 	public String toString() {
 		return "Room [roomId=" + roomId + ", discordTextChannelId=" + discordTextChannelId + ", discordVoiceChannelId="
 				+ discordVoiceChannelId + ", discordRoleId=" + discordRoleId + ", created=" + created + ", closed="
-				+ closed + ", description=" + description + ", status=" + status + ", style=" + style + "]";
+				+ closed + ", name=" + name + ", currentPlayers=" + currentPlayers + ", maxPlayers=" + maxPlayers
+				+ ", description=" + description + ", status=" + status + ", style=" + style + ", game=" + game + "]";
 	}
 }

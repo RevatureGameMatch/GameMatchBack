@@ -35,7 +35,7 @@ public class PlayerRoomJTGenerator implements DataGenerator {
 	@Override
 	public void generate() {
 		players = playerHandler.findAll();
-		rooms = roomHandler.findByStatus(RoomStatus.OPENED);
+		rooms = roomHandler.findByStatus(RoomStatus.JOINING);
 		for(int a=0; a<20; a++) {
 			PlayerRoomJT playerRoomJT = new PlayerRoomJT();
 			playerRoomJT.setPlayer(randPlayer());

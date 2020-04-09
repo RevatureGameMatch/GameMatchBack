@@ -18,7 +18,7 @@ import org.springframework.stereotype.Component;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Component
-@JsonIgnoreProperties(value = { "game" })
+@JsonIgnoreProperties(value = { "skills" })
 @Entity
 @Table(name = "G2G_GAME")
 public class Game implements Serializable{

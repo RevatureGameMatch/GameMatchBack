@@ -33,7 +33,7 @@ public class PlayerRoomService {
 		Set<SkillPlayerJT> playerSkillsSet = skillPlayerJTHandler.findByPlayer(player);
 		SkillPlayerJT[] playerSkills = playerSkillsSet.toArray( new SkillPlayerJT[0]);
 		int playerSkillsLen = playerSkills.length;
-		Set<Room> rooms = roomHandler.findStatusPlayStyle(RoomStatus.OPENED, style);
+		Set<Room> rooms = roomHandler.findStatusPlayStyle(RoomStatus.JOINING, style);
 		for(Room room : rooms) {
 			boolean qualified = true;
 			Set<SkillRoomJT> roomSkillsSet = skillRoomJTHandler.findByRoom(room);

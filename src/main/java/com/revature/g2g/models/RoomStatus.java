@@ -1,5 +1,5 @@
 package com.revature.g2g.models;
 
 public enum RoomStatus {
-	OPENED, CLOSED
+	PLANNED, JOINING, FULL, STARTED, CLOSED
 }

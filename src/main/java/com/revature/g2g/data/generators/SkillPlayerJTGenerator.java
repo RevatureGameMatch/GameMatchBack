@@ -35,7 +35,7 @@ public class SkillPlayerJTGenerator implements DataGenerator {
 		this.skillHandler = skillHandler;
 		this.playerHandler = playerHandler;
 		this.skillPlayerJTHandler = skillPlayerJTHandler;
-		this.skillNames = new String[] {"Participation", "Communicator", "Listner", "Coach", "Empower Team Decisions", "Interest in others Success", "Productive", "Fun to Play With", "Good at Game", "Strategic", "Roleplay"};
+		this.skillNames = new String[] {"Participation", "Communicator", "Listner", "Coach", "Empower Team Decisions", "Interest in others Success", "Productive", "Fun to Play With", "Good at Game", "Strategic", "Roleplay", "Family Friendly"};
 	}
 	private void make(Player player){
 		if(player != null) {

@@ -70,13 +70,11 @@ public class PlayerRoomService {
 					found = true;
 					//If the player skill does not meet the standards to be qualified
 					if(playerSkills[b].getValue() <= roomSkills[a].getMinValue()) {
-						System.out.println("Break 1: " + playerSkills[b] + " failed with " + roomSkills[a] );
 						return false;
 					}
 				}
 			}
 			if(!found) {
-				System.out.println("Room skill not found: " + roomSkills[a]);
 				return false;
 			}
 		}

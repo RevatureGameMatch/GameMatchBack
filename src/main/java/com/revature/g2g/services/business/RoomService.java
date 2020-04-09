@@ -1,6 +1,5 @@
 package com.revature.g2g.services.business;
 
-import java.util.ArrayList;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,12 +9,12 @@ import com.revature.g2g.models.Room;
 import com.revature.g2g.models.RoomPlayStyle;
 import com.revature.g2g.models.RoomStatus;
 import com.revature.g2g.services.handlers.RoomHandler;
+import com.revature.g2g.services.helpers.DiscordHelper;
 import com.revature.g2g.services.jda.helpers.GuildHelper;
 import com.revature.g2g.services.jda.helpers.RoleHelper;
 import com.revature.g2g.services.jda.helpers.TextChannelHelper;
 import com.revature.g2g.services.jda.helpers.VoiceChannelHelper;
 
-import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.TextChannel;
@@ -26,6 +25,8 @@ import net.dv8tion.jda.api.requests.restaction.ChannelAction;
 public class RoomService {
 	@Autowired
 	private GuildHelper guildHelper;
+	@Autowired
+	private DiscordHelper discordHelper;
 	private RoomHandler roomHandler;
 	public RoomService() {
 		super();
@@ -50,7 +51,9 @@ public class RoomService {
 		ChannelAction<VoiceChannel> voiceChannel = VoiceChannelHelper.insert(guild, name);
 		ChannelAction<TextChannel> textChannel = TextChannelHelper.insert(guild, name);
 		Role role = RoleHelper.insert(guild, name);
-//		voiceChannel.addPermissionOverride(guild.getPublicRole(), new ArrayList<Permission> (Permission.VIEW_CHANNEL, Permission.VOICE_CONNECT, Permission.VOICE_SPEAK, Permission.VOICE_USE_VAD, Permission.VOICE_STREAM), new ArrayList<Permission> ());
+		Role discordBot = discordHelper.getDiscordBot();
+		voiceChannel.addPermissionOverride(role, discordHelper.getRoleVoicePermissions(), discordHelper.getRoleVoiceBans());
+		textChannel.addPermissionOverride(role, discordHelper.getRoleTextPermissions(), discordHelper.getRoleTextBans());
 		room.setDiscordVoiceChannelId(voiceChannel.complete().getIdLong());
 		room.setDiscordTextChannelId(textChannel.complete().getIdLong());
 		room.setDiscordRoleId(role.getIdLong());

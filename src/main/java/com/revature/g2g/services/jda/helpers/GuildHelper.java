@@ -17,8 +17,6 @@ public class GuildHelper {
 	public Guild getGuild() {
 		if(guild == null) {
 			JDA jda = JDASingleton.getJda();
-//			ApplicationContext ac = new ClassPathXmlApplicationContext("applicationContext.xml");
-//			JDA jda = (JDA) ac.getBean("jda");
 			List<Guild> guilds = jda.getGuilds();
 			for(Guild guildFound : guilds) {
 				guild = guildFound;

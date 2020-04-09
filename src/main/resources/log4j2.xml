@@ -68,7 +68,6 @@
         </Logger>
         <Logger name="performanceLogger" level="all" additivity="true">
             <AppenderRef ref="performanceLogger" />
-            <AppenderRef ref="console" />
         </Logger>
         <Root level="debug" additivity="false">
         </Root>

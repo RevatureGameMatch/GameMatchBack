@@ -22,14 +22,19 @@ import com.revature.g2g.services.helpers.PasswordHelper;
 @RestController
 @RequestMapping(value="/PlayerLogin")
 public class PlayerLoginController {
-	@Autowired
 	PlayerHandler playerHandler;
-	@Autowired
 	PasswordHelper passwordHelper;
-	@Autowired
 	LoggerSingleton loggerSingleton;
-	@Autowired
 	LoginService loginService;
+	@Autowired
+	public PlayerLoginController(PlayerHandler playerHandler, PasswordHelper passwordHelper,
+			LoggerSingleton loggerSingleton, LoginService loginService) {
+		super();
+		this.playerHandler = playerHandler;
+		this.passwordHelper = passwordHelper;
+		this.loggerSingleton = loggerSingleton;
+		this.loginService = loginService;
+	}
 	@PostMapping
 	public ResponseEntity<Player> login(@RequestBody PlayerTemplate template){
 		if(template==null) {

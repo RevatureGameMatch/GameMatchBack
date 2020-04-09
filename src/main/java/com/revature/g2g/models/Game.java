@@ -13,6 +13,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.jsoup.Jsoup;
+import org.jsoup.safety.Whitelist;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -80,6 +82,13 @@ public class Game implements Serializable{
 	}
 	public void setSkills(Set<SkillGameJT> skills) {
 		this.skills = skills;
+	}
+	public static Game clean(Game game) {
+		Game g = new Game();
+		g.setDescription(Jsoup.clean(game.getDescription(), Whitelist.none()));
+		g.setLink(Jsoup.clean(game.getLink(), Whitelist.none()));
+		g.setName(Jsoup.clean(game.getName(), Whitelist.none()));
+		return g;
 	}
 	@Override
 	public int hashCode() {

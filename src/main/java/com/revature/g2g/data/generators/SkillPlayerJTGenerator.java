@@ -35,7 +35,20 @@ public class SkillPlayerJTGenerator implements DataGenerator {
 		this.skillHandler = skillHandler;
 		this.playerHandler = playerHandler;
 		this.skillPlayerJTHandler = skillPlayerJTHandler;
-		this.skillNames = new String[] {"Participation", "Communicator", "Listner", "Coach", "Empower Team Decisions", "Interest in others Success", "Productive", "Fun to Play With", "Good at Game", "Strategic", "Roleplay", "Family Friendly"};
+		this.skillNames = new String[] {
+			"Coach",
+			"Communicator",
+			"Empower Team Decisions",
+			"Family Friendly",
+			"Fun to Play With",
+			"Good at Game",
+			"Interest in others Success",
+			"Listner",
+			"Participation",
+			"Productive",
+			"Roleplay",
+			"Strategic",
+			};
 	}
 	private void make(Player player){
 		if(player != null) {
@@ -51,7 +64,7 @@ public class SkillPlayerJTGenerator implements DataGenerator {
 					skillPlayerJT.setSkill(skill);
 				}
 				skillPlayerJT.setExpertise(new Random().nextDouble());
-				skillPlayerJT.setValue(new Random().nextDouble() * 100d);
+				skillPlayerJT.setValue((new Random().nextDouble() * 100d) + 100);
 				if(preExistant) {
 					skillPlayerJTHandler.update(skillPlayerJT);
 				}else {

@@ -22,6 +22,7 @@ public class DiscordHelper {
 	}
 	public Collection<Permission> getRoleVoicePermissions(){
 		ArrayList<Permission> permissions = new ArrayList<>();
+		permissions.add(Permission.VIEW_CHANNEL);
 		permissions.add(Permission.VOICE_CONNECT);
 		permissions.add(Permission.VOICE_SPEAK);
 		permissions.add(Permission.VOICE_STREAM);

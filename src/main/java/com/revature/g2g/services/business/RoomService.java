@@ -6,6 +6,7 @@ import java.util.Random;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.revature.g2g.models.Game;
 import com.revature.g2g.models.Room;
 import com.revature.g2g.models.RoomPlayStyle;
 import com.revature.g2g.models.RoomStatus;
@@ -24,29 +25,21 @@ import net.dv8tion.jda.api.requests.restaction.ChannelAction;
 
 @Service
 public class RoomService {
-	@Autowired
 	private GuildHelper guildHelper;
-	@Autowired
 	private DiscordHelper discordHelper;
 	private RoomHandler roomHandler;
-	public RoomService() {
-		super();
-	}
 	@Autowired
-	public RoomService(RoomHandler roomHandler) {
+	public RoomService(GuildHelper guildHelper, DiscordHelper discordHelper, RoomHandler roomHandler) {
 		super();
+		this.guildHelper = guildHelper;
+		this.discordHelper = discordHelper;
 		this.roomHandler = roomHandler;
 	}
-	public RoomHandler getRoomHandler() {
-		return roomHandler;
-	}
-	public void setRoomHandler(RoomHandler roomHandler) {
-		this.roomHandler = roomHandler;
-	}
-	public Room make(String name, RoomPlayStyle style) {
+	public Room make(String name, RoomPlayStyle style, Game game) {
 		Guild guild = guildHelper.getGuild();
 		Room room = new Room();
 		room.setName(name);
+		room.setGame(game);
 		room.setMaxPlayers(new Random().nextInt(6) + 3);
 		room.setCurrentPlayers(new Random().nextInt(3));
 		room.setCreated(new Date());
@@ -55,7 +48,6 @@ public class RoomService {
 		ChannelAction<VoiceChannel> voiceChannel = VoiceChannelHelper.insert(guild, name);
 		ChannelAction<TextChannel> textChannel = TextChannelHelper.insert(guild, name);
 		Role role = RoleHelper.insert(guild, name);
-		Role discordBot = discordHelper.getDiscordBot();
 		voiceChannel.addPermissionOverride(role, discordHelper.getRoleVoicePermissions(), discordHelper.getRoleVoiceBans());
 		textChannel.addPermissionOverride(role, discordHelper.getRoleTextPermissions(), discordHelper.getRoleTextBans());
 		room.setDiscordVoiceChannelId(voiceChannel.complete().getIdLong());

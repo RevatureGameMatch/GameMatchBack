@@ -13,18 +13,9 @@ import com.revature.g2g.services.handlers.GameHandler;
 @Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
 public class GameGenerator implements DataGenerator {
 	private GameHandler gameHandler;
-	public GameGenerator() {
-		super();
-	}
 	@Autowired
 	public GameGenerator(GameHandler gameHandler) {
 		super();
-		this.gameHandler = gameHandler;
-	}
-	public GameHandler getGameHandler() {
-		return gameHandler;
-	}
-	public void setGameHandler(GameHandler gameHandler) {
 		this.gameHandler = gameHandler;
 	}
 	@Override
@@ -41,6 +32,7 @@ public class GameGenerator implements DataGenerator {
 		make("Overcooked", "Can your culinary skills satisfy the customers?", "http://www.ghosttowngames.com/overcooked/");
 		make("Keep Talking and Nobody Explodes", "One player has a bomb, the rest have the instructions. Can you defuse it in time?", "https://keeptalkinggame.com/");
 		make("Sea of Thieves", "Sail together, plunder together", "https://www.seaofthieves.com/");
+		make("Other", "Those games that don't fit into an official game", "");
 	}
 	private void make(String name, String description, String link) {
 		Game game = null;

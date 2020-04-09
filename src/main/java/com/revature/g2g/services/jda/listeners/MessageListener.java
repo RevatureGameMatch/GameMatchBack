@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.revature.g2g.models.RoomPlayStyle;
 import com.revature.g2g.services.business.RoomService;
+import com.revature.g2g.services.handlers.GameHandler;
 import com.revature.g2g.services.helpers.DiscordHelper;
 import com.revature.g2g.services.helpers.LoggerSingleton;
 
@@ -19,12 +20,19 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 @Service
 @Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
 public class MessageListener extends ListenerAdapter{
-	@Autowired
 	private LoggerSingleton loggerSingleton;
-	@Autowired
 	private RoomService roomService;
-	@Autowired
 	private DiscordHelper discordHelper;
+	private GameHandler gameHandler;
+	@Autowired
+	public MessageListener(LoggerSingleton loggerSingleton, RoomService roomService, DiscordHelper discordHelper,
+			GameHandler gameHandler) {
+		super();
+		this.loggerSingleton = loggerSingleton;
+		this.roomService = roomService;
+		this.discordHelper = discordHelper;
+		this.gameHandler = gameHandler;
+	}
 	@Override
 	public void onMessageReceived(MessageReceivedEvent event) {
 		if(event.isFromType(ChannelType.PRIVATE)) {
@@ -57,7 +65,7 @@ public class MessageListener extends ListenerAdapter{
 			try {
 				String msg = event.getMessage().getContentRaw();
 				String name = msg.substring(msg.indexOf(' '));
-				roomService.make(name, RoomPlayStyle.CASUAL);
+				roomService.make(name, RoomPlayStyle.CASUAL, gameHandler.findByName("Other"));
 			}catch (Exception e) {
 				loggerSingleton.getExceptionLogger().warn("Exception from chat creating new voice channel: ", e);
 			}

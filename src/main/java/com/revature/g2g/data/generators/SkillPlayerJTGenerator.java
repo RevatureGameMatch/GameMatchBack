@@ -22,9 +22,6 @@ public class SkillPlayerJTGenerator implements DataGenerator {
 	private PlayerHandler playerHandler;
 	private SkillPlayerJTHandler skillPlayerJTHandler;
 	private String[] skillNames;
-	public SkillPlayerJTGenerator() {
-		super();
-	}
 	@Override
 	public void generate() {
 		make(playerHandler.findByUsername("Kayla"));
@@ -39,38 +36,6 @@ public class SkillPlayerJTGenerator implements DataGenerator {
 		this.playerHandler = playerHandler;
 		this.skillPlayerJTHandler = skillPlayerJTHandler;
 		this.skillNames = new String[] {"Participation", "Communicator", "Listner", "Coach", "Empower Team Decisions", "Interest in others Success", "Productive", "Fun to Play With", "Good at Game", "Strategic", "Roleplay"};
-	}
-	public SkillPlayerJTGenerator(SkillHandler skillHandler, PlayerHandler playerHandler,
-			SkillPlayerJTHandler skillPlayerJTHandler, String[] skillNames) {
-		super();
-		this.skillHandler = skillHandler;
-		this.playerHandler = playerHandler;
-		this.skillPlayerJTHandler = skillPlayerJTHandler;
-		this.skillNames = skillNames;
-	}
-	public SkillHandler getSkillHandler() {
-		return skillHandler;
-	}
-	public void setSkillHandler(SkillHandler skillHandler) {
-		this.skillHandler = skillHandler;
-	}
-	public PlayerHandler getPlayerHandler() {
-		return playerHandler;
-	}
-	public void setPlayerHandler(PlayerHandler playerHandler) {
-		this.playerHandler = playerHandler;
-	}
-	public SkillPlayerJTHandler getSkillPlayerJTHandler() {
-		return skillPlayerJTHandler;
-	}
-	public void setSkillPlayerJTHandler(SkillPlayerJTHandler skillPlayerJTHandler) {
-		this.skillPlayerJTHandler = skillPlayerJTHandler;
-	}
-	public String[] getSkillNames() {
-		return skillNames;
-	}
-	public void setSkillNames(String[] skillNames) {
-		this.skillNames = skillNames;
 	}
 	private void make(Player player){
 		if(player != null) {

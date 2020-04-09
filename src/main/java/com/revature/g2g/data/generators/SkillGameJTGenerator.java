@@ -20,33 +20,12 @@ public class SkillGameJTGenerator implements DataGenerator {
 	private GameHandler gameHandler;
 	private SkillHandler skillHandler;
 	private SkillGameJTHandler skillGameJTHandler;
-	public SkillGameJTGenerator() {
-		super();
-	}
 	@Autowired
 	public SkillGameJTGenerator(GameHandler gameHandler, SkillHandler skillHandler,
 			SkillGameJTHandler skillGameJTHandler) {
 		super();
 		this.gameHandler = gameHandler;
 		this.skillHandler = skillHandler;
-		this.skillGameJTHandler = skillGameJTHandler;
-	}
-	public GameHandler getGameHandler() {
-		return gameHandler;
-	}
-	public void setGameHandler(GameHandler gameHandler) {
-		this.gameHandler = gameHandler;
-	}
-	public SkillHandler getSkillHandler() {
-		return skillHandler;
-	}
-	public void setSkillHandler(SkillHandler skillHandler) {
-		this.skillHandler = skillHandler;
-	}
-	public SkillGameJTHandler getSkillGameJTHandler() {
-		return skillGameJTHandler;
-	}
-	public void setSkillGameJTHandler(SkillGameJTHandler skillGameJTHandler) {
 		this.skillGameJTHandler = skillGameJTHandler;
 	}
 	@Override

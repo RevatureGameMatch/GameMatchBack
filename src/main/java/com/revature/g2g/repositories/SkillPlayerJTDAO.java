@@ -3,6 +3,7 @@ package com.revature.g2g.repositories;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -24,13 +25,20 @@ import org.springframework.transaction.annotation.Transactional;
 import com.revature.g2g.models.Player;
 import com.revature.g2g.models.Skill;
 import com.revature.g2g.models.SkillPlayerJT;
+import com.revature.g2g.services.helpers.LoggerSingleton;
 
 @Transactional
 @Repository
 @Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
 public class SkillPlayerJTDAO implements ISkillPlayerJTDAO{
-	@Autowired
 	private SessionFactory sf;
+	private LoggerSingleton loggerSingleton;
+	@Autowired
+	public SkillPlayerJTDAO(SessionFactory sf, LoggerSingleton loggerSingleton) {
+		super();
+		this.sf = sf;
+		this.loggerSingleton = loggerSingleton;
+	}
 
 	@Override
 	public void insert(SkillPlayerJT sp) {
@@ -231,7 +239,11 @@ public class SkillPlayerJTDAO implements ISkillPlayerJTDAO{
 		} catch (javax.persistence.NoResultException e) {
 		
 			return null;
-			
+		} catch (NoSuchElementException e) {
+			return null;
+		} catch (Exception e) {
+			loggerSingleton.getExceptionLogger().warn("SkillPlayerJTDAO threw an error in findBySkillPlayer", e);
+			return null;
 		}
 		
 	}

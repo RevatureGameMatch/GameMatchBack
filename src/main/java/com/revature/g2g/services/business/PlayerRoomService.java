@@ -18,52 +18,68 @@ import com.revature.g2g.models.SkillRoomJT;
 import com.revature.g2g.services.handlers.RoomHandler;
 import com.revature.g2g.services.handlers.SkillPlayerJTHandler;
 import com.revature.g2g.services.handlers.SkillRoomJTHandler;
+import com.revature.g2g.services.helpers.LoggerSingleton;
 
 @Service
 @Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
 public class PlayerRoomService {
-	@Autowired
 	SkillPlayerJTHandler skillPlayerJTHandler;
-	@Autowired
 	SkillRoomJTHandler skillRoomJTHandler;
-	@Autowired
 	RoomHandler roomHandler;
+	LoggerSingleton loggerSingleton;
+	@Autowired
+	public PlayerRoomService(SkillPlayerJTHandler skillPlayerJTHandler, SkillRoomJTHandler skillRoomJTHandler,
+			RoomHandler roomHandler, LoggerSingleton loggerSingleton) {
+		super();
+		this.skillPlayerJTHandler = skillPlayerJTHandler;
+		this.skillRoomJTHandler = skillRoomJTHandler;
+		this.roomHandler = roomHandler;
+		this.loggerSingleton = loggerSingleton;
+	}
 	public List<Room> getQualifiedRooms(Player player, RoomPlayStyle style) {
-		List<Room> result = new ArrayList<Room>();
+		loggerSingleton.getBusinessLog().trace("PlayerRoomService: Starting to check get Qualified Rooms");
+		List<Room> result = new ArrayList<>();
 		Set<SkillPlayerJT> playerSkillsSet = skillPlayerJTHandler.findByPlayer(player);
 		SkillPlayerJT[] playerSkills = playerSkillsSet.toArray( new SkillPlayerJT[0]);
-		int playerSkillsLen = playerSkills.length;
 		Set<Room> rooms = roomHandler.findStatusPlayStyle(RoomStatus.JOINING, style);
 		for(Room room : rooms) {
-			boolean qualified = true;
-			Set<SkillRoomJT> roomSkillsSet = skillRoomJTHandler.findByRoom(room);
-			SkillRoomJT[] roomSkills = roomSkillsSet.toArray( new SkillRoomJT[0]);
-			int roomSkillsLen = roomSkills.length;
-			for (int a=0; a<roomSkillsLen; a++) {
-				if(roomSkills[a].getMinValue() == 0) {
-					continue;
-				}
-				boolean found = false;
-				for (int b=0; b<playerSkillsLen; b++) {
-					//If the player skill is the same as the room skill
-					if (roomSkills[a].getSkill().equals(playerSkills[b].getSkill())) {
-						found = true;
-						//If the player skill does not meet the standards to be qualified
-						if(playerSkills[b].getValue() <= roomSkills[a].getMinValue()) {
-							qualified = false;
-							break;
-						}
-					}
-				}
-				if(!found || !qualified) {
-					qualified = false;
-					break;
-				}
-			}
-			if(qualified) {
+			if(checkQualfiedRoom(player, room, playerSkills)) {
 				result.add(room);
 			}
 		}
 		return result;
+	}
+	public boolean checkQualfiedRoom(Player player, Room room, SkillPlayerJT[] playerSkills) {
+		if(playerSkills == null) {
+			Set<SkillPlayerJT> playerSkillsSet = skillPlayerJTHandler.findByPlayer(player);
+			playerSkills = playerSkillsSet.toArray( new SkillPlayerJT[0]);
+		}
+		int playerSkillsLen = playerSkills.length;
+		boolean qualified = true;
+		Set<SkillRoomJT> roomSkillsSet = skillRoomJTHandler.findByRoom(room);
+		SkillRoomJT[] roomSkills = roomSkillsSet.toArray( new SkillRoomJT[0]);
+		int roomSkillsLen = roomSkills.length;
+		for (int a=0; a<roomSkillsLen; a++) {
+			if(roomSkills[a].getMinValue() == 0) {
+				continue;
+			}
+			boolean found = false;
+			for (int b=0; b<playerSkillsLen; b++) {
+				//If the player skill is the same as the room skill
+				if (roomSkills[a].getSkill().equals(playerSkills[b].getSkill())) {
+					found = true;
+					//If the player skill does not meet the standards to be qualified
+					if(playerSkills[b].getValue() <= roomSkills[a].getMinValue()) {
+						System.out.println("Break 1: " + playerSkills[b] + " failed with " + roomSkills[a] );
+						return false;
+					}
+				}
+			}
+			if(!found) {
+				System.out.println("Room skill not found: " + roomSkills[a]);
+				return false;
+			}
+		}
+		return qualified;
 	}
 }

@@ -13,18 +13,9 @@ import com.revature.g2g.services.handlers.SkillHandler;
 @Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
 public class SkillGenerator implements DataGenerator {
 	private SkillHandler skillHandler;
-	public SkillGenerator() {
-		super();
-	}
 	@Autowired
 	public SkillGenerator(SkillHandler skillHandler) {
 		super();
-		this.skillHandler = skillHandler;
-	}
-	public SkillHandler getSkillHandler() {
-		return skillHandler;
-	}
-	public void setSkillHandler(SkillHandler skillHandler) {
 		this.skillHandler = skillHandler;
 	}
 	@Override

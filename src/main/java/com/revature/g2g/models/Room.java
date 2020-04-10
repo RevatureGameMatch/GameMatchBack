@@ -16,6 +16,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
 
 import org.springframework.stereotype.Component;
 
@@ -48,6 +49,7 @@ public class Room implements Serializable{
 	@Column(name = "room_closed")
 	private Date closed;
 	
+	@Size(min=4, max=25, message="Rooms must have a name between 4 and 25.")
 	@Column(name = "room_name")
 	private String name;
 	

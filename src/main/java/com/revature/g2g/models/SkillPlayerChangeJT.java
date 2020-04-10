@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.stereotype.Component;
 
@@ -25,14 +26,17 @@ public class SkillPlayerChangeJT implements Serializable{
 	@Column(name = "skill_player_change_jt")
 	private int skillPlayerChangeJTId;
 	
+	@NotNull(message = "SkillPlayerChangeJT requires a SkillPlayerJT")
 	@ManyToOne()
 	@JoinColumn(name = "skill_id")
 	private SkillPlayerJT skillPlayerJT;
 	
+	@NotNull(message = "SkillPlayerChangeJT requires a Changed Player.")
 	@ManyToOne
 	@JoinColumn(name = "player_id")
 	private Player player;
 	
+	@NotNull(message = "SkillPlayerChangeJT requires a Modified Player")
 	@ManyToOne
 	@JoinColumn(name = "modified_by_id")
 	private Player modifiedBy;
@@ -40,6 +44,7 @@ public class SkillPlayerChangeJT implements Serializable{
 	@Column(name = "modified_by_expertise")
 	private float expertise;
 	
+	@NotNull(message = "SkillPlayerChangeJT requires a Room.")
 	@ManyToOne
 	@JoinColumn(name = "room_id")
 	private Room room;

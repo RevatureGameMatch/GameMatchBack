@@ -2,6 +2,7 @@ package com.revature.g2g.repositories;
 
 import java.util.Set;
 
+import com.revature.g2g.models.Game;
 import com.revature.g2g.models.Room;
 import com.revature.g2g.models.RoomPlayStyle;
 import com.revature.g2g.models.RoomStatus;
@@ -15,6 +16,8 @@ public interface IRoomDAO {
 	public Set<Room> findByStatus(RoomStatus status);
 	public Set<Room> findByPlayStyle(RoomPlayStyle style);
 	public Set<Room> findStatusPlayStyle(RoomStatus status, RoomPlayStyle style);
+	public Set<Room> findByStatusGame(RoomStatus status, Game game);
+	public Set<Room> findByStatusPlayStyleGame(RoomStatus status, RoomPlayStyle style, Game game);
 	public Room findRoomByDiscordVoice(Long discordVoiceId);
 	//Find rooms someone can log into
 	//public Set<Room> findBySkill(RoomStatus status, SkillPlayerJT[] skills);

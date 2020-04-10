@@ -2,7 +2,10 @@ package com.revature.g2g.api.templates;
 
 import java.util.Objects;
 
+import javax.validation.constraints.NotNull;
+
 public class MessageTemplate {
+	@NotNull
 	private String message;
 	public MessageTemplate() {
 		super();

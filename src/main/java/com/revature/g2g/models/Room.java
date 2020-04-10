@@ -82,6 +82,15 @@ public class Room implements Serializable{
 	public Room() {
 		super();
 	}
+	public Room(String name, int currentPlayers, int maxPlayers, String description, RoomPlayStyle style, Game game) {
+		super();
+		this.name = name;
+		this.currentPlayers = currentPlayers;
+		this.maxPlayers = maxPlayers;
+		this.description = description;
+		this.style = style;
+		this.game = game;
+	}
 	public Room(Long discordTextChannelId, Long discordVoiceChannelId, Long discordRoleId, Date created,
 			String description, RoomStatus status, RoomPlayStyle style) {
 		super();

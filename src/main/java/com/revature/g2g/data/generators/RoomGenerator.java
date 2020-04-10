@@ -13,23 +13,23 @@ import com.revature.g2g.models.Game;
 import com.revature.g2g.models.Room;
 import com.revature.g2g.models.RoomPlayStyle;
 import com.revature.g2g.models.RoomStatus;
-import com.revature.g2g.services.business.RoomService;
 import com.revature.g2g.services.handlers.GameHandler;
 import com.revature.g2g.services.handlers.RoomHandler;
 import com.revature.g2g.services.helpers.LoggerSingleton;
+import com.revature.g2g.services.helpers.RoomHelper;
 
 @Service
 @Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
 public class RoomGenerator implements DataGenerator {
 	private RoomHandler roomHandler;
-	private RoomService roomService;
+	private RoomHelper roomHelper;
 	private LoggerSingleton loggerSingleton;
 	private Set<Game> games;
 	@Autowired
-	public RoomGenerator(RoomHandler roomHandler, RoomService roomService, GameHandler gameHandler, LoggerSingleton loggerSingleton) {
+	public RoomGenerator(RoomHandler roomHandler, RoomHelper roomHelper, GameHandler gameHandler, LoggerSingleton loggerSingleton) {
 		super();
 		this.roomHandler = roomHandler;
-		this.roomService = roomService;
+		this.roomHelper = roomHelper;
 		games = gameHandler.findAll();
 	}
 	@Override
@@ -38,7 +38,9 @@ public class RoomGenerator implements DataGenerator {
 		int roomsToMake = 15 - activeRooms.size() + 1;
 		for(int a=1; a<roomsToMake; a++) {
 			Game game = randomGame();
-			roomService.make(game.getName() + " #" + a, randomStyle(), game);
+			if(game != null) {
+				roomHelper.insert(game.getName() + " #" + a, randomStyle(), game, new Random().nextInt(7)+3, new Random().nextInt(3), game.getDescription());
+			}
 		}
 	}
 	private static RoomPlayStyle randomStyle() {

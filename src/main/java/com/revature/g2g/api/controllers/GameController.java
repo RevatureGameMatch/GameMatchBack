@@ -22,6 +22,7 @@ import com.revature.g2g.models.Player;
 import com.revature.g2g.models.PlayerRole;
 import com.revature.g2g.services.handlers.GameHandler;
 import com.revature.g2g.services.helpers.AuthenticatorHelper;
+import com.revature.g2g.services.helpers.GameHelper;
 
 @CrossOrigin
 @RestController
@@ -29,11 +30,13 @@ import com.revature.g2g.services.helpers.AuthenticatorHelper;
 public class GameController {
 	private GameHandler gameHandler;
 	private AuthenticatorHelper authenticatorHelper;
+	private GameHelper gameHelper;
 	@Autowired
-	public GameController(GameHandler gameHandler, AuthenticatorHelper authenticatorHelper) {
+	public GameController(GameHandler gameHandler, AuthenticatorHelper authenticatorHelper, GameHelper gameHelper) {
 		super();
 		this.gameHandler = gameHandler;
 		this.authenticatorHelper = authenticatorHelper;
+		this.gameHelper = gameHelper;
 	}
 	@GetMapping
 	public ResponseEntity<Set<Game>> getGames(){
@@ -78,7 +81,7 @@ public class GameController {
 		if(gameHandler.findByName(gameTemplate.getGame().getName()) != null) {
 			return ResponseEntity.status(HttpStatus.CONFLICT).build();
 		}
-		gameHandler.insert(Game.clean(gameTemplate.getGame()));
+		gameHandler.insert(gameHelper.clean(gameTemplate.getGame()));
 		Set<Game> games = gameHandler.findAll();
 		if(games.isEmpty()) {
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();

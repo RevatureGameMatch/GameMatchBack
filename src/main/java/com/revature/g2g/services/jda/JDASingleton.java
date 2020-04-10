@@ -6,7 +6,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.revature.g2g.services.helpers.LoggerSingleton;
-import com.revature.g2g.services.helpers.PropertiesHelper;
+import com.revature.g2g.services.helpers.PropertiesSingleton;
 import com.revature.g2g.services.jda.listeners.GuildVoiceEventListener;
 import com.revature.g2g.services.jda.listeners.MessageListener;
 import com.revature.g2g.services.jda.listeners.ReadyListener;
@@ -23,7 +23,7 @@ public class JDASingleton {
 		if(jda == null) {
 			try {
 				ApplicationContext ac = new ClassPathXmlApplicationContext("applicationContext.xml");
-				JDABuilder builder = JDABuilder.createDefault(new PropertiesHelper().getPropValues().getProperty("discordKey"));
+				JDABuilder builder = JDABuilder.createDefault(PropertiesSingleton.getPropValues().getProperty("discordKey"));
 				builder.setActivity(Activity.watching("Users for new commands."));
 				builder.addEventListeners(ac.getBean(GuildVoiceEventListener.class));
 				builder.addEventListeners(ac.getBean(MessageListener.class));

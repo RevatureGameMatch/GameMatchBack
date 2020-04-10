@@ -29,4 +29,13 @@
   	<servlet-name>DispatcherServlet</servlet-name>
   	<url-pattern>/</url-pattern>
   </servlet-mapping>
+  <servlet>
+	<servlet-name>Startup</servlet-name>
+	<servlet-class>com.revature.g2g.api.StartupServlet</servlet-class>
+  	<load-on-startup>1</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>Startup</servlet-name>
+  	<url-pattern>/The/Really/Long/And/Confusing/URI/That/Hides/A/Function/We/Need/On/Startup/Because/We/Found/No/Better/Way</url-pattern>
+  </servlet-mapping>
 </web-app>

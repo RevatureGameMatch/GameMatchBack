@@ -5,11 +5,14 @@ import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Path;
+import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import org.hibernate.HibernateException;
@@ -196,6 +199,44 @@ public class PlayerRoomJTDAO implements IPlayerRoomJTDAO {
 			
 			return Collections.emptySet();
 			
+		}
+		
+	}
+	
+	@Override
+	public PlayerRoomJT findByPlayerRoom(Player player, Room room) {
+		Set<PlayerRoomJT> set = null;
+		
+		Session ses = sf.getCurrentSession();
+		
+		CriteriaBuilder builder = ses.getCriteriaBuilder();
+		CriteriaQuery<PlayerRoomJT> query = builder.createQuery(PlayerRoomJT.class);
+		
+		Root<PlayerRoomJT> root = query.from(PlayerRoomJT.class);
+		Path<Object> playerPath = root.get("player");
+		Path<Object> roomPath = root.get("room");
+		
+		Predicate skillPredicate = builder.equal(playerPath, player);
+		Predicate gamePredicate = builder.equal(roomPath, room);
+		Predicate skillAndGamePredciate = builder.and(skillPredicate, gamePredicate);
+		
+		query.select(root).where(skillAndGamePredciate);
+		
+		Query<PlayerRoomJT> sg = ses.createQuery(query);
+		
+		try {
+			
+			set = sg.getResultStream()
+					.collect(Collectors.toSet());
+			
+			if(set.size() == 1) {
+				return sg.getSingleResult();
+			} else {
+				return set.iterator().next();
+			}
+			
+		} catch (javax.persistence.NoResultException|NoSuchElementException e ) {
+			return null;
 		}
 		
 	}

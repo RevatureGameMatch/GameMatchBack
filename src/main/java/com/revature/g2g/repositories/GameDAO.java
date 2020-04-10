@@ -23,9 +23,12 @@ import com.revature.g2g.models.Game;
 @Repository
 @Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
 public class GameDAO implements IGameDAO {
-	
-	@Autowired
 	private SessionFactory sf;
+	@Autowired
+	public GameDAO(SessionFactory sf) {
+		super();
+		this.sf = sf;
+	}
 
 	public void insert(Game g) {
 		

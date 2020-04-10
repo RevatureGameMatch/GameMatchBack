@@ -13,6 +13,7 @@ public interface IPlayerRoomJTDAO {
 	public PlayerRoomJT findById(int id);
 	public int countCurrentPlayers();
 	public int countCurrentPlayers(Room room);
+	public PlayerRoomJT findByPlayerRoom(Player player, Room room);
 	public Set<PlayerRoomJT> findAll();
 	public Set<Player> findPlayers(Room room);
 	public Set<Room> findRooms(Player player);

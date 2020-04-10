@@ -16,7 +16,6 @@ import com.revature.g2g.models.Player;
 import com.revature.g2g.models.Room;
 import com.revature.g2g.models.RoomPlayStyle;
 import com.revature.g2g.services.business.PlayerRoomService;
-import com.revature.g2g.services.handlers.PlayerHandler;
 import com.revature.g2g.services.helpers.AuthenticatorHelper;
 import com.revature.g2g.services.helpers.LoggerSingleton;
 
@@ -25,15 +24,13 @@ import com.revature.g2g.services.helpers.LoggerSingleton;
 @RequestMapping(value="/Rooms")
 public class ViewRoomsController {
 	private PlayerRoomService playerRoomService;
-	private PlayerHandler playerHandler;
 	private LoggerSingleton loggerSingleton;
 	private AuthenticatorHelper authenticatorHelper;
 	@Autowired
-	public ViewRoomsController(PlayerRoomService playerRoomService, PlayerHandler playerHandler,
+	public ViewRoomsController(PlayerRoomService playerRoomService,
 			LoggerSingleton loggerSingleton, AuthenticatorHelper authenticatorHelper) {
 		super();
 		this.playerRoomService = playerRoomService;
-		this.playerHandler = playerHandler;
 		this.loggerSingleton = loggerSingleton;
 		this.authenticatorHelper = authenticatorHelper;
 	}
@@ -54,6 +51,9 @@ public class ViewRoomsController {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 		}
 		Player player = authenticatorHelper.getPlayer(template);
+		if(player==null) {
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+		}
 		List<Room> rooms = playerRoomService.getQualifiedRooms(player, style);
 		String logMessage = "ViewRoomsController: qualified rooms requested by: " + template;
 		loggerSingleton.getBusinessLog().trace(logMessage);

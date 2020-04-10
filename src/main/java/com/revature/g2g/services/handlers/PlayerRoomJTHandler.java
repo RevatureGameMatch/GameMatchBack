@@ -35,6 +35,9 @@ public class PlayerRoomJTHandler {
 	public int countCurrentPlayers(Room room) {
 		return this.repository.countCurrentPlayers(room);
 	}
+	public PlayerRoomJT findByPlayerRoom(Player player, Room room) {
+		return this.repository.findByPlayerRoom(player, room);
+	}
 	public Set<PlayerRoomJT> findAll(){
 		return this.repository.findAll();
 	}

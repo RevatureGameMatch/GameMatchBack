@@ -14,10 +14,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.revature.g2g.api.templates.PlayerRoomTemplate;
 import com.revature.g2g.api.templates.RoomTemplate;
 import com.revature.g2g.models.Player;
 import com.revature.g2g.models.PlayerRole;
+import com.revature.g2g.models.PlayerRoomJT;
 import com.revature.g2g.models.Room;
+import com.revature.g2g.services.handlers.PlayerRoomJTHandler;
 import com.revature.g2g.services.handlers.RoomHandler;
 import com.revature.g2g.services.helpers.AuthenticatorHelper;
 import com.revature.g2g.services.helpers.RoomHelper;
@@ -29,12 +32,15 @@ public class RoomController {
 	private RoomHandler roomHandler;
 	private AuthenticatorHelper authenticatorHelper;
 	private RoomHelper roomHelper;
+	private PlayerRoomJTHandler playerRoomJTHandler;
 	@Autowired
-	public RoomController(RoomHandler roomHandler, AuthenticatorHelper authenticatorHelper, RoomHelper roomHelper) {
+	public RoomController(RoomHandler roomHandler, AuthenticatorHelper authenticatorHelper, RoomHelper roomHelper,
+			PlayerRoomJTHandler playerRoomJTHandler) {
 		super();
 		this.roomHandler = roomHandler;
 		this.authenticatorHelper = authenticatorHelper;
 		this.roomHelper = roomHelper;
+		this.playerRoomJTHandler = playerRoomJTHandler;
 	}
 	@GetMapping
 	public ResponseEntity<Set<Room>> getRooms(){
@@ -100,5 +106,26 @@ public class RoomController {
 		}else {
 			return ResponseEntity.status(HttpStatus.RESET_CONTENT).body(rooms);
 		}
+	}
+	@PostMapping("/Player")
+	public ResponseEntity<String> insert(@RequestBody PlayerRoomTemplate template){
+		if(template == null || template.getRoom() == null) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+		}
+		Player player = authenticatorHelper.getPlayer(template.getSender());
+		if(player == null) {
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+		}
+		Room room = roomHandler.findById(template.getRoom().getRoomId());
+		if(room == null) {
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+		}
+		PlayerRoomJT alreadyInRoom = playerRoomJTHandler.findByPlayerRoom(player, room);
+		String inviteUrl = roomHelper.getInvite(room,player);
+		if(alreadyInRoom == null) {
+			room.setCurrentPlayers(room.getCurrentPlayers() + 1);
+			roomHandler.update(room);
+		}
+		return ResponseEntity.status(HttpStatus.CREATED).body(inviteUrl);
 	}
 }

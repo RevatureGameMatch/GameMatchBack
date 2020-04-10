@@ -66,7 +66,9 @@ public class RoomController {
 		if(!(player.getPlayerRole().equals(PlayerRole.ADMIN) || player.getPlayerRole().equals(PlayerRole.MODERATOR))) {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 		}
-		roomHandler.insert(roomHelper.clean(roomTemplate.getRoom()));
+		Room room = roomHelper.clean(roomTemplate.getRoom());
+		room.setCurrentPlayers(0);
+		roomHandler.insert(room);
 		Set<Room> rooms = roomHandler.findAll();
 		if(rooms.isEmpty()) {
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();

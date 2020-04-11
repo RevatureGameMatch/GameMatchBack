@@ -1,5 +1,7 @@
 package com.revature.g2g.api.controllers;
 
-public class SurveyController {
+import org.springframework.beans.factory.annotation.Autowired;
 
+@Autowired
+public class SurveyController {
 }

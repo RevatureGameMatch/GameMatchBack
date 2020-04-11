@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.revature.g2g.api.templates.MessageTemplate;
+import com.revature.g2g.api.templates.DiscordInviteTemplate;
 import com.revature.g2g.api.templates.PlayerRoomTemplate;
 import com.revature.g2g.api.templates.PlayerTemplate;
 import com.revature.g2g.api.templates.RoomTemplate;
@@ -34,6 +34,10 @@ import com.revature.g2g.services.handlers.RoomHandler;
 import com.revature.g2g.services.helpers.AuthenticatorHelper;
 import com.revature.g2g.services.helpers.LoggerSingleton;
 import com.revature.g2g.services.helpers.RoomHelper;
+import com.revature.g2g.services.jda.helpers.GuildHelper;
+
+import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.Invite;
 
 @CrossOrigin
 @RestController
@@ -46,10 +50,11 @@ public class RoomController {
 	private PlayerRoomService playerRoomService;
 	private LoggerSingleton loggerSingleton;
 	private GameHandler gameHandler;
+	private GuildHelper guildHelper;
 	@Autowired
 	public RoomController(RoomHandler roomHandler, AuthenticatorHelper authenticatorHelper, RoomHelper roomHelper,
 			PlayerRoomJTHandler playerRoomJTHandler, PlayerRoomService playerRoomService,
-			LoggerSingleton loggerSingleton, GameHandler gameHandler) {
+			LoggerSingleton loggerSingleton, GameHandler gameHandler, GuildHelper guildHelper) {
 		super();
 		this.roomHandler = roomHandler;
 		this.authenticatorHelper = authenticatorHelper;
@@ -58,6 +63,7 @@ public class RoomController {
 		this.playerRoomService = playerRoomService;
 		this.loggerSingleton = loggerSingleton;
 		this.gameHandler = gameHandler;
+		this.guildHelper = guildHelper;
 	}
 	@GetMapping
 	public ResponseEntity<Set<Room>> getRooms(){
@@ -120,7 +126,7 @@ public class RoomController {
 		}
 	}
 	@PostMapping("/Player")
-	public ResponseEntity<MessageTemplate> insert(@RequestBody PlayerRoomTemplate template){
+	public ResponseEntity<DiscordInviteTemplate> insert(@RequestBody PlayerRoomTemplate template){
 		if(template == null || template.getRoom() == null) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 		}
@@ -133,13 +139,22 @@ public class RoomController {
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 		}
 		PlayerRoomJT alreadyInRoom = playerRoomJTHandler.findByPlayerRoom(player, room);
-		String inviteUrl = roomHelper.getInvite(room,player);
+		Invite invite = roomHelper.getInvite(room,player);
 		if(alreadyInRoom == null) {
 			room.setCurrentPlayers(room.getCurrentPlayers() + 1);
 			roomHandler.update(room);
 		}
-		MessageTemplate message = new MessageTemplate(inviteUrl);
-		return ResponseEntity.status(HttpStatus.CREATED).body(message);
+		DiscordInviteTemplate discordInviteTemplate = new DiscordInviteTemplate();
+		discordInviteTemplate.setChannelId(room.getDiscordVoiceChannelId());
+		discordInviteTemplate.setChannelName(room.getName());
+		Guild guild = guildHelper.getGuild();
+		discordInviteTemplate.setGuildId(guild.getIdLong());
+		discordInviteTemplate.setGuildName(guild.getName());
+		discordInviteTemplate.setInviteCode(invite.getCode());
+		discordInviteTemplate.setUrlWeb(invite.getUrl());
+		discordInviteTemplate.setUrlApp("discord://discordapp.com/invite/" + invite.getCode());
+		return ResponseEntity.status(HttpStatus.CREATED).body(discordInviteTemplate);
+//		return ResponseEntity.status(HttpStatus.CREATED).body(message);
 	}
 	@PostMapping(value="/Style/Casual")
 	public ResponseEntity<List<Room>> casual(@Valid @RequestBody PlayerTemplate template){

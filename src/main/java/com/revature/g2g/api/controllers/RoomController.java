@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.revature.g2g.api.templates.MessageTemplate;
 import com.revature.g2g.api.templates.PlayerRoomTemplate;
 import com.revature.g2g.api.templates.PlayerTemplate;
 import com.revature.g2g.api.templates.RoomTemplate;
@@ -124,7 +125,7 @@ public class RoomController {
 		}
 	}
 	@PostMapping("/Player")
-	public ResponseEntity<String> insert(@RequestBody PlayerRoomTemplate template){
+	public ResponseEntity<MessageTemplate> insert(@RequestBody PlayerRoomTemplate template){
 		if(template == null || template.getRoom() == null) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 		}
@@ -142,7 +143,8 @@ public class RoomController {
 			room.setCurrentPlayers(room.getCurrentPlayers() + 1);
 			roomHandler.update(room);
 		}
-		return ResponseEntity.status(HttpStatus.CREATED).body(inviteUrl);
+		MessageTemplate message = new MessageTemplate(inviteUrl);
+		return ResponseEntity.status(HttpStatus.CREATED).body(message);
 	}
 	@PostMapping(value="/Style/Casual")
 	public ResponseEntity<List<Room>> casual(@Valid @RequestBody PlayerTemplate template){

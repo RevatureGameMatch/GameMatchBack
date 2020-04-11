@@ -7,9 +7,6 @@ import javax.validation.constraints.NotNull;
 public class MessageTemplate {
 	@NotNull
 	private String message;
-	public MessageTemplate() {
-		super();
-	}
 	public MessageTemplate(String message) {
 		super();
 		this.message = message;

@@ -2,10 +2,14 @@ package com.revature.g2g.api.templates;
 
 import java.util.Objects;
 
+import javax.validation.constraints.NotNull;
+
 import com.revature.g2g.models.Game;
 
 public class GameTemplate {
+	@NotNull
 	private Game game;
+	@NotNull
 	private PlayerTemplate sender;
 	public GameTemplate() {
 		super();

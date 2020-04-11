@@ -12,6 +12,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.springframework.stereotype.Component;
 
@@ -29,9 +31,11 @@ public class Game implements Serializable{
 	@Column(name = "game_id")
 	private int gameId;
 	
+	@Size(min=5, max=50, message="Game Name must be between 5 and 50 characters")
 	@Column(name = "game_name", unique = true)
 	private String name;
 	
+	@NotNull(message="Game must have a link")
 	@Column(name = "game_link")
 	private String link;
 	

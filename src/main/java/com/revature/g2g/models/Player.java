@@ -13,7 +13,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
 
+import org.hibernate.validator.constraints.Email;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
 import org.springframework.stereotype.Component;
@@ -32,12 +34,15 @@ public class Player implements Serializable {
 	@Column(name = "player_id")
 	private int playerId;
 	
+	@Size(min=3, max=20, message="The username must be between 3 and 25 characters.")
 	@Column(name = "player_username", unique = true)
 	private String playerUsername;
 	
+	@Email(message="You must submit a valid email. This will be used for account recovery.")
 	@Column(name = "player_email", unique = true)
 	private String playerEmail;
 	
+	@Size(min=5, max=100, message="Your password must be between 5 and 100 characters.")
 	@Column(name = "player_password")
 	private String playerPassword;
 	

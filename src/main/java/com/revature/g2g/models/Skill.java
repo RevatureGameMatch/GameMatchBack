@@ -15,6 +15,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.stereotype.Component;
 
@@ -32,6 +33,7 @@ public class Skill implements Serializable{
 	@Column(name = "skill_id")
 	private int skillId;
 	
+	@NotNull(message="Skill requires name.")
 	@Column(name = "skill_name", unique = true)
 	private String name;
 	

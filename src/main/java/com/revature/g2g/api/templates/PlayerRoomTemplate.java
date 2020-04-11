@@ -2,11 +2,14 @@ package com.revature.g2g.api.templates;
 
 import java.util.Objects;
 
-import com.revature.g2g.models.Player;
+import javax.validation.constraints.NotNull;
+
 import com.revature.g2g.models.Room;
 
 public class PlayerRoomTemplate {
+	@NotNull
 	private Room room;
+	@NotNull
 	private PlayerTemplate sender;
 	public PlayerRoomTemplate() {
 		super();

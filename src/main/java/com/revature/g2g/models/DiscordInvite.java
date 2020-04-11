@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.stereotype.Component;
 
@@ -31,10 +32,12 @@ public class DiscordInvite implements Serializable{
 	@Column(name = "invite_discord_code")
 	private String discordCode;
 	
+	@NotNull(message = "The DiscordInvite must havea a room.")
 	@ManyToOne()
 	@JoinColumn(name = "invite_room")
 	private Room room;
 	
+	@NotNull(message = "The DiscordInvite must have a player.")
 	@ManyToOne()
 	@JoinColumn(name = "invite_player")
 	private Player player;

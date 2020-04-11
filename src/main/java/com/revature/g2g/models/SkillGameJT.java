@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.stereotype.Component;
 
@@ -24,10 +25,12 @@ public class SkillGameJT implements Serializable {
 	@Column(name = "skill_game_jt_id")
 	private int skillGameJTId;
 	
+	@NotNull(message = "SkillGameJT requires a skill.")
 	@ManyToOne()
 	@JoinColumn(name = "skill_id")
 	private Skill skill;
 	
+	@NotNull(message = "SkillGameJT requires a game.")
 	@ManyToOne()
 	@JoinColumn(name = "game_id")
 	private Game game;

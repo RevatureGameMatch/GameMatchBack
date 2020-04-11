@@ -2,11 +2,15 @@ package com.revature.g2g.api.templates;
 
 import java.util.Objects;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 import com.revature.g2g.models.PlayerRole;
 
 public class PlayerTemplate {
 	private int playerId;
+	@NotBlank
 	private String playerUsername;
+	@NotBlank
 	private String playerEmail;
 	private String playerPassword;
 	private PlayerRole playerRole;

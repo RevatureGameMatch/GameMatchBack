@@ -19,6 +19,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.revature.g2g.models.Game;
 import com.revature.g2g.models.Room;
 import com.revature.g2g.models.RoomPlayStyle;
 import com.revature.g2g.models.RoomStatus;
@@ -183,6 +184,46 @@ public class RoomDAO implements IRoomDAO {
 			
 		}
 		
+	}
+	public Set<Room> findByStatusGame(RoomStatus status, Game game){
+		Session ses = sf.getCurrentSession();
+		CriteriaBuilder builder = ses.getCriteriaBuilder();
+		CriteriaQuery<Room> query = builder.createQuery(Room.class);
+		Root<Room> root = query.from(Room.class);
+		Path<Object> statusPath = root.get("status");
+		Path<Object> gamePath = root.get("game");
+		Predicate statusPredicate = builder.equal(statusPath, status);
+		Predicate gamePredicate = builder.equal(gamePath, game);
+		Predicate statusAndStylePredicate = builder.and(statusPredicate,gamePredicate);
+		query.select(root).where(statusAndStylePredicate);
+		Query<Room> room = ses.createQuery(query);
+		try {
+			return room.getResultStream()
+					.collect(Collectors.toSet());
+		} catch (javax.persistence.NoResultException e) {
+			return Collections.emptySet();
+		}
+	}
+	public Set<Room> findByStatusPlayStyleGame(RoomStatus status, RoomPlayStyle style, Game game){
+		Session ses = sf.getCurrentSession();
+		CriteriaBuilder builder = ses.getCriteriaBuilder();
+		CriteriaQuery<Room> query = builder.createQuery(Room.class);
+		Root<Room> root = query.from(Room.class);
+		Path<Object> statusPath = root.get("status");
+		Path<Object> stylePath = root.get("style");
+		Path<Object> gamePath = root.get("game");
+		Predicate statusPredicate = builder.equal(statusPath, status);
+		Predicate stylePredicate = builder.equal(stylePath, style);
+		Predicate gamePredicate = builder.equal(gamePath, game);
+		Predicate statusAndStylePredicate = builder.and(statusPredicate, stylePredicate, gamePredicate);
+		query.select(root).where(statusAndStylePredicate);
+		Query<Room> room = ses.createQuery(query);
+		try {
+			return room.getResultStream()
+					.collect(Collectors.toSet());
+		} catch (javax.persistence.NoResultException e) {
+			return Collections.emptySet();
+		}
 	}
 
 //	@Override

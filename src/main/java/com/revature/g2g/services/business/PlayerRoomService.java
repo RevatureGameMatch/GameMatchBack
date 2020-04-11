@@ -9,6 +9,7 @@ import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
+import com.revature.g2g.models.Game;
 import com.revature.g2g.models.Player;
 import com.revature.g2g.models.Room;
 import com.revature.g2g.models.RoomPlayStyle;
@@ -37,11 +38,22 @@ public class PlayerRoomService {
 		this.loggerSingleton = loggerSingleton;
 	}
 	public List<Room> getQualifiedRooms(Player player, RoomPlayStyle style) {
+		Set<Room> rooms = roomHandler.findStatusPlayStyle(RoomStatus.JOINING, style);
+		return fetchQualifiedRooms(player, rooms);
+	}
+	public List<Room> getQualifiedRooms(Player player, Game game) {
+		Set<Room> rooms = roomHandler.findByStatusGame(RoomStatus.JOINING, game);
+		return fetchQualifiedRooms(player, rooms);
+	}
+	public List<Room> getQualifiedRooms(Player player, RoomPlayStyle style, Game game) {
+		Set<Room> rooms = roomHandler.findByStatusPlayStyleGame(RoomStatus.JOINING, style, game);
+		return fetchQualifiedRooms(player, rooms);
+	}
+	private List<Room> fetchQualifiedRooms(Player player, Set<Room> rooms) {
 		loggerSingleton.getBusinessLog().trace("PlayerRoomService: Starting to check get Qualified Rooms");
 		List<Room> result = new ArrayList<>();
 		Set<SkillPlayerJT> playerSkillsSet = skillPlayerJTHandler.findByPlayer(player);
 		SkillPlayerJT[] playerSkills = playerSkillsSet.toArray( new SkillPlayerJT[0]);
-		Set<Room> rooms = roomHandler.findStatusPlayStyle(RoomStatus.JOINING, style);
 		for(Room room : rooms) {
 			if(checkQualfiedRoom(player, room, playerSkills)) {
 				result.add(room);

@@ -85,8 +85,11 @@ public class RoomHelper {
 		}
 		return original;
 	}
-	public String getInvite(Room room, Player player) {
+	public Invite getInvite(Room room, Player player) {
+		if(room.getStatus().equals(RoomStatus.CLOSED))return null;
 		JDA jda = JDASingleton.getJda();
+//		TextChannel text = jda.getTextChannelById(room.getDiscordTextChannelId());
+//		InviteAction inviteAction = text.createInvite();
 		VoiceChannel voice = jda.getVoiceChannelById(room.getDiscordVoiceChannelId());
 		InviteAction inviteAction = voice.createInvite();
 		Invite invite = inviteAction.complete();
@@ -96,6 +99,6 @@ public class RoomHelper {
 		discordInvite.setPlayer(player);
 		discordInvite.setStatus(DiscordInviteStatus.CREATED);
 		discordInviteHandler.insert(discordInvite);
-		return invite.getUrl();
+		return invite;
 	}
 }

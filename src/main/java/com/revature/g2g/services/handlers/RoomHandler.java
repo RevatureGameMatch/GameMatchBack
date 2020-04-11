@@ -7,6 +7,7 @@ import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
+import com.revature.g2g.models.Game;
 import com.revature.g2g.models.Room;
 import com.revature.g2g.models.RoomPlayStyle;
 import com.revature.g2g.models.RoomStatus;
@@ -43,6 +44,12 @@ public class RoomHandler {
 	}
 	public Set<Room> findStatusPlayStyle(RoomStatus status, RoomPlayStyle style){
 		return this.repository.findStatusPlayStyle(status, style);
+	}
+	public Set<Room> findByStatusGame(RoomStatus status, Game game){
+		return this.repository.findByStatusGame(status, game);
+	}
+	public Set<Room> findByStatusPlayStyleGame(RoomStatus status, RoomPlayStyle style, Game game){
+		return this.repository.findByStatusPlayStyleGame(status, style, game);
 	}
 	public Room findRoomByDiscordVoice(Long discordVoiceId) {
 		return this.repository.findRoomByDiscordVoice(discordVoiceId);

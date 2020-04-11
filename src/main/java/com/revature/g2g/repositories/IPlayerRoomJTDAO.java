@@ -17,6 +17,7 @@ public interface IPlayerRoomJTDAO {
 	public Set<PlayerRoomJT> findAll();
 	public Set<Player> findPlayers(Room room);
 	public Set<Room> findRooms(Player player);
+	public Set<Room> findSurveyRooms(Player player);
 	//Update
 	public void update(PlayerRoomJT pr);
 	//Delete

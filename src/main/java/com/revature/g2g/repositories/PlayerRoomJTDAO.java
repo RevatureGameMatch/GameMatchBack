@@ -242,6 +242,14 @@ public class PlayerRoomJTDAO implements IPlayerRoomJTDAO {
 	}
 
 	@Override
+	public Set<Room> findSurveyRooms(Player player) {
+		//TODO Make this take a player and return rooms that 
+		//1. Started more than 10 minutes ago (join to room and check the "created" field is more than 600 seconds before current TIMESTAMP)
+		//2. Ended no more than 24 hours ago (join to room and check the "closed" field is NOT more than 86400 seconds before current TIMESTAMP)
+		return null;
+	}
+
+	@Override
 	public void update(PlayerRoomJT pr) {
 		
 		Session s = sf.getCurrentSession();

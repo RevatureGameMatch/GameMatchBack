@@ -87,8 +87,8 @@ public class RoomHelper {
 	}
 	public String getInvite(Room room, Player player) {
 		JDA jda = JDASingleton.getJda();
-		VoiceChannel voice = jda.getVoiceChannelById(room.getDiscordVoiceChannelId());
-		InviteAction inviteAction = voice.createInvite();
+		TextChannel text = jda.getTextChannelById(room.getDiscordTextChannelId());
+		InviteAction inviteAction = text.createInvite();
 		Invite invite = inviteAction.complete();
 		DiscordInvite discordInvite = new DiscordInvite();
 		discordInvite.setDiscordCode(invite.getCode());

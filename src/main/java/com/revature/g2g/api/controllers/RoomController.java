@@ -78,7 +78,7 @@ public class RoomController {
 		}
 	}
 	@PostMapping("")
-	public ResponseEntity<Set<Room>> insert(@RequestBody RoomTemplate roomTemplate){
+	public ResponseEntity<Room> insert(@RequestBody RoomTemplate roomTemplate){
 		if(roomTemplate == null || roomTemplate.getRoom() == null) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 		}
@@ -92,12 +92,7 @@ public class RoomController {
 		Room room = roomHelper.clean(roomTemplate.getRoom());
 		room.setCurrentPlayers(0);
 		roomHandler.insert(room);
-		Set<Room> rooms = roomHandler.findAll();
-		if(rooms.isEmpty()) {
-			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-		}else {
-			return ResponseEntity.status(HttpStatus.CREATED).body(rooms);
-		}
+		return ResponseEntity.status(HttpStatus.CREATED).body(room);
 	}
 	@PatchMapping("")
 	public ResponseEntity<Set<Room>> update(@RequestBody RoomTemplate roomTemplate){

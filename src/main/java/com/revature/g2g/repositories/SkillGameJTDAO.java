@@ -3,6 +3,7 @@ package com.revature.g2g.repositories;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -213,7 +214,7 @@ public class SkillGameJTDAO implements ISkillGameJTDAO {
 				return set.iterator().next();
 			}
 			
-		} catch (javax.persistence.NoResultException e) {
+		} catch (javax.persistence.NoResultException|NoSuchElementException e) {
 			
 			return null;
 			

@@ -1,5 +1,7 @@
 package com.revature.g2g.data.generators;
 
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
@@ -30,6 +32,13 @@ public class SkillGameJTGenerator implements DataGenerator {
 	}
 	@Override
 	public void generate() {
+		Set<Game> games = gameHandler.findAll();
+		for(Game game: games) {
+			make(game.getName(), new SkillPriorityTemplate[] {
+				new SkillPriorityTemplate("Fun to Play With",5),
+				new SkillPriorityTemplate("Good at Game", 5),
+			});
+		}
 		make("DnD5e", new SkillPriorityTemplate[] { 
 				new SkillPriorityTemplate("Fun to Play With",10), 
 				new SkillPriorityTemplate("Good at Game",5), 

@@ -1,11 +1,16 @@
 package com.revature.g2g;
 
+import java.sql.Timestamp;
+import java.util.Date;
+
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import com.revature.g2g.models.Player;
 import com.revature.g2g.repositories.IPlayerDAO;
 import com.revature.g2g.repositories.IPlayerRoomJTDAO;
 import com.revature.g2g.repositories.PlayerDAO;
+import com.revature.g2g.repositories.PlayerRoomJTDAO;
 
 public class DAODriver {
 //	private static SkillHandler skillHandler = new SkillHandler();
@@ -21,11 +26,27 @@ public class DAODriver {
 		//ApplictionContext ac = ClassPathXmlApplicationContext
 		
 		
-		ApplicationContext ac = new ClassPathXmlApplicationContext("applicationContext.xml");
-		IPlayerDAO dao = ac.getBean(IPlayerDAO.class);
-		IPlayerRoomJTDAO daopr = ac.getBean(IPlayerRoomJTDAO.class);
+//		ApplicationContext ac = new ClassPathXmlApplicationContext("applicationContext.xml");
+//		IPlayerDAO dao = ac.getBean(IPlayerDAO.class);
+//		IPlayerRoomJTDAO daopr = ac.getBean(IPlayerRoomJTDAO.class);
+//		
+//		System.out.println(daopr.findAll());
 		
-		System.out.println(daopr.findAll());
+		long millis=System.currentTimeMillis(); 
+		System.out.println(millis-600);
+		ApplicationContext ac = new ClassPathXmlApplicationContext("applicationContext.xml");
+		IPlayerRoomJTDAO dao = ac.getBean(IPlayerRoomJTDAO.class);
+		
+//		Date time = dao.findById(155).getLeft();
+//		long mil = time.getTime();
+//		
+//		System.out.println(mil);
+		
+		IPlayerDAO pDAO = ac.getBean(IPlayerDAO.class);
+		
+		Player p = pDAO.findById(544);
+		
+		System.out.println(dao.findSurveyRooms(p));
 		
 	}
 }

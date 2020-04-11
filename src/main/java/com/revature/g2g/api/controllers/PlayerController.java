@@ -31,6 +31,7 @@ public class PlayerController {
 		if(template==null) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 		}
+		System.out.println(template);
 		Player usernameCheck = playerHandler.findByUsername(template.getPlayerUsername());
 		if(usernameCheck!=null) {
 			template.setPlayerPassword("****");

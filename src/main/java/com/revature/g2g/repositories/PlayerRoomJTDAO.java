@@ -125,6 +125,22 @@ public class PlayerRoomJTDAO implements IPlayerRoomJTDAO {
 	}
 
 	@Override
+	public Set<PlayerRoomJT> findAll(Room room) {
+		Session ses = sf.getCurrentSession();
+		CriteriaBuilder builder = ses.getCriteriaBuilder();
+		CriteriaQuery <PlayerRoomJT> query = builder.createQuery(PlayerRoomJT.class);
+		Root <PlayerRoomJT> root = query.from(PlayerRoomJT.class);
+		query.select(root).where(builder.equal(root.get("room"), room));
+		Query<PlayerRoomJT> roomJT = ses.createQuery(query);
+		try {
+			return roomJT.getResultStream()
+					.collect(Collectors.toSet());
+		} catch(javax.persistence.NoResultException e) {
+			return Collections.emptySet();
+		}
+	}
+
+	@Override
 	public Set<Player> findPlayers(Room room) {
 		Set<Player> set = new HashSet<>();
 		

@@ -29,11 +29,11 @@ public class GameGenerator implements DataGenerator {
 		make("MapleStory 2", "Create your own character, embark on epic quests, team up to conquer dungeons and raids, and build your dream world. MMORPG.", "https://maplestory2.nexon.net/en",244721);
 		make("Smite", "Become a legend of myth, enter the Battleground of the Gods, and smite your enemies. MOBA.", "https://www.smitegame.com/play-for-free/",752);
 		make("Don't Starve Together", "Enter a strange and unexplored world full of strange creatures, dangers, and surprises. Work together to survive! Survival.", "https://www.klei.com/games/dont-starve-together",9882);
-		make("Overcooked", "Out of the frying pan, into the fire… Save the world from the Ever Peckish. Play two chefs who travel back in time to refine their cooking skills. Simulation.", "http://www.ghosttowngames.com/overcooked/",2115);
+		make("Overcooked", "Out of the frying pan, into the fire... Save the world from the Ever Peckish. Play two chefs who travel back in time to refine their cooking skills. Simulation.", "http://www.ghosttowngames.com/overcooked/",2115);
 		make("Keep Talking and Nobody Explodes", "One player has a bomb, the rest have the instructions. Can you defuse it in time?", "https://keeptalkinggame.com/",1073);
 		make("Sea of Thieves", "Sail together, plunder together. Play a pirate and set out to explore the open sea. Adventure.", "https://www.seaofthieves.com/",50781);
 		make("Warframe", "In the far-future world of Warframe, grotesque clones and capitalist machines dominate our solar system. Fight back against greed and corruption as you explore a world of techno-organic horrors. Third person shooter.", "https://www.warframe.com/",766);
-		make("Elsword", "Bandits, monsters and demons threatened the population of Elrios – and all of them wanted only one thing: the shards of the grand EL. Are you hero enough to go up against them in battle? MMORPG", "https://elsword.koggames.com/",40774);
+		make("Elsword", "Bandits, monsters and demons threatened the population of Elrios - and all of them wanted only one thing: the shards of the grand EL. Are you hero enough to go up against them in battle? MMORPG.", "https://elsword.koggames.com/",40774);
 		make("Skyforge", "When the great god Aeli vanished, hostile gods and evil creatures invaded the planet. Become an Immortal and protect Aelion. MMORPG", "https://sf.my.games/en",21942);
 		make("Other", "Those games that don't fit into an official game", "",148279);
 	}

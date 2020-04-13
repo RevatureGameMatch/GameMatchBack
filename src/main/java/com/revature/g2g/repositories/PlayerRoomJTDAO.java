@@ -3,6 +3,7 @@ package com.revature.g2g.repositories;
 
 import java.math.BigDecimal;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -259,10 +260,54 @@ public class PlayerRoomJTDAO implements IPlayerRoomJTDAO {
 
 	@Override
 	public Set<Room> findSurveyRooms(Player player) {
-		//TODO Make this take a player and return rooms that 
-		//1. Started more than 10 minutes ago (join to room and check the "created" field is more than 600 seconds before current TIMESTAMP)
-		//2. Ended no more than 24 hours ago (join to room and check the "closed" field is NOT more than 86400 seconds before current TIMESTAMP)
-		return null;
+		
+		Set<Room> set = new HashSet<>();
+		
+		long current = System.currentTimeMillis(); 
+		
+		Session ses = sf.getCurrentSession();
+		
+		CriteriaBuilder builder = ses.getCriteriaBuilder();
+		CriteriaQuery<PlayerRoomJT> query = builder.createQuery(PlayerRoomJT.class);
+		
+		Root <PlayerRoomJT> root = query.from(PlayerRoomJT.class);
+		
+		query.select(root).where(builder.equal(root.get("player"), player));
+		
+		Query<PlayerRoomJT> roomJT = ses.createQuery(query);
+		
+		try {
+			
+			List<PlayerRoomJT> roomJTList = roomJT.list();
+			
+			for (int i = 0; i < roomJTList.size(); i++) {
+				
+				PlayerRoomJT r = roomJTList.get(i);
+				Room room = r.getRoom();
+				
+				Date created = room.getCreated();
+				long cTime = created.getTime();
+				boolean createdBool = ( cTime <= (current - 600));
+				
+				Date left = room.getClosed();
+				if (left != null) {
+					
+					long lTime = left.getTime();
+					
+					boolean leftBool = ( lTime >= (current - 86400));
+					
+					if(createdBool && leftBool) {
+						set.add(room);
+					}
+				}
+			}
+			
+			return set;
+			
+		} catch (javax.persistence.NoResultException|NoSuchElementException e ) {
+			return Collections.emptySet();
+		}
+		
 	}
 
 	@Override

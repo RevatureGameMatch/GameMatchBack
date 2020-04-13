@@ -36,12 +36,12 @@ public class PlayerRoomJTGenerator implements DataGenerator {
 	public void generate() {
 		players = playerHandler.findAll();
 		rooms = roomHandler.findByStatus(RoomStatus.JOINING);
-		for(int a=0; a<20; a++) {
+		for(int a=0; a<40; a++) {
 			PlayerRoomJT playerRoomJT = new PlayerRoomJT();
 			playerRoomJT.setPlayer(randPlayer());
 			playerRoomJT.setRoom(randRoom());
-			playerRoomJT.setJoined(new Date());
-			playerRoomJT.setLeft(new Date(new Date().getTime() + new Random().nextInt(400)));
+			playerRoomJT.setJoined(new Date(new Date().getTime() - 3_600_000 - new Random().nextInt(18_000_000)));
+			playerRoomJT.setLeft(new Date(new Date().getTime() - 600_000 - new Random().nextInt(3_000_000)));
 			playerRoomJTHandler.insert(playerRoomJT);
 		}
 		for(int a=0; a<10; a++) {

@@ -1,6 +1,7 @@
 package com.revature.g2g.api.controllers;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.validation.Valid;
 
@@ -15,7 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.revature.g2g.api.templates.PlayerTemplate;
 import com.revature.g2g.models.Player;
-import com.revature.g2g.models.PlayerRoomJT;
+import com.revature.g2g.models.Room;
+import com.revature.g2g.services.handlers.PlayerRoomJTHandler;
 import com.revature.g2g.services.helpers.AuthenticatorHelper;
 
 @CrossOrigin
@@ -24,12 +26,15 @@ import com.revature.g2g.services.helpers.AuthenticatorHelper;
 public class SurveyController {
 	@Autowired
 	private AuthenticatorHelper authenticatorHelper;
+	@Autowired
+	private PlayerRoomJTHandler playerRoomJTHandler;
 	@PostMapping
-	public ResponseEntity<List<PlayerRoomJT>> getSurveys(@Valid @RequestBody PlayerTemplate template){
+	public ResponseEntity<Set<Room>> getSurveys(@Valid @RequestBody PlayerTemplate template){
 		Player player = authenticatorHelper.getPlayer(template);
 		if(player == null) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 		}
-		return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+		Set<Room> rooms = playerRoomJTHandler.findSurveyRooms(player);
+		return ResponseEntity.status(HttpStatus.ACCEPTED).body(rooms);
 	}
 }

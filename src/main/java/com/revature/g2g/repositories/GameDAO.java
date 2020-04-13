@@ -80,8 +80,7 @@ public class GameDAO implements IGameDAO {
 		
 		Query<Game> game = ses.createQuery(query);
 		
-		try {
-			
+		try {	
 			return game.getResultStream()
 					.collect(Collectors.toSet());
 			

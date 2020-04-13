@@ -11,14 +11,18 @@ import com.revature.g2g.models.Room;
 import com.revature.g2g.models.RoomStatus;
 import com.revature.g2g.services.handlers.PlayerRoomJTHandler;
 import com.revature.g2g.services.handlers.RoomHandler;
+import com.revature.g2g.services.helpers.DiscordHelper;
 import com.revature.g2g.services.jda.JDASingleton;
+import com.revature.g2g.services.jda.helpers.GuildHelper;
 import com.revature.g2g.services.jda.helpers.RoleHelper;
 import com.revature.g2g.services.jda.helpers.TextChannelHelper;
 import com.revature.g2g.services.jda.helpers.VoiceChannelHelper;
 
 import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
+import net.dv8tion.jda.api.entities.VoiceChannel;
 import net.dv8tion.jda.api.events.guild.voice.GuildVoiceJoinEvent;
 import net.dv8tion.jda.api.events.guild.voice.GuildVoiceLeaveEvent;
 import net.dv8tion.jda.api.events.guild.voice.GuildVoiceMoveEvent;
@@ -29,11 +33,16 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 public class GuildVoiceEventListener extends ListenerAdapter{
 	private RoomHandler roomHandler;
 	private PlayerRoomJTHandler playerRoomJTHandler;
+	private GuildHelper guildHelper;
+	private DiscordHelper discordHelper;
 	@Autowired
-	public GuildVoiceEventListener(RoomHandler roomHandler, PlayerRoomJTHandler playerRoomJTHandler) {
+	public GuildVoiceEventListener(RoomHandler roomHandler, PlayerRoomJTHandler playerRoomJTHandler, GuildHelper guildHelper,
+			DiscordHelper discordHelper) {
 		super();
 		this.roomHandler = roomHandler;
 		this.playerRoomJTHandler = playerRoomJTHandler;
+		this.guildHelper = guildHelper;
+		this.discordHelper = discordHelper;
 	}
 	@Override
 	public void onGuildVoiceLeave(GuildVoiceLeaveEvent event) {
@@ -43,20 +52,31 @@ public class GuildVoiceEventListener extends ListenerAdapter{
 	@Override
 	public void onGuildVoiceMove(GuildVoiceMoveEvent event) {
 		processMoveLeave(event);
+		processMoveArrive(event);
 		super.onGuildVoiceMove(event);
 	}
 	@Override
 	public void onGuildVoiceJoin(GuildVoiceJoinEvent event) {
-		long channelId = event.getChannelJoined().getIdLong();
+		processMoveArrive(event);
+		super.onGuildVoiceJoin(event);
+	}
+	private void processMoveArrive(GuildVoiceUpdateEvent event) {
+		//TODO add logic to mark person as having arrived
+		VoiceChannel voice = event.getChannelJoined();
+		long channelId = voice.getIdLong();
+		System.out.println(event.getChannelJoined().getName() + ": " + channelId);
 		Room room = roomHandler.findRoomByDiscordVoice(channelId);
 		if(room != null) {
-			Role role = event.getJDA().getRoleById(room.getDiscordRoleId());
-			Member member = event.getMember();
-			if((member != null) && (role != null)) {
-				event.getGuild().addRoleToMember(member, role);
+			long roleId = room.getDiscordRoleId();
+			Role role = JDASingleton.getJda().getRoleById(roleId);
+			Member member = event.getEntity();
+			if (roleId > 0 && !member.getRoles().contains(role)) {
+				Guild guild = guildHelper.getGuild();
+				guild.addRoleToMember(member, role).queue();
+				guild.moveVoiceMember(member, discordHelper.getGeneralVoice()).complete();
+				guild.moveVoiceMember(member, voice).queue();
 			}
 		}
-		super.onGuildVoiceJoin(event);
 	}
 	private void processMoveLeave(GuildVoiceUpdateEvent event) {
 		//TODO add logic to mark person as having left.

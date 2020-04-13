@@ -7,9 +7,12 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.revature.g2g.models.Player;
+import com.revature.g2g.models.Room;
 import com.revature.g2g.repositories.IGameDAO;
 import com.revature.g2g.repositories.IPlayerDAO;
 import com.revature.g2g.repositories.IPlayerRoomJTDAO;
+import com.revature.g2g.repositories.IRoomDAO;
+import com.revature.g2g.repositories.ISkillRoomJTDAO;
 import com.revature.g2g.repositories.PlayerDAO;
 import com.revature.g2g.repositories.PlayerRoomJTDAO;
 
@@ -43,15 +46,13 @@ public class DAODriver {
 //		
 //		System.out.println(mil);
 		
-//		IPlayerDAO pDAO = ac.getBean(IPlayerDAO.class);
-//		
-//		Player p = pDAO.findById(544);
-//		
-//		System.out.println(dao.findSurveyRooms(p));
+		ISkillRoomJTDAO srDAO = ac.getBean(ISkillRoomJTDAO.class);
 		
-		IGameDAO gDAO = ac.getBean(IGameDAO.class);
+		IRoomDAO rDAO = ac.getBean(IRoomDAO.class);
 		
-		System.out.println(gDAO.findAll());
+		Room r = rDAO.findById(144);
+		
+		System.out.println(srDAO.findSkillsByRoom(r));
 		
 	}
 }

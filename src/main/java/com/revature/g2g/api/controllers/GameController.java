@@ -20,7 +20,9 @@ import com.revature.g2g.api.templates.GameTemplate;
 import com.revature.g2g.models.Game;
 import com.revature.g2g.models.Player;
 import com.revature.g2g.models.PlayerRole;
+import com.revature.g2g.models.Skill;
 import com.revature.g2g.services.handlers.GameHandler;
+import com.revature.g2g.services.handlers.SkillGameJTHandler;
 import com.revature.g2g.services.helpers.AuthenticatorHelper;
 import com.revature.g2g.services.helpers.GameHelper;
 
@@ -31,12 +33,14 @@ public class GameController {
 	private GameHandler gameHandler;
 	private AuthenticatorHelper authenticatorHelper;
 	private GameHelper gameHelper;
+	private SkillGameJTHandler skillGameJTHandler;
 	@Autowired
-	public GameController(GameHandler gameHandler, AuthenticatorHelper authenticatorHelper, GameHelper gameHelper) {
+	public GameController(GameHandler gameHandler, AuthenticatorHelper authenticatorHelper, GameHelper gameHelper, SkillGameJTHandler skillGameJTHandler) {
 		super();
 		this.gameHandler = gameHandler;
 		this.authenticatorHelper = authenticatorHelper;
 		this.gameHelper = gameHelper;
+		this.skillGameJTHandler = skillGameJTHandler;
 	}
 	@GetMapping
 	public ResponseEntity<Set<Game>> getGames(){
@@ -47,7 +51,7 @@ public class GameController {
 			return ResponseEntity.status(HttpStatus.ACCEPTED).body(games);
 		}
 	}
-	@GetMapping("/name/{name}")
+	@GetMapping("/Name/{name}")
 	public ResponseEntity<Game> findByName(@PathVariable("name") String name){
 		String cleanName = Jsoup.clean(name, Whitelist.none()).replace('_', ' ');
 		Game game = gameHandler.findByName(cleanName);
@@ -57,13 +61,34 @@ public class GameController {
 			return ResponseEntity.status(HttpStatus.ACCEPTED).body(game);
 		}
 	}
-	@GetMapping("/id/{id}")
+	@GetMapping("/Id/{id}")
 	public ResponseEntity<Game> findById(@PathVariable("id") int id){
 		Game game = gameHandler.findById(id);
 		if(game == null) {
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 		}else {
 			return ResponseEntity.status(HttpStatus.ACCEPTED).body(game);
+		}
+	}
+	@GetMapping("/Name/{name}/Skills")
+	public ResponseEntity<Set<Skill>> findAllSkillsByName(@PathVariable("name") String name){
+		String cleanName = Jsoup.clean(name, Whitelist.none()).replace('_', ' ');
+		Game game = gameHandler.findByName(cleanName);
+		Set<Skill> set = skillGameJTHandler.findByGame(game);
+		if (game == null) {
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+		} else {
+			return ResponseEntity.status(HttpStatus.ACCEPTED).body(set);
+		}
+	}
+	@GetMapping("/Id/{id}/Skills")
+	public ResponseEntity<Set<Skill>> findAllSkillsById(@PathVariable("id") int id){
+		Game game = gameHandler.findById(id);
+		Set<Skill> set = skillGameJTHandler.findByGame(game);
+		if (game == null) {
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+		} else {
+			return ResponseEntity.status(HttpStatus.ACCEPTED).body(set);
 		}
 	}
 	@PostMapping("")
@@ -89,6 +114,7 @@ public class GameController {
 			return ResponseEntity.status(HttpStatus.CREATED).body(games);
 		}
 	}
+
 	@PatchMapping("")
 	public ResponseEntity<Set<Game>> update(@RequestBody GameTemplate gameTemplate){
 		if(gameTemplate == null || gameTemplate.getGame() == null) {

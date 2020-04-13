@@ -19,4 +19,5 @@ public interface ISkillRoomJTDAO {
 	public void update(SkillRoomJT sr);
 	//Delete
 	public void delete(SkillRoomJT sr);
+	Set<Skill> findSkillsByRoom(Room room);
 }

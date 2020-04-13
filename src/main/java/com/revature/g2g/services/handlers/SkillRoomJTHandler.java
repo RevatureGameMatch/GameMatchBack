@@ -39,6 +39,9 @@ public class SkillRoomJTHandler {
 	public Set<SkillRoomJT> findByRoom(Room room){
 		return this.repository.findByRoom(room);
 	}
+	public Set<Skill> findSkillsByRoom(Room room){
+		return this.repository.findSkillsByRoom(room);
+	}
 	public void update(SkillRoomJT sr) {
 		this.repository.update(sr);
 	}

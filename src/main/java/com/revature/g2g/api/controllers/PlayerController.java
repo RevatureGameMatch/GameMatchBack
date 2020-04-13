@@ -1,9 +1,12 @@
 package com.revature.g2g.api.controllers;
 
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,7 +15,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.revature.g2g.api.templates.PlayerTemplate;
 import com.revature.g2g.models.Player;
 import com.revature.g2g.models.PlayerRole;
+import com.revature.g2g.models.Skill;
 import com.revature.g2g.services.handlers.PlayerHandler;
+import com.revature.g2g.services.handlers.SkillPlayerJTHandler;
 import com.revature.g2g.services.helpers.LoggerSingleton;
 import com.revature.g2g.services.helpers.PasswordHelper;
 
@@ -26,6 +31,8 @@ public class PlayerController {
 	PasswordHelper passwordHelper;
 	@Autowired
 	LoggerSingleton loggerSingleton;
+	@Autowired
+	SkillPlayerJTHandler skillPlayerJTHandler;
 	@PostMapping
 	public ResponseEntity<Player> insert(@RequestBody PlayerTemplate template){
 		if(template==null) {
@@ -48,4 +55,26 @@ public class PlayerController {
 		loggerSingleton.getBusinessLog().trace(newPlayerMessage);
 		return ResponseEntity.status(HttpStatus.ACCEPTED).body(player);
 	}
+	@PostMapping("/Id/{id}/Skills")
+	public ResponseEntity<Set<Skill>> findAllSkillsById(@PathVariable("id") int id){
+		Player player = playerHandler.findById(id);
+		Set<Skill> set = skillPlayerJTHandler.findPlayerSkills(player);
+		if(player == null) {
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+		} else {
+			return ResponseEntity.status(HttpStatus.ACCEPTED).body(set);
+		}
+	}
+	@PostMapping("/Username/{username}/Skills")
+	public ResponseEntity<Set<Skill>> findAllSkillsByName(@PathVariable("username") String username){
+		Player player = playerHandler.findByUsername(username);
+		System.out.println(player);
+		Set<Skill> set = skillPlayerJTHandler.findPlayerSkills(player);
+		if(player == null) {
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+		} else {
+			return ResponseEntity.status(HttpStatus.ACCEPTED).body(set);
+		}
+	}
+	
 }

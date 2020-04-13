@@ -17,6 +17,8 @@ import com.revature.g2g.services.jda.helpers.TextChannelHelper;
 import com.revature.g2g.services.jda.helpers.VoiceChannelHelper;
 
 import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.events.guild.voice.GuildVoiceJoinEvent;
 import net.dv8tion.jda.api.events.guild.voice.GuildVoiceLeaveEvent;
 import net.dv8tion.jda.api.events.guild.voice.GuildVoiceMoveEvent;
@@ -45,7 +47,15 @@ public class GuildVoiceEventListener extends ListenerAdapter{
 	}
 	@Override
 	public void onGuildVoiceJoin(GuildVoiceJoinEvent event) {
-		// TODO Auto-generated method stub
+		long channelId = event.getChannelJoined().getIdLong();
+		Room room = roomHandler.findRoomByDiscordVoice(channelId);
+		if(room != null) {
+			Role role = event.getJDA().getRoleById(room.getDiscordRoleId());
+			Member member = event.getMember();
+			if((member != null) && (role != null)) {
+				event.getGuild().addRoleToMember(member, role);
+			}
+		}
 		super.onGuildVoiceJoin(event);
 	}
 	private void processMoveLeave(GuildVoiceUpdateEvent event) {

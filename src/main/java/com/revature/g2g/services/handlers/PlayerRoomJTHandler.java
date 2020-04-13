@@ -41,6 +41,9 @@ public class PlayerRoomJTHandler {
 	public Set<PlayerRoomJT> findAll(){
 		return this.repository.findAll();
 	}
+	public Set<PlayerRoomJT> findAll(Room room){
+		return this.repository.findAll(room);
+	}
 	public Set<Player> findPlayers(Room room){
 		return this.repository.findPlayers(room);
 	}

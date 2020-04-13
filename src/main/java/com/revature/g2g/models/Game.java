@@ -41,6 +41,10 @@ public class Game implements Serializable{
 	
 	@Column(name = "game_description")
 	private String description;
+	
+	@NotNull(message = "Game must have a rawgId and it must be an int.")
+	@Column(name = "game_rawg_id")
+	private int rawgId;
 
 	@OneToMany(mappedBy = "game", fetch = FetchType.LAZY)
 	private Set<SkillGameJT> skills = new HashSet<>();
@@ -78,6 +82,12 @@ public class Game implements Serializable{
 	}
 	public void setDescription(String description) {
 		this.description = description;
+	}
+	public int getRawgId() {
+		return rawgId;
+	}
+	public void setRawgId(int rawgId) {
+		this.rawgId = rawgId;
 	}
 	public Set<SkillGameJT> getSkills() {
 		return skills;
@@ -132,6 +142,7 @@ public class Game implements Serializable{
 	}
 	@Override
 	public String toString() {
-		return "Game [gameId=" + gameId + ", name=" + name + ", link=" + link + ", description=" + description + "]";
+		return "Game [gameId=" + gameId + ", name=" + name + ", link=" + link + ", description=" + description
+				+ ", rawgId=" + rawgId + "]";
 	}
 }

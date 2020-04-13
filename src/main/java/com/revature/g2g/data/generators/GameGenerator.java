@@ -32,7 +32,7 @@ public class GameGenerator implements DataGenerator {
 		make("Overcooked", "Out of the frying pan, into the fire… Save the world from the Ever Peckish. Play two chefs who travel back in time to refine their cooking skills. Simulation.", "http://www.ghosttowngames.com/overcooked/",2115);
 		make("Keep Talking and Nobody Explodes", "One player has a bomb, the rest have the instructions. Can you defuse it in time?", "https://keeptalkinggame.com/",1073);
 		make("Sea of Thieves", "Sail together, plunder together. Play a pirate and set out to explore the open sea. Adventure.", "https://www.seaofthieves.com/",50781);
-		make("Other", "Those games that don't fit into an official game", "",0);
+		make("Other", "Those games that don't fit into an official game", "",141);
 	}
 	private void make(String name, String description, String link, int rawgId) {
 		Game game = null;

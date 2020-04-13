@@ -10,6 +10,7 @@ import com.revature.g2g.services.jda.JDASingleton;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Role;
+import net.dv8tion.jda.api.entities.VoiceChannel;
 
 @Service
 public class DiscordHelper {
@@ -62,5 +63,9 @@ public class DiscordHelper {
 	public Collection<Permission> getEmptyPermission(){
 		ArrayList<Permission> permissions = new ArrayList<>();
 		return permissions;
+	}
+	public VoiceChannel getGeneralVoice() {
+		JDA jda = JDASingleton.getJda();
+		return jda.getVoiceChannelById(698632671525601421L);
 	}
 }

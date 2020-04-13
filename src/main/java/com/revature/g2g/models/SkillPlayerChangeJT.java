@@ -110,7 +110,7 @@ public class SkillPlayerChangeJT implements Serializable{
 	}
 	@Override
 	public int hashCode() {
-		return Objects.hash(expertise, modifiedBy, player, room, skillPlayerChangeJTId, skillPlayerJT, value);
+		return Objects.hash(modifiedBy, player, room, skillPlayerJT.getSkill());
 	}
 	@Override
 	public boolean equals(Object obj) {
@@ -121,11 +121,8 @@ public class SkillPlayerChangeJT implements Serializable{
 			return false;
 		}
 		SkillPlayerChangeJT other = (SkillPlayerChangeJT) obj;
-		return Float.floatToIntBits(expertise) == Float.floatToIntBits(other.expertise)
-				&& Objects.equals(modifiedBy, other.modifiedBy) && Objects.equals(player, other.player)
-				&& Objects.equals(room, other.room) && skillPlayerChangeJTId == other.skillPlayerChangeJTId
-				&& Objects.equals(skillPlayerJT, other.skillPlayerJT)
-				&& Float.floatToIntBits(value) == Float.floatToIntBits(other.value);
+		return Objects.equals(modifiedBy, other.modifiedBy) && Objects.equals(player, other.player)
+				&& Objects.equals(room, other.room) && Objects.equals(skillPlayerJT.getSkill(), other.skillPlayerJT.getSkill());
 	}
 	@Override
 	public String toString() {

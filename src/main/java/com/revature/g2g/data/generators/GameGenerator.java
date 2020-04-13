@@ -20,19 +20,22 @@ public class GameGenerator implements DataGenerator {
 	}
 	@Override
 	public void generate() {
-		make("DnD5e", "Classic TTRPG to go adventuring with friends", "https://dnd.wizards.com/",0);
-		make("Halo", "Hunt your enemies", "https://www.halowaypoint.com/en-us",0);
-		make("Call of Duty", "Hunt your enemies", "https://www.callofduty.com/",0);
-		make("Minecraft", "Build together, stay together.", "https://www.minecraft.net/en-us/",0);
-		make("Fortnite", "Massive Battle Royal", "https://www.epicgames.com/fortnite/en-US/home",0);
-		make("League of Legends", "Take down the Nexus", "https://play.na.leagueoflegends.com/en_US",0);
-		make("Maple Story", "Adventure Together", "http://maplestory.com/en",0);
-		make("Smite", "Smite your enemies", "https://www.smitegame.com/play-for-free/",0);
-		make("Don't Starve Together", "Work together to survive!", "https://www.klei.com/games/dont-starve-together",0);
-		make("Overcooked", "Can your culinary skills satisfy the customers?", "http://www.ghosttowngames.com/overcooked/",0);
-		make("Keep Talking and Nobody Explodes", "One player has a bomb, the rest have the instructions. Can you defuse it in time?", "https://keeptalkinggame.com/",0);
-		make("Sea of Thieves", "Sail together, plunder together", "https://www.seaofthieves.com/",0);
-		make("Other", "Those games that don't fit into an official game", "",0);
+		make("DnD5e", "Dungeons & Dragons 5th Ed. Classic TTRPG. Tell a story together, guide your heroes through quests for treasure, battle with deadly foes, daring rescues, courtly intrigue, and much more.", "https://dnd.wizards.com/",13482);
+		make("Halo 5: Guardians", "A mysterious and unstoppable force threatens the galaxy. The Spartans of Fireteam Osiris and Blue Team must embark on a journey that will change the course of history and the future of mankind. First person shooter.", "https://www.halowaypoint.com/en-us/games/halo-infinite",8444);
+		make("Call of Duty: Warzone", "Welcome to Warzone. Battle Royale. Drop in, armor up, loot for rewards, and battle your way to the top. First person shooter.", "https://www.callofduty.com/warzone",418467);
+		make("Minecraft", "Explore your own unique world as you build, mine, battle mobs, and more. Sandbox.", "https://www.minecraft.net/en-us/",22509);
+		make("Fortnite", "Battle to be the last one standing! Season 2: The Island has been taken over by covert operatives - members of Ghost and Shadow. Will you join the fight? Battle Royal.", "https://www.epicgames.com/fortnite/en-US/home",47137);
+		make("League of Legends", "Play as a champion and take down the enemy Nexus. MOBA.", "https://play.na.leagueoflegends.com/en_US",23598);
+		make("MapleStory 2", "Create your own character, embark on epic quests, team up to conquer dungeons and raids, and build your dream world. MMORPG.", "https://maplestory2.nexon.net/en",244721);
+		make("Smite", "Become a legend of myth, enter the Battleground of the Gods, and smite your enemies. MOBA.", "https://www.smitegame.com/play-for-free/",752);
+		make("Don't Starve Together", "Enter a strange and unexplored world full of strange creatures, dangers, and surprises. Work together to survive! Survival.", "https://www.klei.com/games/dont-starve-together",9882);
+		make("Overcooked", "Out of the frying pan, into the fire… Save the world from the Ever Peckish. Play two chefs who travel back in time to refine their cooking skills. Simulation.", "http://www.ghosttowngames.com/overcooked/",2115);
+		make("Keep Talking and Nobody Explodes", "One player has a bomb, the rest have the instructions. Can you defuse it in time?", "https://keeptalkinggame.com/",1073);
+		make("Sea of Thieves", "Sail together, plunder together. Play a pirate and set out to explore the open sea. Adventure.", "https://www.seaofthieves.com/",50781);
+		make("Warframe", "In the far-future world of Warframe, grotesque clones and capitalist machines dominate our solar system. Fight back against greed and corruption as you explore a world of techno-organic horrors. Third person shooter.", "https://www.warframe.com/",766);
+		make("Elsword", "Bandits, monsters and demons threatened the population of Elrios – and all of them wanted only one thing: the shards of the grand EL. Are you hero enough to go up against them in battle? MMORPG", "https://elsword.koggames.com/",40774);
+		make("Skyforge", "When the great god Aeli vanished, hostile gods and evil creatures invaded the planet. Become an Immortal and protect Aelion. MMORPG", "https://sf.my.games/en",21942);
+		make("Other", "Those games that don't fit into an official game", "",148279);
 	}
 	private void make(String name, String description, String link, int rawgId) {
 		Game game = null;

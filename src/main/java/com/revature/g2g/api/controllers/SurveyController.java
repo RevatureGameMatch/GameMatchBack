@@ -109,7 +109,8 @@ public class SurveyController {
 				continue;
 			}
 			ArrayList<SurveySkillTemplate> surveySkillTemplateArray = skillGeneratingLoop(arr, skills, p, player, room, skillPlayerChangeJTSet);
-			SurveyTemplate surveyTemplate = new SurveyTemplate(p, surveySkillTemplateArray.toArray(arr));
+			PlayerTemplate playerTemplate = new PlayerTemplate(p);
+			SurveyTemplate surveyTemplate = new SurveyTemplate(playerTemplate, surveySkillTemplateArray.toArray(arr));
 			
 			surveyTemplateSet.add(surveyTemplate);
 		}

@@ -5,7 +5,7 @@ public class BalanceConstants {
 	private static final float MIN_VALUE = 1;
 	private static final float MAX_VALUE = 200;
 	private static final float START_VALUE = 100;
-	private static final float MAX_GAIN = 0.1f;
+	private static final float MAX_GAIN = 0.3f;
 	private static final float MAX_LOSS = -MAX_GAIN;
 	private static final float MAX_EXPERTISE = 1F;
 	private static final float MIN_EXPERTISE = 0.00001F;

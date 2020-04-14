@@ -3,24 +3,22 @@ package com.revature.g2g.api.templates;
 import java.util.Arrays;
 import java.util.Objects;
 
-import com.revature.g2g.models.Player;
-
 public class SurveyTemplate {
-	private Player player;
+	private PlayerTemplate playerTempalte;
 	private SurveySkillTemplate[] skills;
 	public SurveyTemplate() {
 		super();
 	}
-	public SurveyTemplate(Player player, SurveySkillTemplate[] skills) {
+	public SurveyTemplate(PlayerTemplate playerTempalte, SurveySkillTemplate[] skills) {
 		super();
-		this.player = player;
+		this.playerTempalte = playerTempalte;
 		this.skills = skills;
 	}
-	public Player getPlayer() {
-		return player;
+	public PlayerTemplate getPlayerTempalte() {
+		return playerTempalte;
 	}
-	public void setPlayer(Player player) {
-		this.player = player;
+	public void setPlayerTempalte(PlayerTemplate playerTempalte) {
+		this.playerTempalte = playerTempalte;
 	}
 	public SurveySkillTemplate[] getSkills() {
 		return skills;
@@ -33,7 +31,7 @@ public class SurveyTemplate {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + Arrays.hashCode(skills);
-		result = prime * result + Objects.hash(player);
+		result = prime * result + Objects.hash(playerTempalte);
 		return result;
 	}
 	@Override
@@ -45,10 +43,10 @@ public class SurveyTemplate {
 			return false;
 		}
 		SurveyTemplate other = (SurveyTemplate) obj;
-		return Objects.equals(player, other.player) && Arrays.equals(skills, other.skills);
+		return Objects.equals(playerTempalte, other.playerTempalte) && Arrays.equals(skills, other.skills);
 	}
 	@Override
 	public String toString() {
-		return "SurveyTemplate [player=" + player + ", skills=" + Arrays.toString(skills) + "]";
+		return "SurveyTemplate [playerTempalte=" + playerTempalte + ", skills=" + Arrays.toString(skills) + "]";
 	}
 }

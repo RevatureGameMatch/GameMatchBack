@@ -4,6 +4,7 @@ import java.util.Objects;
 
 import org.hibernate.validator.constraints.NotBlank;
 
+import com.revature.g2g.models.Player;
 import com.revature.g2g.models.PlayerRole;
 
 public class PlayerTemplate {
@@ -16,6 +17,13 @@ public class PlayerTemplate {
 	private PlayerRole playerRole;
 	public PlayerTemplate() {
 		super();
+	}
+	public PlayerTemplate(Player player) {
+		this.setPlayerEmail(player.getPlayerEmail());
+		this.setPlayerId(player.getPlayerId());
+		this.setPlayerPassword("****");
+		this.setPlayerRole(player.getPlayerRole());
+		this.setPlayerUsername(player.getPlayerUsername());
 	}
 	public PlayerTemplate(int playerId, String playerUsername, String playerEmail, String playerPassword,
 			PlayerRole playerRole) {

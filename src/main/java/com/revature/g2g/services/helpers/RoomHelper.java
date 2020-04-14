@@ -58,7 +58,7 @@ public class RoomHelper {
 		Room r = new Room();
 		int maxPlayers = room.getMaxPlayers();
 		if(maxPlayers > 10) {maxPlayers = 10;}
-		else if(maxPlayers < 2) maxPlayers = 2;
+		else if(maxPlayers < 1) maxPlayers = 1;
 		room.setMaxPlayers(maxPlayers);
 		r = ammend(r, room);
 		r.setCreated(new Date());

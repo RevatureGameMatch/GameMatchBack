@@ -1,6 +1,7 @@
 package com.revature.g2g.services.jda.listeners;
 
 import java.util.Date;
+import java.util.Random;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import com.revature.g2g.models.RoomStatus;
 import com.revature.g2g.services.handlers.PlayerRoomJTHandler;
 import com.revature.g2g.services.handlers.RoomHandler;
 import com.revature.g2g.services.helpers.DiscordHelper;
+import com.revature.g2g.services.helpers.LoggerSingleton;
 import com.revature.g2g.services.jda.JDASingleton;
 import com.revature.g2g.services.jda.helpers.GuildHelper;
 import com.revature.g2g.services.jda.helpers.RoleHelper;
@@ -35,14 +37,16 @@ public class GuildVoiceEventListener extends ListenerAdapter{
 	private PlayerRoomJTHandler playerRoomJTHandler;
 	private GuildHelper guildHelper;
 	private DiscordHelper discordHelper;
+	private LoggerSingleton loggerSingleton;
 	@Autowired
 	public GuildVoiceEventListener(RoomHandler roomHandler, PlayerRoomJTHandler playerRoomJTHandler, GuildHelper guildHelper,
-			DiscordHelper discordHelper) {
+			DiscordHelper discordHelper, LoggerSingleton loggerSingleton) {
 		super();
 		this.roomHandler = roomHandler;
 		this.playerRoomJTHandler = playerRoomJTHandler;
 		this.guildHelper = guildHelper;
 		this.discordHelper = discordHelper;
+		this.loggerSingleton = loggerSingleton;
 	}
 	@Override
 	public void onGuildVoiceLeave(GuildVoiceLeaveEvent event) {
@@ -78,8 +82,15 @@ public class GuildVoiceEventListener extends ListenerAdapter{
 			}
 		}
 	}
-	private void processMoveLeave(GuildVoiceUpdateEvent event) {
+	private void processMoveLeave(GuildVoiceUpdateEvent event){
 		//TODO add logic to mark person as having left.
+		int randomTime = new Random().nextInt(55_000) + 5_000;
+		try {
+			Thread.sleep(randomTime);
+		} catch (InterruptedException e) {
+			loggerSingleton.getExceptionLogger().warn("GuildVoiceEventListener awakened ", e);
+			Thread.currentThread().interrupt();
+		}
 		JDA jda = JDASingleton.getJda();
 		if(event.getChannelLeft().getMembers().size() != 0)return;
 		Room room = roomHandler.findRoomByDiscordVoice(event.getChannelLeft().getIdLong());

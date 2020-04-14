@@ -2,7 +2,6 @@ package com.revature.g2g.api.controllers;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
 
 import javax.validation.Valid;
@@ -109,7 +108,7 @@ public class SurveyController {
 //		}
 		//For each player loop through skills adding them to SurveySkillTemplate
 		//For each skill check if hash is in changes, if so use the value from changes.
-		Set<SkillPlayerChangeJT> skillPlayerChangeJTSet = skillPlayerChangeJTHandler.findBy(room, player);
+		Set<SkillPlayerChangeJT> skillPlayerChangeJTSet = skillPlayerChangeJTHandler.findBy(room, player);//checks room and modified by
 		
 		SurveySkillTemplate[] arr = new SurveySkillTemplate[skills.size()];
 		for (Player p: players) {
@@ -145,16 +144,17 @@ public class SurveyController {
 		ArrayList<SurveySkillTemplate> surveySkillTemplateArray = new ArrayList<>();
 		for (Skill s: skills) {
 			for (SkillPlayerChangeJT spc: skillPlayerChangeJTSet) {
-				int hash = Objects.hash(modifiedBy, p, room, s);
-				int hash2 = spc.hashCode();
-				if (hash != hash2) {
-					SurveySkillTemplate surveySkillTemplate = new SurveySkillTemplate(
-							s, 0);
-					surveySkillTemplateArray.add(surveySkillTemplate);
-				} else {
+//				int hash = Objects.hash(modifiedBy, p, room, s);
+//				int hash2 = spc.hashCode();
+//				if (hash != hash2) {
+				if(spc.getSkillPlayerJT().getSkill().equals(s) && spc.getPlayer().equals(p)) {
 					double val = spc.getValue();
 					SurveySkillTemplate surveySkillTemplate = new SurveySkillTemplate(
 							s, (float) val);
+					surveySkillTemplateArray.add(surveySkillTemplate);
+				} else {
+					SurveySkillTemplate surveySkillTemplate = new SurveySkillTemplate(
+							s, 0);
 					surveySkillTemplateArray.add(surveySkillTemplate);
 				}
 			}

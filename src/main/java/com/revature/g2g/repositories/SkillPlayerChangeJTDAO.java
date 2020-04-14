@@ -1,13 +1,27 @@
 package com.revature.g2g.repositories;
 
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Path;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.revature.g2g.models.Player;
+import com.revature.g2g.models.Room;
 import com.revature.g2g.models.SkillPlayerChangeJT;
 
 @Transactional
@@ -23,6 +37,35 @@ public class SkillPlayerChangeJTDAO implements ISkillPlayerChangeJTDAO{
 		Session ses = sf.getCurrentSession();
 		ses.save(spc);
 		
+	}
+
+	public Set<SkillPlayerChangeJT> findBy(Room room, Player modifiedBy){
+		Set<SkillPlayerChangeJT> set = new HashSet<>();
+		Session ses = sf.getCurrentSession();
+		
+		CriteriaBuilder builder = ses.getCriteriaBuilder();
+		CriteriaQuery<SkillPlayerChangeJT> query = builder.createQuery(SkillPlayerChangeJT.class);
+		
+		Root<SkillPlayerChangeJT> root = query.from(SkillPlayerChangeJT.class);
+		Path<Object> roomPath = root.get("room");
+		Path<Object> playerPath = root.get("modifiedBy");
+		
+		Predicate roomPredicate = builder.equal(roomPath, room);
+		Predicate playerPredicate = builder.equal(playerPath, modifiedBy);
+		Predicate roomAndPlayerPredciate = builder.and(roomPredicate, playerPredicate);
+		
+		query.select(root).where(roomAndPlayerPredciate);
+		
+		Query<SkillPlayerChangeJT> sg = ses.createQuery(query);
+		try {
+			List<SkillPlayerChangeJT> list = sg.getResultList();
+			set.addAll(list);
+			return set;
+		} catch (javax.persistence.NoResultException e) {
+			
+			return Collections.emptySet();
+			
+		}
 	}
 
 	@Override

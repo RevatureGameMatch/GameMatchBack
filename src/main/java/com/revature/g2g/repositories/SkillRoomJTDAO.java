@@ -1,6 +1,8 @@
 package com.revature.g2g.repositories;
 
 import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -139,7 +141,44 @@ public class SkillRoomJTDAO implements ISkillRoomJTDAO {
 			
 		}
 	}
-
+	
+	@Override
+	public Set<Skill> findSkillsByRoom(Room room) {
+		Set<Skill> set = new HashSet<>();
+		
+		Session ses = sf.getCurrentSession();
+		
+		CriteriaBuilder builder = ses.getCriteriaBuilder();
+		CriteriaQuery<SkillRoomJT> query = builder.createQuery(SkillRoomJT.class);
+		
+		Root<SkillRoomJT> root = query.from(SkillRoomJT.class);
+		
+		query.select(root).where(builder.equal(root.get("room"), room));
+		
+		Query<SkillRoomJT> sr = ses.createQuery(query);
+		
+		try {
+			
+			List<SkillRoomJT> list = sr.getResultList();
+			
+			for (int i = 0; i < list.size(); i++) {
+				
+				SkillRoomJT srJT = list.get(i);
+				Skill skill = srJT.getSkill();
+				
+				set.add(skill);
+			}
+			
+			return set;
+			
+		} catch (javax.persistence.NoResultException e) {
+			
+			return Collections.emptySet();
+			
+		}
+		
+	}
+	
 	@Override
 	public void update(SkillRoomJT sr) {
 		

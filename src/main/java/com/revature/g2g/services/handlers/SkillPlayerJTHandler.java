@@ -42,6 +42,9 @@ public class SkillPlayerJTHandler {
 	public Set<SkillPlayerJT> findByPlayer(Player player){
 		return this.repository.findByPlayer(player);
 	}
+	public Set<Skill> findPlayerSkills(Player player){
+		return this.repository.findPlayerSkills(player);
+	}
 	public SkillPlayerJT findBySkillPlayer(Skill skill, Player player) {
 		return this.repository.findBySkillPlayer(skill, player);
 	}

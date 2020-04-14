@@ -305,7 +305,9 @@ public class PlayerRoomJTDAO implements IPlayerRoomJTDAO {
 			return set;
 			
 		} catch (javax.persistence.NoResultException|NoSuchElementException e ) {
+			
 			return Collections.emptySet();
+			
 		}
 		
 	}

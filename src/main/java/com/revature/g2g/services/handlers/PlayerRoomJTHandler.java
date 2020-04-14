@@ -50,6 +50,9 @@ public class PlayerRoomJTHandler {
 	public Set<Room> findRooms(Player player){
 		return this.repository.findRooms(player);
 	}
+	public Set<Room> findSurveyRooms(Player player){
+		return this.repository.findSurveyRooms(player);
+	}
 	public void update(PlayerRoomJT pr) {
 		this.repository.update(pr);
 	}

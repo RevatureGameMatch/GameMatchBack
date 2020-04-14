@@ -106,7 +106,6 @@ public class SurveyController {
 		SurveySkillTemplate[] arr = new SurveySkillTemplate[skills.size()];
 		for (Player p: players) {
 			if(p.equals(player)) {
-//				players.remove(p);
 				continue;
 			}
 			ArrayList<SurveySkillTemplate> surveySkillTemplateArray = skillGeneratingLoop(arr, skills, p, player, room, skillPlayerChangeJTSet);
@@ -119,31 +118,28 @@ public class SurveyController {
 	}
 	private ArrayList<SurveySkillTemplate> skillGeneratingLoop(SurveySkillTemplate[] arr, Set<Skill> skills, Player p, Player modifiedBy, 
 			Room room, Set<SkillPlayerChangeJT> skillPlayerChangeJTSet) {
-		System.out.println(skillPlayerChangeJTSet);
 		ArrayList<SurveySkillTemplate> surveySkillTemplateArray = new ArrayList<>();
 		int size = skillPlayerChangeJTSet.size();
 		for (Skill s: skills) {
-			System.out.println(s);
 			if (size != 0) {
 				for (SkillPlayerChangeJT spc: skillPlayerChangeJTSet) {
-					System.out.println("this is the spc" + spc);
 					if(spc.getSkillPlayerJT().getSkill().equals(s) && spc.getPlayer().equals(p)) {
 						double val = spc.getValue();
-						System.out.println("this is the value" + val);
 						SurveySkillTemplate surveySkillTemplate = new SurveySkillTemplate(
 								s, (float) val);
 						surveySkillTemplateArray.add(surveySkillTemplate);
-						System.out.println("this is the survey skill template" + surveySkillTemplate);
 					} else {
 						SurveySkillTemplate surveySkillTemplate = new SurveySkillTemplate(
 								s, 0);
 						surveySkillTemplateArray.add(surveySkillTemplate);
-						System.out.println(surveySkillTemplate);
 					}
 				}
+			} else {
+				SurveySkillTemplate surveySkillTemplate = new SurveySkillTemplate(
+						s, 0);
+				surveySkillTemplateArray.add(surveySkillTemplate);	
 			}
 		}
-		System.out.println(surveySkillTemplateArray);
 		return surveySkillTemplateArray;
 	}
 	

@@ -51,8 +51,8 @@ public class SurveyService {
 		change = balanceHelper.limitChange(change);
 		float newValue = (float) (skillPlayerJT.getValue() + change);
 		newValue = balanceHelper.limitValue(newValue);
-		skillPlayerChangeJT.setValue(newValue);
-		skillPlayerChangeJTHandler.update(skillPlayerChangeJT);
+		skillPlayerJT.setValue(newValue);
+		skillPlayerJTHandler.update(skillPlayerJT);
 		
 		//Make record and log
 		skillPlayerChangeJT.setExpertise(modifiedByExpertise);

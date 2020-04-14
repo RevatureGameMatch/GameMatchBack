@@ -99,15 +99,8 @@ public class SurveyController {
 		}
 		Set<Player> players = playerRoomJTHandler.findPlayers(room);
 		Set<Skill> skills = skillGameJTHandler.findByGame(room.getGame());
+		System.out.println(skills);
 		Set<SurveyTemplate> surveyTemplateSet = new HashSet<>();
-		//removes player from the set
-//		while(players.iterator().hasNext()) {
-//			if (players.iterator().next().equals(player)) {
-//				players.remove(player);	
-//			}
-//		}
-		//For each player loop through skills adding them to SurveySkillTemplate
-		//For each skill check if hash is in changes, if so use the value from changes.
 		Set<SkillPlayerChangeJT> skillPlayerChangeJTSet = skillPlayerChangeJTHandler.findBy(room, player);//checks room and modified by
 		
 		SurveySkillTemplate[] arr = new SurveySkillTemplate[skills.size()];
@@ -117,48 +110,39 @@ public class SurveyController {
 				continue;
 			}
 			ArrayList<SurveySkillTemplate> surveySkillTemplateArray = skillGeneratingLoop(arr, skills, p, player, room, skillPlayerChangeJTSet);
-//			ArrayList<SurveySkillTemplate> surveySkillTemplateArray = new ArrayList<>();
-//			for (Skill s: skills) {
-//				for (SkillPlayerChangeJT spc: skillPlayerChangeJTSet) {
-//					int hash = Objects.hash(player, p, room, s);
-//					int hash2 = spc.hashCode();
-//					if (hash != hash2) {
-//						SurveySkillTemplate surveySkillTemplate = new SurveySkillTemplate(
-//								s, 0);
-//						surveySkillTemplateArray.add(surveySkillTemplate);
-//					} else {
-//						double val = spc.getValue();
-//						SurveySkillTemplate surveySkillTemplate = new SurveySkillTemplate(
-//								s, (float) val);
-//						surveySkillTemplateArray.add(surveySkillTemplate);
-//					}
-//				}
-//			}
 			SurveyTemplate surveyTemplate = new SurveyTemplate(p, surveySkillTemplateArray.toArray(arr));
+			
 			surveyTemplateSet.add(surveyTemplate);
 		}
 		return ResponseEntity.status(HttpStatus.ACCEPTED).body(surveyTemplateSet);
 	}
 	private ArrayList<SurveySkillTemplate> skillGeneratingLoop(SurveySkillTemplate[] arr, Set<Skill> skills, Player p, Player modifiedBy, 
 			Room room, Set<SkillPlayerChangeJT> skillPlayerChangeJTSet) {
+		System.out.println(skillPlayerChangeJTSet);
 		ArrayList<SurveySkillTemplate> surveySkillTemplateArray = new ArrayList<>();
+		int size = skillPlayerChangeJTSet.size();
 		for (Skill s: skills) {
-			for (SkillPlayerChangeJT spc: skillPlayerChangeJTSet) {
-//				int hash = Objects.hash(modifiedBy, p, room, s);
-//				int hash2 = spc.hashCode();
-//				if (hash != hash2) {
-				if(spc.getSkillPlayerJT().getSkill().equals(s) && spc.getPlayer().equals(p)) {
-					double val = spc.getValue();
-					SurveySkillTemplate surveySkillTemplate = new SurveySkillTemplate(
-							s, (float) val);
-					surveySkillTemplateArray.add(surveySkillTemplate);
-				} else {
-					SurveySkillTemplate surveySkillTemplate = new SurveySkillTemplate(
-							s, 0);
-					surveySkillTemplateArray.add(surveySkillTemplate);
+			System.out.println(s);
+			if (size != 0) {
+				for (SkillPlayerChangeJT spc: skillPlayerChangeJTSet) {
+					System.out.println("this is the spc" + spc);
+					if(spc.getSkillPlayerJT().getSkill().equals(s) && spc.getPlayer().equals(p)) {
+						double val = spc.getValue();
+						System.out.println("this is the value" + val);
+						SurveySkillTemplate surveySkillTemplate = new SurveySkillTemplate(
+								s, (float) val);
+						surveySkillTemplateArray.add(surveySkillTemplate);
+						System.out.println("this is the survey skill template" + surveySkillTemplate);
+					} else {
+						SurveySkillTemplate surveySkillTemplate = new SurveySkillTemplate(
+								s, 0);
+						surveySkillTemplateArray.add(surveySkillTemplate);
+						System.out.println(surveySkillTemplate);
+					}
 				}
 			}
 		}
+		System.out.println(surveySkillTemplateArray);
 		return surveySkillTemplateArray;
 	}
 	

@@ -16,4 +16,11 @@ public class BalanceHelper {
 	public float calculateExpertise(SkillPlayerJT skill) {
 		return (float) (skill.getValue() / BalanceConstants.getMaxValue());
 	}
+	public float limitValue(float value) {
+		float result;
+		if (value > BalanceConstants.getMaxValue()) { result = BalanceConstants.getMaxValue(); }
+		else if (value < BalanceConstants.getMinValue()) { result = BalanceConstants.getMinValue(); }
+		else {result = value;}
+		return result;
+	}
 }

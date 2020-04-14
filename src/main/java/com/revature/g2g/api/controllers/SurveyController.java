@@ -1,6 +1,9 @@
 package com.revature.g2g.api.controllers;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 import javax.validation.Valid;
@@ -16,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.revature.g2g.api.templates.PlayerTemplate;
+import com.revature.g2g.api.templates.SurveySkillTemplate;
 import com.revature.g2g.api.templates.SurveyTemplate;
 import com.revature.g2g.models.Player;
 import com.revature.g2g.models.Room;
@@ -51,7 +55,7 @@ public class SurveyController {
 		return ResponseEntity.status(HttpStatus.ACCEPTED).body(rooms);
 	}
 	@PostMapping("/Room/Id/{id}")
-	public ResponseEntity<List<SurveyTemplate>> getSurvey(@Valid @RequestBody PlayerTemplate template, @PathVariable("id") int id){
+	public ResponseEntity<Set<SurveyTemplate>> getSurvey(@Valid @RequestBody PlayerTemplate template, @PathVariable("id") int id){
 		Player player = authenticatorHelper.getPlayer(template);
 		Room room = roomHandler.findById(id);
 		if(room == null || player == null) {
@@ -62,11 +66,43 @@ public class SurveyController {
 		}
 		Set<Player> players = playerRoomJTHandler.findPlayers(room);
 		Set<Skill> skills = skillGameJTHandler.findByGame(room.getGame());
-		Set<SkillPlayerChangeJT> changes = skillPlayerChangeJTHandler.findBy(room,player);
-		//TODO parse through players skipping requestere
+		ArrayList<SurveySkillTemplate> surveySkillTemplateArray = new ArrayList<>();
+		Set<SurveyTemplate> surveyTemplateSet = new HashSet<>();
+		//removes player from the set
+//		while(players.iterator().hasNext()) {
+//			if (players.iterator().next().equals(player)) {
+//				players.remove(player);	
+//			}
+//		}
 		//For each player loop through skills adding them to SurveySkillTemplate
 		//For each skill check if hash is in changes, if so use the value from changes.
-		return null;
+		SurveySkillTemplate[] arr = new SurveySkillTemplate[skills.size()];
+		Set<SkillPlayerChangeJT> skillPlayerChangeJTSet = skillPlayerChangeJTHandler.findBy(room, player);
+		
+		for (Player p: players) {
+			if(p.equals(player)) {
+				players.remove(p);
+			}
+			for (Skill s: skills) {
+				for (SkillPlayerChangeJT spc: skillPlayerChangeJTSet) {
+					int hash = Objects.hash(player, p, room, s);
+					int hash2 = spc.hashCode();
+					if (hash != hash2) {
+						SurveySkillTemplate surveySkillTemplate = new SurveySkillTemplate(
+								s, 0);
+						surveySkillTemplateArray.add(surveySkillTemplate);
+					} else {
+						double val = spc.getValue();
+						SurveySkillTemplate surveySkillTemplate = new SurveySkillTemplate(
+								s, (float) val);
+						surveySkillTemplateArray.add(surveySkillTemplate);
+					}
+				}
+			}
+			SurveyTemplate surveyTemplate = new SurveyTemplate(p, surveySkillTemplateArray.toArray(arr));
+			surveyTemplateSet.add(surveyTemplate);
+		}
+		return ResponseEntity.status(HttpStatus.ACCEPTED).body(surveyTemplateSet);
 	}
 	
 	

@@ -16,16 +16,22 @@ import com.revature.g2g.services.helpers.LoggerSingleton;
 
 @Service
 public class SurveyService {
-	@Autowired
 	private SkillPlayerJTHandler skillPlayerJTHandler;
-	@Autowired
 	private BalanceHelper balanceHelper;
-	@Autowired
 	private SkillPlayerJTService skillPlayerJTService;
-	@Autowired
 	private SkillPlayerChangeJTHandler skillPlayerChangeJTHandler;
-	@Autowired
 	private LoggerSingleton loggerSingleton;
+	@Autowired
+	public SurveyService(SkillPlayerJTHandler skillPlayerJTHandler, BalanceHelper balanceHelper,
+			SkillPlayerJTService skillPlayerJTService, SkillPlayerChangeJTHandler skillPlayerChangeJTHandler,
+			LoggerSingleton loggerSingleton) {
+		super();
+		this.skillPlayerJTHandler = skillPlayerJTHandler;
+		this.balanceHelper = balanceHelper;
+		this.skillPlayerJTService = skillPlayerJTService;
+		this.skillPlayerChangeJTHandler = skillPlayerChangeJTHandler;
+		this.loggerSingleton = loggerSingleton;
+	}
 	public void submit(Player modifiedBy, Player player, Room room, Skill skill, float value) {
 		//Setup
 		SkillPlayerJT modifiedBySkill = skillPlayerJTHandler.findBySkillPlayer(skill, modifiedBy);
@@ -34,18 +40,29 @@ public class SurveyService {
 		if(skillPlayerJT == null) {
 			skillPlayerJT = skillPlayerJTService.makeDefault(skill, player);
 		}
+		SkillPlayerChangeJT skillPlayerChangeJT = new SkillPlayerChangeJT();
+		
+		//Modify the stored skillJT
+		long gameTime = room.getClosed().getTime() - room.getCreated().getTime();
+		float changeDirection = 0;
+		if(value > 0) { changeDirection = 1;}
+		else if(value < 0) { changeDirection = -1;}
+		float change = changeDirection * modifiedByExpertise * (((float) gameTime)/BalanceConstants.getDefaultGameTime()) * BalanceConstants.getMaxGain();
+		change = balanceHelper.limitChange(change);
+		float newValue = (float) (skillPlayerJT.getValue() + change);
+		newValue = balanceHelper.limitValue(newValue);
+		skillPlayerChangeJT.setValue(newValue);
+		skillPlayerChangeJTHandler.update(skillPlayerChangeJT);
 		
 		//Make record and log
-		SkillPlayerChangeJT skillPlayerChangeJT = new SkillPlayerChangeJT();
 		skillPlayerChangeJT.setExpertise(modifiedByExpertise);
 		skillPlayerChangeJT.setModifiedBy(modifiedBy);
 		skillPlayerChangeJT.setPlayer(player);
 		skillPlayerChangeJT.setRoom(room);
 		skillPlayerChangeJT.setSkillPlayerJT(skillPlayerJT);
+		skillPlayerChangeJT.setValue(change);
 		skillPlayerChangeJTHandler.insert(skillPlayerChangeJT);
-		String logMessage = skillPlayerChangeJT.toString();
+		String logMessage = "SurveyService: adding change to records " + skillPlayerChangeJT.toString();
 		loggerSingleton.getBusinessLog().trace(logMessage);
-		
-		//Modify the stored skillJT
 	}
 }

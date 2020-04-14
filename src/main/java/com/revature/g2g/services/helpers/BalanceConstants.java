@@ -5,10 +5,11 @@ public class BalanceConstants {
 	private static final float MIN_VALUE = 1;
 	private static final float MAX_VALUE = 200;
 	private static final float START_VALUE = 100;
-	private static final float MAX_LOSS = -0.1f;
 	private static final float MAX_GAIN = 0.1f;
+	private static final float MAX_LOSS = -MAX_GAIN;
 	private static final float MAX_EXPERTISE = 1F;
 	private static final float MIN_EXPERTISE = 0.00001F;
+	private static final long DEFAULT_GAME_TIME = 360_000l;
 	public static float getMinValue() {
 		return MIN_VALUE;
 	}
@@ -29,5 +30,8 @@ public class BalanceConstants {
 	}
 	public static float getMinExpertise() {
 		return MIN_EXPERTISE;
+	}
+	public static long getDefaultGameTime() {
+		return DEFAULT_GAME_TIME;
 	}
 }

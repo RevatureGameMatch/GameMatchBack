@@ -1,14 +1,14 @@
 package com.revature.g2g.services.helpers;
 
-import org.springframework.stereotype.Service;
-
-@Service
 public class BalanceConstants {
+	private BalanceConstants() {}
 	private static final float MIN_VALUE = 1;
 	private static final float MAX_VALUE = 200;
 	private static final float START_VALUE = 100;
-	private static final float MIN_CHANGE = -0.1f;
-	private static final float MAX_CHANGE = 0.1f;
+	private static final float MAX_LOSS = -0.1f;
+	private static final float MAX_GAIN = 0.1f;
+	private static final float MAX_EXPERTISE = 1F;
+	private static final float MIN_EXPERTISE = 0.00001F;
 	public static float getMinValue() {
 		return MIN_VALUE;
 	}
@@ -18,10 +18,16 @@ public class BalanceConstants {
 	public static float getStartValue() {
 		return START_VALUE;
 	}
-	public static float getMinChange() {
-		return MIN_CHANGE;
+	public static float getMaxLoss() {
+		return MAX_LOSS;
 	}
-	public static float getMaxChange() {
-		return MAX_CHANGE;
+	public static float getMaxGain() {
+		return MAX_GAIN;
+	}
+	public static float getMaxExpertise() {
+		return MAX_EXPERTISE;
+	}
+	public static float getMinExpertise() {
+		return MIN_EXPERTISE;
 	}
 }

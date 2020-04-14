@@ -25,6 +25,7 @@ import com.revature.g2g.models.Player;
 import com.revature.g2g.models.Room;
 import com.revature.g2g.models.Skill;
 import com.revature.g2g.models.SkillPlayerChangeJT;
+import com.revature.g2g.services.business.SurveyService;
 import com.revature.g2g.services.handlers.PlayerHandler;
 import com.revature.g2g.services.handlers.PlayerRoomJTHandler;
 import com.revature.g2g.services.handlers.RoomHandler;
@@ -32,7 +33,6 @@ import com.revature.g2g.services.handlers.SkillGameJTHandler;
 import com.revature.g2g.services.handlers.SkillHandler;
 import com.revature.g2g.services.handlers.SkillPlayerChangeJTHandler;
 import com.revature.g2g.services.helpers.AuthenticatorHelper;
-import com.revature.g2g.services.helpers.SurveyHelper;
 
 @CrossOrigin
 @RestController
@@ -45,7 +45,7 @@ public class SurveyController {
 	private SkillGameJTHandler skillGameJTHandler;
 	private PlayerHandler playerHandler;
 	private SkillHandler skillHandler;
-	private SurveyHelper surveyHelper;
+	private SurveyService surveyHelper;
 	@Autowired
 	public void setAuthenticatorHelper(AuthenticatorHelper authenticatorHelper) {
 		this.authenticatorHelper = authenticatorHelper;
@@ -75,7 +75,7 @@ public class SurveyController {
 		this.skillHandler = skillHandler;
 	}
 	@Autowired
-	public void setSurveyHelper(SurveyHelper surveyHelper) {
+	public void setSurveyHelper(SurveyService surveyHelper) {
 		this.surveyHelper = surveyHelper;
 	}
 	@PostMapping

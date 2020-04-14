@@ -164,6 +164,6 @@ public class Player implements Serializable {
 	@Override
 	public String toString() {
 		return "Player [playerId=" + playerId + ", playerUsername=" + playerUsername + ", playerEmail=" + playerEmail
-				+ ", playerPassword=" + playerPassword + ", playerRole=" + playerRole + "]";
+				+ ", playerPassword=****, playerRole=" + playerRole + "]";
 	}
 }

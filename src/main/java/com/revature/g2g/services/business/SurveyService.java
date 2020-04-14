@@ -26,7 +26,6 @@ public class SurveyService {
 	private SkillPlayerChangeJTHandler skillPlayerChangeJTHandler;
 	@Autowired
 	private LoggerSingleton loggerSingleton;
-	@Autowired 
 	public void submit(Player modifiedBy, Player player, Room room, Skill skill, float value) {
 		//Setup
 		SkillPlayerJT modifiedBySkill = skillPlayerJTHandler.findBySkillPlayer(skill, modifiedBy);

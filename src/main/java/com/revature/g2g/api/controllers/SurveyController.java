@@ -45,7 +45,7 @@ public class SurveyController {
 	private SkillGameJTHandler skillGameJTHandler;
 	private PlayerHandler playerHandler;
 	private SkillHandler skillHandler;
-	private SurveyService surveyHelper;
+	private SurveyService surveyService;
 	@Autowired
 	public void setAuthenticatorHelper(AuthenticatorHelper authenticatorHelper) {
 		this.authenticatorHelper = authenticatorHelper;
@@ -75,8 +75,8 @@ public class SurveyController {
 		this.skillHandler = skillHandler;
 	}
 	@Autowired
-	public void setSurveyHelper(SurveyService surveyHelper) {
-		this.surveyHelper = surveyHelper;
+	public void setSurveyHelper(SurveyService surveyService) {
+		this.surveyService = surveyService;
 	}
 	@PostMapping
 	public ResponseEntity<Set<Room>> getSurveys(@Valid @RequestBody PlayerTemplate template){
@@ -182,7 +182,7 @@ public class SurveyController {
 			MessageTemplate messageTemplate = new MessageTemplate(message);
 			return ResponseEntity.status(HttpStatus.CONFLICT).body(messageTemplate);
 		}
-		surveyHelper.submit(modifiedBy, player, room, skill, template.getValue());
+		surveyService.submit(modifiedBy, player, room, skill, template.getValue());
 		String successMessage = "Thank you for ranking this person.";
 		MessageTemplate successTemplate = new MessageTemplate(successMessage);
 		return ResponseEntity.status(HttpStatus.ACCEPTED).body(successTemplate);

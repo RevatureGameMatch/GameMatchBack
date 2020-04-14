@@ -15,6 +15,7 @@ public class PlayerTemplate {
 	private String playerEmail;
 	private String playerPassword;
 	private PlayerRole playerRole;
+	private String message;
 	public PlayerTemplate() {
 		super();
 	}
@@ -63,6 +64,12 @@ public class PlayerTemplate {
 	}
 	public void setPlayerRole(PlayerRole playerRole) {
 		this.playerRole = playerRole;
+	}
+	public String getMessage() {
+		return message;
+	}
+	public void setMessage(String message) {
+		this.message = message;
 	}
 	@Override
 	public int hashCode() {

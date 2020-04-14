@@ -34,7 +34,7 @@ public class PlayerController {
 	@Autowired
 	SkillPlayerJTHandler skillPlayerJTHandler;
 	@PostMapping
-	public ResponseEntity<Player> insert(@RequestBody PlayerTemplate template){
+	public ResponseEntity<PlayerTemplate> insert(@RequestBody PlayerTemplate template){
 		if(template==null) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 		}
@@ -42,18 +42,30 @@ public class PlayerController {
 		Player usernameCheck = playerHandler.findByUsername(template.getPlayerUsername());
 		if(usernameCheck!=null) {
 			template.setPlayerPassword("****");
-			String conflictMessage = "PlayerController: conflict - " + template.toString();
+			String conflictMessage = "PlayerController: conflict username - " + template.toString();
+			String conflictDisplayMessage = "Username Taken";
 			loggerSingleton.getAccessLog().trace(conflictMessage);
-			return ResponseEntity.status(HttpStatus.CONFLICT).build();
+			template.setMessage(conflictDisplayMessage);
+			return ResponseEntity.status(HttpStatus.CONFLICT).body(template);
+		}
+		Player emailCheck = playerHandler.findByEmail(template.getPlayerEmail());
+		if(emailCheck!=null) {
+			template.setPlayerPassword("****");
+			String conflictMessage = "PlayerController: conflict email - " + template.toString();
+			String conflictDisplayMessage = "Username Taken";
+			loggerSingleton.getAccessLog().trace(conflictMessage);
+			template.setMessage(conflictDisplayMessage);
+			return ResponseEntity.status(HttpStatus.CONFLICT).body(template);
 		}
 		Player player = new Player(template);
 		player.setPlayerPassword(passwordHelper.encryptPassword(player.getPlayerPassword()));
 		player.setPlayerRole(PlayerRole.PLAYER);
 		playerHandler.insert(player);
 		player.setPlayerPassword("****");
+		PlayerTemplate newTemplate = new PlayerTemplate(player);
 		String newPlayerMessage = "PlayerController: new player - " + player.toString();
 		loggerSingleton.getBusinessLog().trace(newPlayerMessage);
-		return ResponseEntity.status(HttpStatus.ACCEPTED).body(player);
+		return ResponseEntity.status(HttpStatus.ACCEPTED).body(newTemplate);
 	}
 	@PostMapping("/Id/{id}/Skills")
 	public ResponseEntity<Set<Skill>> findAllSkillsById(@PathVariable("id") int id){

@@ -287,14 +287,14 @@ public class PlayerRoomJTDAO implements IPlayerRoomJTDAO {
 				
 				Date created = room.getCreated();
 				long cTime = created.getTime();
-				boolean createdBool = ( cTime <= (current - 600));
+				boolean createdBool = ( cTime <= (current - 600_000));
 				
 				Date left = room.getClosed();
 				if (left != null) {
 					
 					long lTime = left.getTime();
 					
-					boolean leftBool = ( lTime >= (current - 86400));
+					boolean leftBool = ( lTime >= (current - 86_400_000));
 					
 					if(createdBool && leftBool) {
 						set.add(room);

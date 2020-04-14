@@ -25,5 +25,9 @@ public class DAODriver {
 		ApplicationContext ac = new ClassPathXmlApplicationContext("applicationContext.xml");
 		ISkillPlayerChangeJTDAO dao = ac.getBean(ISkillPlayerChangeJTDAO.class);
 		System.out.println(dao.hashCode());
+		IPlayerDAO daoP = ac.getBean(IPlayerDAO.class);
+		IPlayerRoomJTDAO daoPR = ac.getBean(IPlayerRoomJTDAO.class);
+		Player player = daoP.findById(17);
+		System.out.println(daoPR.findSurveyRooms(player));
 	}
 }

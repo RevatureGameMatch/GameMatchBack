@@ -47,35 +47,16 @@ public class SurveyController {
 	private SkillHandler skillHandler;
 	private SurveyService surveyService;
 	@Autowired
-	public void setAuthenticatorHelper(AuthenticatorHelper authenticatorHelper) {
+	public SurveyController(AuthenticatorHelper authenticatorHelper, PlayerRoomJTHandler playerRoomJTHandler, RoomHandler roomHandler,
+			SkillPlayerChangeJTHandler skillPlayerChangeJTHandler, SkillGameJTHandler skillGameJTHandler, PlayerHandler playerHandler,
+			SkillHandler skillHandler, SurveyService surveyService) {
 		this.authenticatorHelper = authenticatorHelper;
-	}
-	@Autowired
-	public void setPlayerRoomJTHandler(PlayerRoomJTHandler playerRoomJTHandler) {
 		this.playerRoomJTHandler = playerRoomJTHandler;
-	}
-	@Autowired
-	public void setRoomHandler(RoomHandler roomHandler) {
 		this.roomHandler = roomHandler;
-	}
-	@Autowired
-	public void setSkillPlayerChangeJTHandler(SkillPlayerChangeJTHandler skillPlayerChangeJTHandler) {
 		this.skillPlayerChangeJTHandler = skillPlayerChangeJTHandler;
-	}
-	@Autowired
-	public void setSkillGameJTHandler(SkillGameJTHandler skillGameJTHandler) {
 		this.skillGameJTHandler = skillGameJTHandler;
-	}
-	@Autowired
-	public void setPlayerHandler(PlayerHandler playerHandler) {
 		this.playerHandler = playerHandler;
-	}
-	@Autowired
-	public void setSkillHandler(SkillHandler skillHandler) {
 		this.skillHandler = skillHandler;
-	}
-	@Autowired
-	public void setSurveyHelper(SurveyService surveyService) {
 		this.surveyService = surveyService;
 	}
 	@PostMapping
@@ -142,8 +123,6 @@ public class SurveyController {
 		}
 		return surveySkillTemplateArray;
 	}
-	
-	
 	@PostMapping("/Room/Id/{id}/Submit")
 	public ResponseEntity<MessageTemplate> insertSurvey(@Valid @RequestBody SurveySubmitTemplate template, @PathVariable("id") int roomId){
 		Player modifiedBy = authenticatorHelper.getPlayer(template.getModifiedBy());

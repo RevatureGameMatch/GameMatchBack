@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.revature.g2g.models.Player;
 import com.revature.g2g.models.Room;
+import com.revature.g2g.models.Skill;
 import com.revature.g2g.models.SkillPlayerChangeJT;
 import com.revature.g2g.repositories.ISkillPlayerChangeJTDAO;
 
@@ -35,5 +36,8 @@ public class SkillPlayerChangeJTHandler {
 	}
 	public void delete(SkillPlayerChangeJT spc) {
 		this.repository.delete(spc);
+	}
+	public SkillPlayerChangeJT findBy(Player modifiedBy, Player player, Room room, Skill skill) {
+		return this.repository.findBy(modifiedBy, player, room, skill);
 	}
 }

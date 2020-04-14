@@ -22,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.revature.g2g.models.Player;
 import com.revature.g2g.models.Room;
+import com.revature.g2g.models.Skill;
 import com.revature.g2g.models.SkillPlayerChangeJT;
 
 @Transactional
@@ -64,6 +65,41 @@ public class SkillPlayerChangeJTDAO implements ISkillPlayerChangeJTDAO{
 		} catch (javax.persistence.NoResultException e) {
 			
 			return Collections.emptySet();
+			
+		}
+	}
+
+	@Override
+	public SkillPlayerChangeJT findBy(Player modifiedBy, Player player, Room room, Skill skill) {
+		Session ses = sf.getCurrentSession();
+		
+		CriteriaBuilder builder = ses.getCriteriaBuilder();
+		CriteriaQuery<SkillPlayerChangeJT> query = builder.createQuery(SkillPlayerChangeJT.class);
+		
+		Root<SkillPlayerChangeJT> root = query.from(SkillPlayerChangeJT.class);
+		Path<Object> modifiedPath = root.get("modifiedBy");
+		Path<Object> playerPath = root.get("player");
+		Path<Object> roomPath = root.get("room");
+		
+		Predicate modifiedPredicate = builder.equal(modifiedPath, modifiedBy);
+		Predicate playerPredicate = builder.equal(playerPath, player);
+		Predicate roomPredicate = builder.equal(roomPath, room);
+		Predicate compositePredciate = builder.and(modifiedPredicate, playerPredicate, roomPredicate);
+		
+		query.select(root).where(compositePredciate);
+		
+		Query<SkillPlayerChangeJT> sg = ses.createQuery(query);
+		try {
+			List<SkillPlayerChangeJT> list = sg.getResultList();
+			for (SkillPlayerChangeJT skillPlayerChangeJT : list) {
+				if(skill.equals(skillPlayerChangeJT.getSkillPlayerJT().getSkill())) {
+					return skillPlayerChangeJT;
+				}
+			}
+			return null;
+		} catch (javax.persistence.NoResultException e) {
+			
+			return null;
 			
 		}
 	}

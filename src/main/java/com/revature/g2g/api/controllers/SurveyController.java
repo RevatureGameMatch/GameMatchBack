@@ -2,7 +2,6 @@ package com.revature.g2g.api.controllers;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -18,18 +17,23 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.revature.g2g.api.templates.MessageTemplate;
 import com.revature.g2g.api.templates.PlayerTemplate;
 import com.revature.g2g.api.templates.SurveySkillTemplate;
+import com.revature.g2g.api.templates.SurveySubmitTemplate;
 import com.revature.g2g.api.templates.SurveyTemplate;
 import com.revature.g2g.models.Player;
 import com.revature.g2g.models.Room;
 import com.revature.g2g.models.Skill;
 import com.revature.g2g.models.SkillPlayerChangeJT;
+import com.revature.g2g.services.handlers.PlayerHandler;
 import com.revature.g2g.services.handlers.PlayerRoomJTHandler;
 import com.revature.g2g.services.handlers.RoomHandler;
 import com.revature.g2g.services.handlers.SkillGameJTHandler;
+import com.revature.g2g.services.handlers.SkillHandler;
 import com.revature.g2g.services.handlers.SkillPlayerChangeJTHandler;
 import com.revature.g2g.services.helpers.AuthenticatorHelper;
+import com.revature.g2g.services.helpers.SurveyHelper;
 
 @CrossOrigin
 @RestController
@@ -45,6 +49,12 @@ public class SurveyController {
 	private SkillPlayerChangeJTHandler skillPlayerChangeJTHandler;
 	@Autowired
 	private SkillGameJTHandler skillGameJTHandler;
+	@Autowired
+	private PlayerHandler playerHandler;
+	@Autowired
+	private SkillHandler skillHandler;
+	@Autowired
+	private SurveyHelper surveyHelper;
 	@PostMapping
 	public ResponseEntity<Set<Room>> getSurveys(@Valid @RequestBody PlayerTemplate template){
 		Player player = authenticatorHelper.getPlayer(template);
@@ -106,4 +116,28 @@ public class SurveyController {
 	}
 	
 	
+	@PostMapping("/Room/Id/{id}/Submit")
+	public ResponseEntity<MessageTemplate> insertSurvey(@Valid @RequestBody SurveySubmitTemplate template, @PathVariable("id") int roomId){
+		Player modifiedBy = authenticatorHelper.getPlayer(template.getModifiedBy());
+		Player player = playerHandler.findById(template.getPlayer().getPlayerId());
+		Room room = roomHandler.findById(roomId);
+		Skill skill = skillHandler.findById(template.getSkill().getSkillId());
+		if(room == null || player == null || modifiedBy == null || skill == null) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+		}
+		if( playerRoomJTHandler.findByPlayerRoom(player, room) == null) {
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+		}
+		SkillPlayerChangeJT skillPlayerChangeJT = skillPlayerChangeJTHandler.findBy(modifiedBy, player, room, skill);
+		if(skillPlayerChangeJT != null) {
+			String message = "You have already ranked " + skillPlayerChangeJT.getPlayer().getPlayerUsername() + "'s skill in " +
+					skillPlayerChangeJT.getSkillPlayerJT().getSkill().getName() +  " for this game.";
+			MessageTemplate messageTemplate = new MessageTemplate(message);
+			return ResponseEntity.status(HttpStatus.CONFLICT).body(messageTemplate);
+		}
+		surveyHelper.submit(modifiedBy, player, room, skill, template.getValue());
+		String successMessage = "Thank you for ranking this person.";
+		MessageTemplate successTemplate = new MessageTemplate(successMessage);
+		return ResponseEntity.status(HttpStatus.ACCEPTED).body(successTemplate);
+	}
 }

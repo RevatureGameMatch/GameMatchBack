@@ -52,7 +52,7 @@ public class PlayerController {
 		if(emailCheck!=null) {
 			template.setPlayerPassword("****");
 			String conflictMessage = "PlayerController: conflict email - " + template.toString();
-			String conflictDisplayMessage = "Username Taken";
+			String conflictDisplayMessage = "Email Taken";
 			loggerSingleton.getAccessLog().trace(conflictMessage);
 			template.setMessage(conflictDisplayMessage);
 			return ResponseEntity.status(HttpStatus.CONFLICT).body(template);

@@ -35,6 +35,7 @@ public class GameGenerator implements DataGenerator {
 		make("Warframe", "In the far-future world of Warframe, grotesque clones and capitalist machines dominate our solar system. Fight back against greed and corruption as you explore a world of techno-organic horrors. Third person shooter.", "https://www.warframe.com/",766);
 		make("Elsword", "Bandits, monsters and demons threatened the population of Elrios - and all of them wanted only one thing: the shards of the grand EL. Are you hero enough to go up against them in battle? MMORPG.", "https://elsword.koggames.com/",40774);
 		make("Skyforge", "When the great god Aeli vanished, hostile gods and evil creatures invaded the planet. Become an Immortal and protect Aelion. MMORPG", "https://sf.my.games/en",21942);
+		make("TERA", "With True Action Combat - aim, dodge, and time your attacks for intense and rewarding tactical combat. MMORPG.", "https://tera.gameforge.com/",10296);
 		make("Other", "Those games that don't fit into an official game", "",148279);
 	}
 	private void make(String name, String description, String link, int rawgId) {

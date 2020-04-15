@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.revature.g2g.api.templates.MessageTemplate;
 import com.revature.g2g.api.templates.PlayerTemplate;
+import com.revature.g2g.api.templates.SurveyRoomTemplate;
 import com.revature.g2g.api.templates.SurveySkillTemplate;
 import com.revature.g2g.api.templates.SurveySubmitTemplate;
 import com.revature.g2g.api.templates.SurveyTemplate;
@@ -71,7 +72,7 @@ public class SurveyController {
 		return ResponseEntity.status(HttpStatus.ACCEPTED).body(rooms);
 	}
 	@PostMapping("/Player")
-	public ResponseEntity<Set<Set<SurveyTemplate>>> getSurveysForPlayer(@Valid @RequestBody PlayerTemplate template){
+	public ResponseEntity<Set<SurveyRoomTemplate>> getSurveysForPlayer(@Valid @RequestBody PlayerTemplate template){
 		Player player = authenticatorHelper.getPlayer(template);
 		Set<PlayerRoomJT> set = playerRoomJTHandler.findByPlayer(player);
 		if(player == null) {
@@ -80,7 +81,7 @@ public class SurveyController {
 		if( playerRoomJTHandler.findByPlayer(player) == null) {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 		}
-		Set<Set<SurveyTemplate>> bodySet = new HashSet<>();
+		Set<SurveyRoomTemplate> bodySet = new HashSet<>();
 		Set<Room> roomSet = new HashSet<>();
 		for (PlayerRoomJT prjt: set) {
 			Room room = prjt.getRoom();
@@ -90,7 +91,8 @@ public class SurveyController {
 		}
 		for(Room r: roomSet) {
 			Set<SurveyTemplate> surveyTemplateSet = templateGeneratingLoop(r, player);
-			bodySet.add(surveyTemplateSet);
+			SurveyRoomTemplate surveyRoomTemplate = new SurveyRoomTemplate(r, surveyTemplateSet);
+			bodySet.add(surveyRoomTemplate);
 		}
 		return ResponseEntity.status(HttpStatus.ACCEPTED).body(bodySet);
 	}
@@ -124,7 +126,6 @@ public class SurveyController {
 		}
 		Set<Player> players = playerRoomJTHandler.findPlayers(room);
 		Set<Skill> skills = skillGameJTHandler.findByGame(room.getGame());
-		System.out.println(skills);
 		Set<SurveyTemplate> surveyTemplateSet = new HashSet<>();
 		Set<SkillPlayerChangeJT> skillPlayerChangeJTSet = skillPlayerChangeJTHandler.findBy(room, player);//checks room and modified by
 		

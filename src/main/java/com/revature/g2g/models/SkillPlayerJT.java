@@ -20,6 +20,7 @@ import javax.validation.constraints.NotNull;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.revature.g2g.services.helpers.BalanceConstants;
 
 @Component
 @JsonIgnoreProperties(value = { "changes" })
@@ -55,6 +56,9 @@ public class SkillPlayerJT implements Serializable{
 
 	public SkillPlayerJT() {
 		super();
+		this.skill = new Skill();
+		this.player = new Player();
+		this.value = BalanceConstants.getStartValue();
 	}
 	public SkillPlayerJT(long skillPlayerJtId, Skill skill, Player player, double value, double expertise) {
 		super();

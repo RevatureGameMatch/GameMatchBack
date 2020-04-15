@@ -3,6 +3,8 @@ package com.revature.g2g.api.templates;
 import java.util.Objects;
 
 import org.hibernate.validator.constraints.NotBlank;
+import org.jsoup.Jsoup;
+import org.jsoup.safety.Whitelist;
 
 import com.revature.g2g.models.Player;
 import com.revature.g2g.models.PlayerRole;
@@ -20,11 +22,28 @@ public class PlayerTemplate {
 		super();
 	}
 	public PlayerTemplate(Player player) {
-		this.setPlayerEmail(player.getPlayerEmail());
+		this.setPlayerEmail(Jsoup.clean(player.getPlayerEmail(), Whitelist.none()));
 		this.setPlayerId(player.getPlayerId());
 		this.setPlayerPassword("****");
-		this.setPlayerRole(player.getPlayerRole());
-		this.setPlayerUsername(player.getPlayerUsername());
+		this.setPlayerUsername(Jsoup.clean(player.getPlayerUsername(), Whitelist.none()));
+		PlayerRole role = player.getPlayerRole();
+		try {
+			this.setPlayerRole(PlayerRole.valueOf(role.toString()));
+		}catch (IllegalArgumentException e) {
+			this.setPlayerRole(PlayerRole.PLAYER);
+		}
+	}
+	public PlayerTemplate(PlayerTemplate template) {
+		this.setPlayerEmail(Jsoup.clean(template.getPlayerEmail(), Whitelist.none()));
+		this.setPlayerPassword(Jsoup.clean(template.getPlayerPassword(), Whitelist.none()));
+		this.setPlayerUsername(Jsoup.clean(template.getPlayerUsername(), Whitelist.none()));
+		this.setPlayerId(template.getPlayerId());
+		PlayerRole role = template.getPlayerRole();
+		try {
+			this.setPlayerRole(PlayerRole.valueOf(role.toString()));
+		}catch (IllegalArgumentException e) {
+			this.setPlayerRole(PlayerRole.PLAYER);
+		}
 	}
 	public PlayerTemplate(int playerId, String playerUsername, String playerEmail, String playerPassword,
 			PlayerRole playerRole) {

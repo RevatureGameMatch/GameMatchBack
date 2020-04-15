@@ -82,9 +82,10 @@ public class RoomHelper {
 		original.setMaxPlayers(changes.getMaxPlayers());
 		original.setName(Jsoup.clean(changes.getName(), Whitelist.none()));
 		original.setStatus(RoomStatus.JOINING);
-		if(changes.getStyle() instanceof RoomPlayStyle) {
-			original.setStyle(changes.getStyle());
-		}else {
+		RoomPlayStyle style = changes.getStyle();
+		try {
+			original.setStyle(RoomPlayStyle.valueOf(style.toString()));
+		}catch(IllegalArgumentException e) {
 			original.setStyle(RoomPlayStyle.CASUAL);
 		}
 		return original;
@@ -92,8 +93,6 @@ public class RoomHelper {
 	public Invite getInvite(Room room, Player player) {
 		if(room.getStatus().equals(RoomStatus.CLOSED))return null;
 		JDA jda = JDASingleton.getJda();
-//		TextChannel text = jda.getTextChannelById(room.getDiscordTextChannelId());
-//		InviteAction inviteAction = text.createInvite();
 		VoiceChannel voice = jda.getVoiceChannelById(room.getDiscordVoiceChannelId());
 		InviteAction inviteAction = voice.createInvite();
 		Invite invite = inviteAction.complete();

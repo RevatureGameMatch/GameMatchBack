@@ -148,6 +148,7 @@ public class SurveyController {
 		int size = skillPlayerChangeJTSet.size();
 		Game game = room.getGame();
 		for (Skill s: skills) {
+			boolean found = false;
 			if (size != 0) {
 				for (SkillPlayerChangeJT spc: skillPlayerChangeJTSet) {
 					if(spc.getSkillPlayerJT().getSkill().equals(s) && spc.getPlayer().equals(p)) {
@@ -155,13 +156,12 @@ public class SurveyController {
 						SurveySkillTemplate surveySkillTemplate = new SurveySkillTemplate(
 								s, (float) val, game);
 						surveySkillTemplateArray.add(surveySkillTemplate);
-					} else {
-						SurveySkillTemplate surveySkillTemplate = new SurveySkillTemplate(
-								s, 0, game);
-						surveySkillTemplateArray.add(surveySkillTemplate);
+						found = true;
+						break;
 					}
 				}
-			} else {
+			}
+			if (!found) {
 				SurveySkillTemplate surveySkillTemplate = new SurveySkillTemplate(
 						s, 0, game);
 				surveySkillTemplateArray.add(surveySkillTemplate);	

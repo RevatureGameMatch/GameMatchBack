@@ -1,5 +1,7 @@
 package com.revature.g2g.api.controllers;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.revature.g2g.api.templates.PlayerTemplate;
+import com.revature.g2g.api.templates.SkillValueTemplate;
 import com.revature.g2g.models.Player;
 import com.revature.g2g.models.PlayerRole;
 import com.revature.g2g.models.Skill;
@@ -74,24 +77,30 @@ public class PlayerController {
 		return ResponseEntity.status(HttpStatus.ACCEPTED).body(newTemplate);
 	}
 	@GetMapping("/Id/{id}/Skills")
-	public ResponseEntity<Set<Skill>> findAllSkillsById(@PathVariable("id") int id){
+	public ResponseEntity<List<SkillValueTemplate>> findAllSkillsById(@PathVariable("id") int id){
 		Player player = playerHandler.findById(id);
 		if(player == null) {
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 		} else {
-			Set<Skill> set = skillPlayerJTHandler.findPlayerSkills(player);
-			return ResponseEntity.status(HttpStatus.ACCEPTED).body(set);
+			return ResponseEntity.status(HttpStatus.ACCEPTED).body(processSkills(player));
 		}
 	}
 	@GetMapping("/Username/{username}/Skills")
-	public ResponseEntity<Set<Skill>> findAllSkillsByName(@PathVariable("username") String username){
+	public ResponseEntity<List<SkillValueTemplate>> findAllSkillsByName(@PathVariable("username") String username){
 		Player player = playerHandler.findByUsername(username);
 		if(player == null) {
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 		} else {
-			Set<Skill> set = skillPlayerJTHandler.findPlayerSkills(player);
-			return ResponseEntity.status(HttpStatus.ACCEPTED).body(set);
+			return ResponseEntity.status(HttpStatus.ACCEPTED).body(processSkills(player));
 		}
 	}
-	
+	private List<SkillValueTemplate> processSkills(Player player){
+		Set<Skill> set = skillPlayerJTHandler.findPlayerSkills(player);
+		List<SkillValueTemplate> skills = new ArrayList<>();
+		for(Skill skill : set) {
+			double value = skillPlayerJTHandler.findValue(player, skill);
+			skills.add(new SkillValueTemplate(skill, value));
+		}
+		return skills;
+	}
 }

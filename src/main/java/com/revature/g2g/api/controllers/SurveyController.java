@@ -2,6 +2,7 @@ package com.revature.g2g.api.controllers;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import javax.validation.Valid;
@@ -74,7 +75,6 @@ public class SurveyController {
 	@PostMapping("/Player")
 	public ResponseEntity<Set<SurveyRoomTemplate>> getSurveysForPlayer(@Valid @RequestBody PlayerTemplate template){
 		Player player = authenticatorHelper.getPlayer(template);
-		Set<PlayerRoomJT> set = playerRoomJTHandler.findByPlayer(player);
 		if(player == null) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 		}
@@ -82,13 +82,9 @@ public class SurveyController {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 		}
 		Set<SurveyRoomTemplate> bodySet = new HashSet<>();
-		Set<Room> roomSet = new HashSet<>();
-		for (PlayerRoomJT prjt: set) {
-			Room room = prjt.getRoom();
-			if(!roomSet.contains(room)) {
-				roomSet.add(room);
-			} 
-		}
+		Set<Room> roomSet = new LinkedHashSet<>();
+		Set<Room> surveyRoomSet = playerRoomJTHandler.findSurveyRooms(player);
+		roomSet.addAll(surveyRoomSet);
 		for(Room r: roomSet) {
 			Set<SurveyTemplate> surveyTemplateSet = templateGeneratingLoop(r, player);
 			SurveyRoomTemplate surveyRoomTemplate = new SurveyRoomTemplate(r, surveyTemplateSet);

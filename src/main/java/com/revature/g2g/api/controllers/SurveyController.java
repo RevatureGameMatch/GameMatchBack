@@ -81,9 +81,15 @@ public class SurveyController {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 		}
 		Set<Set<SurveyTemplate>> bodySet = new HashSet<>();
+		Set<Room> roomSet = new HashSet<>();
 		for (PlayerRoomJT prjt: set) {
 			Room room = prjt.getRoom();
-			Set<SurveyTemplate> surveyTemplateSet = templateGeneratingLoop(room, player);
+			if(!roomSet.contains(room)) {
+				roomSet.add(room);
+			} 
+		}
+		for(Room r: roomSet) {
+			Set<SurveyTemplate> surveyTemplateSet = templateGeneratingLoop(r, player);
 			bodySet.add(surveyTemplateSet);
 		}
 		return ResponseEntity.status(HttpStatus.ACCEPTED).body(bodySet);

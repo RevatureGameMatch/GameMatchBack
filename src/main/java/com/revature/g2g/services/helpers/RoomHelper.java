@@ -82,8 +82,9 @@ public class RoomHelper {
 		original.setMaxPlayers(changes.getMaxPlayers());
 		original.setName(Jsoup.clean(changes.getName(), Whitelist.none()));
 		original.setStatus(RoomStatus.JOINING);
-		if(changes.getStyle() instanceof RoomPlayStyle) {
-			original.setStyle(changes.getStyle());
+		RoomPlayStyle style = changes.getStyle();
+		if(style instanceof RoomPlayStyle) {
+			original.setStyle(style);
 		}else {
 			original.setStyle(RoomPlayStyle.CASUAL);
 		}

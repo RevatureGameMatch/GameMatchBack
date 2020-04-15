@@ -22,11 +22,16 @@ public class PlayerTemplate {
 		super();
 	}
 	public PlayerTemplate(Player player) {
-		this.setPlayerEmail(player.getPlayerEmail());
+		this.setPlayerEmail(Jsoup.clean(player.getPlayerEmail(), Whitelist.none()));
 		this.setPlayerId(player.getPlayerId());
 		this.setPlayerPassword("****");
-		this.setPlayerRole(player.getPlayerRole());
-		this.setPlayerUsername(player.getPlayerUsername());
+		this.setPlayerUsername(Jsoup.clean(player.getPlayerUsername(), Whitelist.none()));
+		PlayerRole role = player.getPlayerRole();
+		try {
+			this.setPlayerRole(PlayerRole.valueOf(role.toString()));
+		}catch (IllegalArgumentException e) {
+			this.setPlayerRole(PlayerRole.PLAYER);
+		}
 	}
 	public PlayerTemplate(PlayerTemplate template) {
 		this.setPlayerEmail(Jsoup.clean(template.getPlayerEmail(), Whitelist.none()));
@@ -34,9 +39,9 @@ public class PlayerTemplate {
 		this.setPlayerUsername(Jsoup.clean(template.getPlayerUsername(), Whitelist.none()));
 		this.setPlayerId(template.getPlayerId());
 		PlayerRole role = template.getPlayerRole();
-		if(role instanceof PlayerRole) {
-			this.setPlayerRole(role);
-		}else {
+		try {
+			this.setPlayerRole(PlayerRole.valueOf(role.toString()));
+		}catch (IllegalArgumentException e) {
 			this.setPlayerRole(PlayerRole.PLAYER);
 		}
 	}

@@ -128,6 +128,12 @@ public class SurveyController {
 		Set<Skill> skills = skillGameJTHandler.findByGame(room.getGame());
 		Set<SurveyTemplate> surveyTemplateSet = new HashSet<>();
 		Set<SkillPlayerChangeJT> skillPlayerChangeJTSet = skillPlayerChangeJTHandler.findBy(room, player);//checks room and modified by
+//		Set<SkillPlayerChangeJT> skillPlayerChangeJTSet = new HashSet<>();
+//		for(SkillPlayerChangeJT change : skillPlayerChangeJTSetUnfiltered) {
+//			if(!skillPlayerChangeJTSet.contains(change)) {
+//				skillPlayerChangeJTSet.add(change);
+//			}
+//		}
 		
 		SurveySkillTemplate[] arr = new SurveySkillTemplate[skills.size()];
 		for (Player p: players) {
@@ -148,6 +154,7 @@ public class SurveyController {
 		int size = skillPlayerChangeJTSet.size();
 		Game game = room.getGame();
 		for (Skill s: skills) {
+			boolean found = false;
 			if (size != 0) {
 				for (SkillPlayerChangeJT spc: skillPlayerChangeJTSet) {
 					if(spc.getSkillPlayerJT().getSkill().equals(s) && spc.getPlayer().equals(p)) {
@@ -155,13 +162,12 @@ public class SurveyController {
 						SurveySkillTemplate surveySkillTemplate = new SurveySkillTemplate(
 								s, (float) val, game);
 						surveySkillTemplateArray.add(surveySkillTemplate);
-					} else {
-						SurveySkillTemplate surveySkillTemplate = new SurveySkillTemplate(
-								s, 0, game);
-						surveySkillTemplateArray.add(surveySkillTemplate);
+						found = true;
+						break;
 					}
 				}
-			} else {
+			}
+			if (!found) {
 				SurveySkillTemplate surveySkillTemplate = new SurveySkillTemplate(
 						s, 0, game);
 				surveySkillTemplateArray.add(surveySkillTemplate);	

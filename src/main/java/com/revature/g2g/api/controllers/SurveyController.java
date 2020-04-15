@@ -21,7 +21,9 @@ import com.revature.g2g.api.templates.PlayerTemplate;
 import com.revature.g2g.api.templates.SurveySkillTemplate;
 import com.revature.g2g.api.templates.SurveySubmitTemplate;
 import com.revature.g2g.api.templates.SurveyTemplate;
+import com.revature.g2g.models.Game;
 import com.revature.g2g.models.Player;
+import com.revature.g2g.models.PlayerRoomJT;
 import com.revature.g2g.models.Room;
 import com.revature.g2g.models.Skill;
 import com.revature.g2g.models.SkillPlayerChangeJT;
@@ -68,6 +70,42 @@ public class SurveyController {
 		Set<Room> rooms = playerRoomJTHandler.findSurveyRooms(player);
 		return ResponseEntity.status(HttpStatus.ACCEPTED).body(rooms);
 	}
+	@PostMapping("/Player")
+	public ResponseEntity<Set<Set<SurveyTemplate>>> getSurveysForPlayer(@Valid @RequestBody PlayerTemplate template){
+		Player player = authenticatorHelper.getPlayer(template);
+		Set<PlayerRoomJT> set = playerRoomJTHandler.findByPlayer(player);
+		if(player == null) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+		}
+		if( playerRoomJTHandler.findByPlayer(player) == null) {
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+		}
+		Set<Set<SurveyTemplate>> bodySet = new HashSet<>();
+		for (PlayerRoomJT prjt: set) {
+			Room room = prjt.getRoom();
+			Set<SurveyTemplate> surveyTemplateSet = templateGeneratingLoop(room, player);
+			bodySet.add(surveyTemplateSet);
+		}
+		return ResponseEntity.status(HttpStatus.ACCEPTED).body(bodySet);
+	}
+	public Set<SurveyTemplate> templateGeneratingLoop(Room room, Player player){
+		Set<Player> players = playerRoomJTHandler.findPlayers(room);
+		Set<Skill> skills = skillGameJTHandler.findByGame(room.getGame());
+		Set<SurveyTemplate> surveyTemplateSet = new HashSet<>();
+		Set<SkillPlayerChangeJT> skillPlayerChangeJTSet = skillPlayerChangeJTHandler.findBy(room, player);
+		SurveySkillTemplate[] arr = new SurveySkillTemplate[skills.size()];
+		for (Player p: players) {
+			if(p.equals(player)) {
+				continue;
+			}
+			ArrayList<SurveySkillTemplate> surveySkillTemplateArray = skillGeneratingLoop(arr, skills, p, player, room, skillPlayerChangeJTSet);
+			PlayerTemplate playerTemplate = new PlayerTemplate(p);
+			SurveyTemplate surveyTemplate = new SurveyTemplate(playerTemplate, surveySkillTemplateArray.toArray(arr));
+			
+			surveyTemplateSet.add(surveyTemplate);
+		}
+		return surveyTemplateSet;
+	}
 	@PostMapping("/Room/Id/{id}")
 	public ResponseEntity<Set<SurveyTemplate>> getSurvey(@Valid @RequestBody PlayerTemplate template, @PathVariable("id") int id){
 		Player player = authenticatorHelper.getPlayer(template);
@@ -101,23 +139,24 @@ public class SurveyController {
 			Room room, Set<SkillPlayerChangeJT> skillPlayerChangeJTSet) {
 		ArrayList<SurveySkillTemplate> surveySkillTemplateArray = new ArrayList<>();
 		int size = skillPlayerChangeJTSet.size();
+		Game game = room.getGame();
 		for (Skill s: skills) {
 			if (size != 0) {
 				for (SkillPlayerChangeJT spc: skillPlayerChangeJTSet) {
 					if(spc.getSkillPlayerJT().getSkill().equals(s) && spc.getPlayer().equals(p)) {
 						double val = spc.getValue();
 						SurveySkillTemplate surveySkillTemplate = new SurveySkillTemplate(
-								s, (float) val);
+								s, (float) val, game);
 						surveySkillTemplateArray.add(surveySkillTemplate);
 					} else {
 						SurveySkillTemplate surveySkillTemplate = new SurveySkillTemplate(
-								s, 0);
+								s, 0, game);
 						surveySkillTemplateArray.add(surveySkillTemplate);
 					}
 				}
 			} else {
 				SurveySkillTemplate surveySkillTemplate = new SurveySkillTemplate(
-						s, 0);
+						s, 0, game);
 				surveySkillTemplateArray.add(surveySkillTemplate);	
 			}
 		}

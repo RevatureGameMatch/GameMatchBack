@@ -23,4 +23,5 @@ public interface IPlayerRoomJTDAO {
 	public void update(PlayerRoomJT pr);
 	//Delete
 	public void delete(PlayerRoomJT pr);
+	Set<PlayerRoomJT> findByPlayer(Player player);
 }

@@ -18,9 +18,6 @@ public class SurveySubmitTemplate {
 	public SurveySubmitTemplate() {
 		super();
 	}
-	public Player getPlayer() {
-		return player;
-	}
 	public SurveySubmitTemplate(Player player, PlayerTemplate modifiedBy, Skill skill, float value) {
 		super();
 		this.player = player;
@@ -28,8 +25,17 @@ public class SurveySubmitTemplate {
 		this.skill = skill;
 		this.value = value;
 	}
+	public Player getPlayer() {
+		return player;
+	}
 	public void setPlayer(Player player) {
 		this.player = player;
+	}
+	public PlayerTemplate getModifiedBy() {
+		return modifiedBy;
+	}
+	public void setModifiedBy(PlayerTemplate modifiedBy) {
+		this.modifiedBy = modifiedBy;
 	}
 	public Skill getSkill() {
 		return skill;
@@ -43,24 +49,18 @@ public class SurveySubmitTemplate {
 	public void setValue(float value) {
 		this.value = value;
 	}
-	public PlayerTemplate getModifiedBy() {
-		return modifiedBy;
-	}
-	public void setModifiedBy(PlayerTemplate modifiedBy) {
-		this.modifiedBy = modifiedBy;
-	}
 	@Override
 	public int hashCode() {
 		return Objects.hash(modifiedBy, player, skill, value);
 	}
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj) {
+		if (this == obj)
 			return true;
-		}
-		if (!(obj instanceof SurveySubmitTemplate)) {
+		if (obj == null)
 			return false;
-		}
+		if (getClass() != obj.getClass())
+			return false;
 		SurveySubmitTemplate other = (SurveySubmitTemplate) obj;
 		return Objects.equals(modifiedBy, other.modifiedBy) && Objects.equals(player, other.player)
 				&& Objects.equals(skill, other.skill)

@@ -38,6 +38,9 @@ public class PlayerRoomJTHandler {
 	public PlayerRoomJT findByPlayerRoom(Player player, Room room) {
 		return this.repository.findByPlayerRoom(player, room);
 	}
+	public Set<PlayerRoomJT> findByPlayer(Player player){
+		return this.repository.findByPlayer(player);
+	}
 	public Set<PlayerRoomJT> findAll(){
 		return this.repository.findAll();
 	}

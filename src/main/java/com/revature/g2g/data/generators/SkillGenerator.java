@@ -26,10 +26,10 @@ public class SkillGenerator implements DataGenerator {
 		make(technical, null);
 		make("Participation", null);
 		make("Communicator", fun);
-		make("Listner", fun);
+		make("Listener", fun);
 		make("Coach", fun);
 		make("Empower Team Decisions", fun);
-		make("Interest in others Success", fun);
+		make("Interest in Others Success", fun);
 		make("Productive", technical);
 		make("Strategic", technical);
 		make("Roleplay", fun);

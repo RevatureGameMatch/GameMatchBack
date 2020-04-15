@@ -2,6 +2,7 @@ package com.revature.g2g.services.jda.listeners;
 
 import java.util.Date;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -46,22 +47,27 @@ public class GuildVoiceEventListener extends ListenerAdapter{
 	}
 	@Override
 	public void onGuildVoiceLeave(GuildVoiceLeaveEvent event) {
-//		processMoveLeave(event);
+		processMoveLeave(event);
 		super.onGuildVoiceLeave(event);
 	}
 	@Override
 	public void onGuildVoiceMove(GuildVoiceMoveEvent event) {
-//		processMoveLeave(event);
-//		processMoveArrive(event);
+		processMoveLeave(event);
+		processMoveArrive(event);
 		super.onGuildVoiceMove(event);
 	}
 	@Override
 	public void onGuildVoiceJoin(GuildVoiceJoinEvent event) {
-//		processMoveArrive(event);
+		processMoveArrive(event);
 		super.onGuildVoiceJoin(event);
 	}
 	private void processMoveArrive(GuildVoiceUpdateEvent event) {
 		//TODO add logic to mark person as having arrived
+		try {
+			TimeUnit.SECONDS.sleep(1);
+		} catch (Exception e) {
+			Thread.currentThread().interrupt();
+		}
 		VoiceChannel voice = event.getChannelJoined();
 		long channelId = voice.getIdLong();
 		Room room = roomHandler.findRoomByDiscordVoice(channelId);
@@ -72,15 +78,20 @@ public class GuildVoiceEventListener extends ListenerAdapter{
 			if (roleId > 0 && !member.getRoles().contains(role)) {
 				Guild guild = guildHelper.getGuild();
 				guild.addRoleToMember(member, role).queue();
-				guild.moveVoiceMember(member, discordHelper.getGeneralVoice()).complete();
-				guild.moveVoiceMember(member, voice).queue();
+//				guild.moveVoiceMember(member, discordHelper.getGeneralVoice()).complete();
+//				guild.moveVoiceMember(member, voice).complete();
 			}
 		}
 	}
 	private void processMoveLeave(GuildVoiceUpdateEvent event){
 		//TODO add logic to mark person as having left.
-		JDA jda = JDASingleton.getJda();
 		if(event.getChannelLeft().getMembers().size() != 0)return;
+		try {
+			TimeUnit.SECONDS.sleep(1);
+		} catch (Exception e) {
+			Thread.currentThread().interrupt();
+		}
+		JDA jda = JDASingleton.getJda();
 		Room room = roomHandler.findRoomByDiscordVoice(event.getChannelLeft().getIdLong());
 		if (room == null)return;
 		if (room.getStatus().equals(RoomStatus.CLOSED))return;

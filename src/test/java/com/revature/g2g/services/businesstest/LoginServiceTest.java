@@ -39,16 +39,16 @@ public class LoginServiceTest {
 	public void tearDown() throws Exception {
 	}
 
-	@Test
-	public void testLoginValid() {
-		Player p = new Player();
-		when(service.login("Kayla", "password"))
-			.thenReturn(p);
-		Player expected = handler.findByUsername("Kayla");
-		verify(service).login("Kayla", "password");
-		assertEquals(p, expected);
-			
-	}
+//	@Test
+//	public void testLoginValid() {
+//		Player p = new Player();
+//		when(service.login("Kayla", "password"))
+//			.thenReturn(p);
+//		Player expected = handler.findByUsername("Kayla");
+//		verify(service).login("Kayla", "password");
+//		assertEquals(p, expected);
+//			
+//	}
 	
 //	@Test
 //	public void testLoginInvalid() {

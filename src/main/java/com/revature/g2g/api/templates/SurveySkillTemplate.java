@@ -7,13 +7,12 @@ import com.revature.g2g.models.Skill;
 
 public class SurveySkillTemplate {
 	private Skill skill;
-	private float value;
+	private double value;
 	private Game game;
 	public SurveySkillTemplate() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
-	public SurveySkillTemplate(Skill skill, float value, Game game) {
+	public SurveySkillTemplate(Skill skill, double value, Game game) {
 		super();
 		this.skill = skill;
 		this.value = value;
@@ -25,10 +24,10 @@ public class SurveySkillTemplate {
 	public void setSkill(Skill skill) {
 		this.skill = skill;
 	}
-	public float getValue() {
+	public double getValue() {
 		return value;
 	}
-	public void setValue(float value) {
+	public void setValue(double value) {
 		this.value = value;
 	}
 	public Game getGame() {
@@ -43,19 +42,18 @@ public class SurveySkillTemplate {
 	}
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
+		if (this == obj) {
 			return true;
-		if (obj == null)
+		}
+		if (!(obj instanceof SurveySkillTemplate)) {
 			return false;
-		if (getClass() != obj.getClass())
-			return false;
+		}
 		SurveySkillTemplate other = (SurveySkillTemplate) obj;
 		return Objects.equals(game, other.game) && Objects.equals(skill, other.skill)
-				&& Float.floatToIntBits(value) == Float.floatToIntBits(other.value);
+				&& Double.doubleToLongBits(value) == Double.doubleToLongBits(other.value);
 	}
 	@Override
 	public String toString() {
 		return "SurveySkillTemplate [skill=" + skill + ", value=" + value + ", game=" + game + "]";
 	}
-	
 }

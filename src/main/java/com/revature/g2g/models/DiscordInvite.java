@@ -47,6 +47,8 @@ public class DiscordInvite implements Serializable{
 
 	public DiscordInvite() {
 		super();
+		this.room = new Room();
+		this.player = new Player();
 	}
 	public DiscordInvite(long id, String username, String discordCode, Room room, Player player,
 			DiscordInviteStatus status) {

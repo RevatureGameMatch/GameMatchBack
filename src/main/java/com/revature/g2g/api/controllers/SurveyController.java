@@ -150,7 +150,7 @@ public class SurveyController {
 					if(spc.getSkillPlayerJT().getSkill().equals(s) && spc.getPlayer().equals(p)) {
 						double val = spc.getValue();
 						SurveySkillTemplate surveySkillTemplate = new SurveySkillTemplate(
-								s, (float) val, game);
+								s, (val * 100), game);
 						surveySkillTemplateArray.add(surveySkillTemplate);
 						found = true;
 						break;

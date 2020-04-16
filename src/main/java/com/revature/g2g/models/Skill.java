@@ -55,6 +55,7 @@ public class Skill implements Serializable{
 
 	public Skill() {
 		super();
+		this.name = "Another skill with no name";
 	}
 	
 	public Skill(int skillId, String name, Skill parentSkill) {

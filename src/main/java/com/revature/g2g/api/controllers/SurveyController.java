@@ -25,7 +25,6 @@ import com.revature.g2g.api.templates.SurveySubmitTemplate;
 import com.revature.g2g.api.templates.SurveyTemplate;
 import com.revature.g2g.models.Game;
 import com.revature.g2g.models.Player;
-import com.revature.g2g.models.PlayerRoomJT;
 import com.revature.g2g.models.Room;
 import com.revature.g2g.models.Skill;
 import com.revature.g2g.models.SkillPlayerChangeJT;
@@ -184,8 +183,9 @@ public class SurveyController {
 			MessageTemplate messageTemplate = new MessageTemplate(message);
 			return ResponseEntity.status(HttpStatus.CONFLICT).body(messageTemplate);
 		}
-		surveyService.submit(modifiedBy, player, room, skill, template.getValue());
-		String successMessage = "Thank you for ranking this person.";
+		skillPlayerChangeJT = surveyService.submit(modifiedBy, player, room, skill, template.getValue());
+		String successMessage = "Thank you for ranking " + skillPlayerChangeJT.getPlayer().getPlayerUsername() + "'s skill in " +
+				skillPlayerChangeJT.getSkillPlayerJT().getSkill().getName() + ". Together we will build a brighter tomorrow.";
 		MessageTemplate successTemplate = new MessageTemplate(successMessage);
 		return ResponseEntity.status(HttpStatus.ACCEPTED).body(successTemplate);
 	}

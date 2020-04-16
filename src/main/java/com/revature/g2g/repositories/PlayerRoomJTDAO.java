@@ -316,6 +316,9 @@ public class PlayerRoomJTDAO implements IPlayerRoomJTDAO {
 						set.add(room);
 					}
 				}
+				else if (left == null && createdBool) {
+					set.add(room);	
+				}
 			}
 			
 			return set;

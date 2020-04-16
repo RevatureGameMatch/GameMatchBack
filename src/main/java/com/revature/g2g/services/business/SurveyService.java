@@ -41,9 +41,13 @@ public class SurveyService {
 			skillPlayerJT = skillPlayerJTService.makeDefault(skill, player);
 		}
 		SkillPlayerChangeJT skillPlayerChangeJT = new SkillPlayerChangeJT();
-		
+		long gameTime = 0;
 		//Modify the stored skillJT
-		long gameTime = room.getClosed().getTime() - room.getCreated().getTime();
+		if (room.getClosed() == null) {
+			gameTime = (BalanceConstants.getDefaultGameTime())/2;
+		} else {
+			gameTime = room.getClosed().getTime() - room.getCreated().getTime();
+		}
 		float changeDirection = 0;
 		if(value > 0) { changeDirection = 1;}
 		else if(value < 0) { changeDirection = -1;}

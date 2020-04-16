@@ -60,6 +60,16 @@ public class Game implements Serializable{
 		this.name = name;
 		this.link = link;
 		this.description = description;
+		this.rawgId = 158;
+	}
+	public Game(int gameId, String name, String link, String description, int rawgId, Set<SkillGameJT> skills) {
+		super();
+		this.gameId = gameId;
+		this.name = name;
+		this.link = link;
+		this.description = description;
+		this.rawgId = rawgId;
+		this.skills = skills;
 	}
 	public int getGameId() {
 		return gameId;

@@ -32,7 +32,7 @@ public class SurveyService {
 		this.skillPlayerChangeJTHandler = skillPlayerChangeJTHandler;
 		this.loggerSingleton = loggerSingleton;
 	}
-	public void submit(Player modifiedBy, Player player, Room room, Skill skill, float value) {
+	public SkillPlayerChangeJT submit(Player modifiedBy, Player player, Room room, Skill skill, float value) {
 		//Setup
 		SkillPlayerJT modifiedBySkill = skillPlayerJTHandler.findBySkillPlayer(skill, modifiedBy);
 		float modifiedByExpertise = modifiedBySkill == null ? BalanceConstants.getMinExpertise() : balanceHelper.calculateExpertise(modifiedBySkill);
@@ -64,5 +64,6 @@ public class SurveyService {
 		skillPlayerChangeJTHandler.insert(skillPlayerChangeJT);
 		String logMessage = "SurveyService: adding change to records " + skillPlayerChangeJT.toString();
 		loggerSingleton.getBusinessLog().trace(logMessage);
+		return skillPlayerChangeJT;
 	}
 }

@@ -51,6 +51,8 @@ public class Game implements Serializable{
 	
 	public Game() {
 		super();
+		this.link = "";
+		this.rawgId = 158;
 	}
 	public Game(int gameId, String name, String link, String description) {
 		super();

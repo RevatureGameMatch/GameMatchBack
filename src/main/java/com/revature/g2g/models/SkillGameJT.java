@@ -40,6 +40,8 @@ public class SkillGameJT implements Serializable {
 
 	public SkillGameJT() {
 		super();
+		this.skill = new Skill();
+		this.game = new Game();
 	}
 	public SkillGameJT(int skillGameJTId, Skill skill, Game game, int relevance) {
 		super();

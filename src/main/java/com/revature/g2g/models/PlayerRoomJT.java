@@ -44,6 +44,8 @@ public class PlayerRoomJT implements Serializable{
 
 	public PlayerRoomJT() {
 		super();
+		this.player = new Player();
+		this.room = new Room();
 	}
 	public PlayerRoomJT(int playerRoomJTId, Player player, Room room, Date joined, Date left) {
 		super();

@@ -8,17 +8,16 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
 import com.revature.g2g.exceptions.PasswordMatchFailed;
+import com.revature.g2g.exceptions.UserNotFound;
 import com.revature.g2g.models.Player;
-import com.revature.g2g.repositories.IPlayerDAO;
 import com.revature.g2g.services.business.LoginService;
 import com.revature.g2g.services.handlers.PlayerHandler;
 
 public class LoginServiceTest {
 
+	
 	private LoginService service;
-	//private IPlayerDAO dao;
 	private PlayerHandler handler;
 	
 	@BeforeClass
@@ -39,26 +38,30 @@ public class LoginServiceTest {
 	public void tearDown() throws Exception {
 	}
 
-//	@Test
-//	public void testLoginValid() {
-//		Player p = new Player();
-//		when(service.login("Kayla", "password"))
-//			.thenReturn(p);
-//		Player expected = handler.findByUsername("Kayla");
-//		verify(service).login("Kayla", "password");
-//		assertEquals(p, expected);
-//			
-//	}
+	@Test
+	public void testLoginValid() {
+		Player p = service.login("Kayla", "password");
+		Player expected = handler.findByUsername("Kayla");
+		verify(service).login("Kayla", "password");
+		assertEquals(p, expected);
+			
+	}
 	
-//	@Test
-//	public void testLoginInvalid() {
-//		
-//		doThrow(new PasswordMatchFailed())
-//			.when(service.login("Kayla", ""));
-////		then(new PasswordMatchFailed())
-////			.isInstanceOf(PasswordMatchFailed.class);
-//			
-//	}
+	@Test(expected = PasswordMatchFailed.class)
+	public void testLoginInvalidPassword() {
+		when(service.login("Kayla", "pw"))
+			.thenThrow(new PasswordMatchFailed());
+		service.login("Kayla", "pw");
+			
+	}
+	
+	@Test(expected = UserNotFound.class)
+	public void testLoginInvalidUser() {
+		when(service.login("Kaylalala", "pw"))
+			.thenThrow(new UserNotFound());
+		service.login("Kaylalala", "pw");
+			
+	}
 	
 
 }

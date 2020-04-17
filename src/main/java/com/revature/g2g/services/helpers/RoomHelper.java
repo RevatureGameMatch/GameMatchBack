@@ -68,6 +68,7 @@ public class RoomHelper {
 		Role role = RoleHelper.insert(guild, r.getName());
 		voiceChannel.addPermissionOverride(role, discordHelper.getRoleVoicePermissions(), discordHelper.getRoleVoiceBans());
 		textChannel.addPermissionOverride(role, discordHelper.getRoleTextPermissions(), discordHelper.getRoleTextBans());
+		voiceChannel.addPermissionOverride(guild.getPublicRole(), discordHelper.getRoleVoicePermissions(), discordHelper.getRoleVoiceBans());
 		r.setDiscordVoiceChannelId(voiceChannel.complete().getIdLong());
 		r.setDiscordTextChannelId(textChannel.complete().getIdLong());
 		r.setDiscordRoleId(role.getIdLong());

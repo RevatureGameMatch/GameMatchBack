@@ -35,7 +35,6 @@ public class GuildVoiceEventListener extends ListenerAdapter{
 	private RoomHandler roomHandler;
 	private PlayerRoomJTHandler playerRoomJTHandler;
 	private GuildHelper guildHelper;
-	private DiscordHelper discordHelper;
 	@Autowired
 	public GuildVoiceEventListener(RoomHandler roomHandler, PlayerRoomJTHandler playerRoomJTHandler, GuildHelper guildHelper,
 			DiscordHelper discordHelper) {
@@ -43,7 +42,6 @@ public class GuildVoiceEventListener extends ListenerAdapter{
 		this.roomHandler = roomHandler;
 		this.playerRoomJTHandler = playerRoomJTHandler;
 		this.guildHelper = guildHelper;
-		this.discordHelper = discordHelper;
 	}
 	@Override
 	public void onGuildVoiceLeave(GuildVoiceLeaveEvent event) {
@@ -78,8 +76,6 @@ public class GuildVoiceEventListener extends ListenerAdapter{
 			if (roleId > 0 && !member.getRoles().contains(role)) {
 				Guild guild = guildHelper.getGuild();
 				guild.addRoleToMember(member, role).queue();
-//				guild.moveVoiceMember(member, discordHelper.getGeneralVoice()).complete();
-//				guild.moveVoiceMember(member, voice).complete();
 			}
 		}
 	}
@@ -98,8 +94,6 @@ public class GuildVoiceEventListener extends ListenerAdapter{
 		room.setStatus(RoomStatus.CLOSED);
 		room.setClosed(new Date());
 		roomHandler.update(room);
-//		jda.getVoiceChannelById(room.getDiscordVoiceChannelId()).delete();
-//		jda.getTextChannelById(room.getDiscordTextChannelId()).delete();
 		RoleHelper.delete(jda.getRoleById(room.getDiscordRoleId()));
 		TextChannelHelper.delete(jda.getTextChannelById(room.getDiscordTextChannelId()));
 		VoiceChannelHelper.delete(jda.getVoiceChannelById(room.getDiscordVoiceChannelId()));

@@ -13,6 +13,8 @@ public class PlayerRoomTemplate {
 	private PlayerTemplate sender;
 	public PlayerRoomTemplate() {
 		super();
+		this.room = new Room();
+		this.sender = new PlayerTemplate();
 	}
 	public PlayerRoomTemplate(Room room, PlayerTemplate sender) {
 		super();

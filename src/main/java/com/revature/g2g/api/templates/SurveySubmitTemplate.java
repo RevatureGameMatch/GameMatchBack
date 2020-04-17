@@ -17,6 +17,9 @@ public class SurveySubmitTemplate {
 	private float value;
 	public SurveySubmitTemplate() {
 		super();
+		this.player = new Player();
+		this.modifiedBy = new PlayerTemplate();
+		this.skill = new Skill();
 	}
 	public SurveySubmitTemplate(Player player, PlayerTemplate modifiedBy, Skill skill, float value) {
 		super();

@@ -13,6 +13,8 @@ public class GameTemplate {
 	private PlayerTemplate sender;
 	public GameTemplate() {
 		super();
+		this.game = new Game();
+		this.sender = new PlayerTemplate();
 	}
 	public GameTemplate(Game game, PlayerTemplate sender) {
 		super();

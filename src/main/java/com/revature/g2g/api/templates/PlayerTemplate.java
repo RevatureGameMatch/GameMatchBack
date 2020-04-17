@@ -20,6 +20,8 @@ public class PlayerTemplate {
 	private String message;
 	public PlayerTemplate() {
 		super();
+		this.playerUsername = "Bob";
+		this.playerEmail = "NotAnEmail@Gmail.com";
 	}
 	public PlayerTemplate(Player player) {
 		this.setPlayerEmail(Jsoup.clean(player.getPlayerEmail(), Whitelist.none()));

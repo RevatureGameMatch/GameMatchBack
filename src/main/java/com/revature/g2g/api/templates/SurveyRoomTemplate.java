@@ -13,6 +13,7 @@ public class SurveyRoomTemplate {
 	private Set<SurveyTemplate> surveySet;
 	public SurveyRoomTemplate() {
 		super();
+		this.room = new Room();
 	}
 	public SurveyRoomTemplate(Room room, Set<SurveyTemplate> surveySet) {
 		super();

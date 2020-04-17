@@ -4,6 +4,9 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -15,14 +18,14 @@ import org.mockito.MockitoAnnotations;
 
 import com.revature.g2g.models.Player;
 import com.revature.g2g.models.PlayerRole;
-import com.revature.g2g.repositories.IPlayerDAO;
 import com.revature.g2g.repositories.PlayerDAO;
 import com.revature.g2g.services.handlers.PlayerHandler;
 
 public class PlayerHandlerTest {
-	@Mock
-	PlayerHandler handler;
+	
 	@InjectMocks
+	PlayerHandler handler;
+	@Mock
 	PlayerDAO dao;
 	
 	@BeforeClass
@@ -46,16 +49,16 @@ public class PlayerHandlerTest {
 	public void testInsert() {
 		Player p = new Player();
 		handler.insert(p);
-		verify(handler).insert(p);
+		verify(dao).insert(p);
 	}
 	
 	@Test
 	public void testFindById() {
 		Player p = new Player(15, "Kayla", "email.com", "password", PlayerRole.ADMIN);
-		when(handler.findById(15)).
+		when(dao.findById(15)).
 			thenReturn(p);
 		Player actual = handler.findById(15);
-		verify(handler).findById(15);
+		verify(dao).findById(15);
 		assertEquals("Kayla", actual.getPlayerUsername());
 		assertEquals("password", actual.getPlayerPassword());
 		assertEquals("email.com", actual.getPlayerEmail());
@@ -64,10 +67,10 @@ public class PlayerHandlerTest {
 	@Test
 	public void testFindByUsername() {
 		Player p = new Player(15, "Kayla", "email.com", "password", PlayerRole.ADMIN);
-		when(handler.findByUsername("Kayla")).
+		when(dao.findByUsername("Kayla")).
 			thenReturn(p);
 		Player actual = handler.findByUsername("Kayla");
-		verify(handler).findByUsername("Kayla");
+		verify(dao).findByUsername("Kayla");
 		assertEquals("Kayla", actual.getPlayerUsername());
 		assertEquals("password", actual.getPlayerPassword());
 		assertEquals("email.com", actual.getPlayerEmail());
@@ -76,10 +79,10 @@ public class PlayerHandlerTest {
 	@Test
 	public void testFindByEmail() {
 		Player p = new Player(15, "Kayla", "email.com", "password", PlayerRole.ADMIN);
-		when(handler.findByEmail("email.com")).
+		when(dao.findByEmail("email.com")).
 			thenReturn(p);
 		Player actual = handler.findByEmail("email.com");
-		verify(handler).findByEmail("email.com");
+		verify(dao).findByEmail("email.com");
 		assertEquals("Kayla", actual.getPlayerUsername());
 		assertEquals("password", actual.getPlayerPassword());
 		assertEquals("email.com", actual.getPlayerEmail());
@@ -87,15 +90,48 @@ public class PlayerHandlerTest {
 	
 	@Test
 	public void testFindAll() {
-		
-		Player p = new Player(15, "Kayla", "email.com", "password", PlayerRole.ADMIN);
-		when(handler.findByEmail("email.com")).
-			thenReturn(p);
-		Player actual = handler.findByEmail("email.com");
-		verify(handler).findByEmail("email.com");
-		assertEquals("Kayla", actual.getPlayerUsername());
-		assertEquals("password", actual.getPlayerPassword());
-		assertEquals("email.com", actual.getPlayerEmail());
+		Set<Player> set = new HashSet<>();
+		Player k = new Player(15, "Kayla", "kemail.com", "password", PlayerRole.ADMIN);
+		Player p = new Player(22, "Philip", "pemail.com", "pass", PlayerRole.ADMIN);
+		Player n = new Player(23, "Nancy", "nemail.com", "pw", PlayerRole.ADMIN);
+		set.add(k);
+		set.add(p);
+		set.add(n);
+		when(dao.findAll()).
+			thenReturn(set);
+		Set<Player> actual = handler.findAll();
+		assertEquals(3, actual.size());
+		verify(dao).findAll();
+	}
+	
+	@Test
+	public void testFindByRole() {
+		Set<Player> set = new HashSet<>();
+		Player k = new Player(15, "Kayla", "kemail.com", "password", PlayerRole.ADMIN);
+		Player p = new Player(22, "Philip", "pemail.com", "pass", PlayerRole.ADMIN);
+		Player n = new Player(23, "Nancy", "nemail.com", "pw", PlayerRole.ADMIN);
+		set.add(k);
+		set.add(p);
+		set.add(n);
+		when(dao.findByRole(PlayerRole.ADMIN)).
+			thenReturn(set);
+		Set<Player> actual = handler.findByRole(PlayerRole.ADMIN);
+		verify(dao).findByRole(PlayerRole.ADMIN);
+		assertEquals(3, actual.size());
+	}
+	
+	@Test
+	public void testUpdate() {
+		Player p = new Player();
+		handler.update(p);
+		verify(dao).update(p);
+	}
+	
+	@Test
+	public void testDelete() {
+		Player p = new Player();
+		handler.delete(p);
+		verify(dao).delete(p);
 	}
 	
 

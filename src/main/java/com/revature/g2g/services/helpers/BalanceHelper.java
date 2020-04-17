@@ -38,4 +38,15 @@ public class BalanceHelper {
 		else {result = value;}
 		return result;
 	}
+	/**
+	 * Calculates the change for a skill value.
+	 * @param float changeDirection "1" or "-1" based on positive or negative review
+	 * @param float modifiedByExpertise "0" to "1" based on the expertise of the player voting
+	 * @param long gameTime the duration a game lasted
+	 * @return float change to a players skill value
+	 */
+	public float calculateChange(float changeDirection, float modifiedByExpertise, long gameTime) {
+		float change = changeDirection * modifiedByExpertise * (((float) gameTime)/BalanceConstants.getDefaultGameTime()) * BalanceConstants.getMaxGain();
+		return limitValue(change);
+	}
 }

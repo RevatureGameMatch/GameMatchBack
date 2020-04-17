@@ -51,8 +51,7 @@ public class SurveyService {
 		float changeDirection = 0;
 		if(value > 0) { changeDirection = 1;}
 		else if(value < 0) { changeDirection = -1;}
-		float change = changeDirection * modifiedByExpertise * (((float) gameTime)/BalanceConstants.getDefaultGameTime()) * BalanceConstants.getMaxGain();
-		change = balanceHelper.limitChange(change);
+		float change = balanceHelper.calculateChange(changeDirection, modifiedByExpertise, gameTime);
 		float newValue = (float) (skillPlayerJT.getValue() + change);
 		newValue = balanceHelper.limitValue(newValue);
 		skillPlayerJT.setValue(newValue);

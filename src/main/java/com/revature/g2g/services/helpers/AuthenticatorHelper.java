@@ -25,8 +25,8 @@ public class AuthenticatorHelper {
 		if(template == null)return null;
 		Player player = playerHandler.findById(template.getPlayerId());
 		if(player == null || player.getPlayerEmail() == null || player.getPlayerUsername() == null)return null;
-		if(!player.getPlayerEmail().equals(player.getPlayerEmail()))return null;
-		if(!player.getPlayerUsername().equals(player.getPlayerUsername()))return null;
+		if(!player.getPlayerEmail().equals(template.getPlayerEmail()))return null;
+		if(!player.getPlayerUsername().equals(template.getPlayerUsername()))return null;
 		return player;
 	}
 }

@@ -11,6 +11,6 @@ public class VoiceChannelHelper {
 		return guild.createVoiceChannel(name);
 	}
 	public static void delete(VoiceChannel channel){
-		channel.delete().queue();
+		channel.delete().complete();
 	}
 }

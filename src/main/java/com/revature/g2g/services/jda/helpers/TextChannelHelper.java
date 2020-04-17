@@ -11,6 +11,6 @@ public class TextChannelHelper {
 		return guild.createTextChannel(name);
 	}
 	public static void delete(TextChannel channel){
-		channel.delete().queue();
+		channel.delete().complete();
 	}
 }

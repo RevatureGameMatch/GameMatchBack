@@ -14,6 +14,6 @@ public class RoleHelper {
 		return roleAction.complete();
 	}
 	public static void delete(Role role) {
-		role.delete().queue();
+		role.delete().complete();
 	}
 }

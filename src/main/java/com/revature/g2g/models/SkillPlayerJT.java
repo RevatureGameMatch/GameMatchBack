@@ -25,7 +25,7 @@ import com.revature.g2g.services.helpers.BalanceConstants;
 @Component
 @JsonIgnoreProperties(value = { "changes" })
 @Entity
-@Table(name = "G2G_SKILL_PLAYER_JT")
+@Table(name = "G3G_SKILL_PLAYER_JT")
 public class SkillPlayerJT implements Serializable{
 	private static final long serialVersionUID = 9019617057828732231L;
 

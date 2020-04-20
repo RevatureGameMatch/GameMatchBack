@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Entity
-@Table(name = "G2G_DISCORD_INVITE")
+@Table(name = "G3G_DISCORD_INVITE")
 public class DiscordInvite implements Serializable{
 	private static final long serialVersionUID = 7444308037511438669L;
 

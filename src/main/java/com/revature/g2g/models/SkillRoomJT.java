@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Entity
-@Table(name = "G2G_SKILL_ROOM_JT")
+@Table(name = "G3G_SKILL_ROOM_JT")
 public class SkillRoomJT implements Serializable{
 	private static final long serialVersionUID = 3217583926494781567L;
 

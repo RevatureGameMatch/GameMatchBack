@@ -7,6 +7,8 @@ import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Path;
@@ -16,7 +18,6 @@ import javax.persistence.criteria.Root;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Repository;
@@ -30,8 +31,14 @@ import com.revature.g2g.models.SkillGameJT;
 @Repository
 @Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
 public class SkillGameJTDAO implements ISkillGameJTDAO {
-	@Autowired
 	private SessionFactory sf;
+	@PersistenceContext
+	private EntityManager entityManager;
+	public SkillGameJTDAO() {
+		super();
+		Session session = entityManager.unwrap(Session.class);
+		this.sf = session.getSessionFactory();
+	}
 
 	@Override
 	public void insert(SkillGameJT sg) {

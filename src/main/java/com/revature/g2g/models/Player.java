@@ -25,7 +25,7 @@ import com.revature.g2g.api.templates.PlayerTemplate;
 
 @Component
 @Entity
-@Table(name = "G2G_PLAYER")
+@Table(name = "G3G_PLAYER")
 public class Player implements Serializable {
 	private static final long serialVersionUID = 5673274454063809268L;
 

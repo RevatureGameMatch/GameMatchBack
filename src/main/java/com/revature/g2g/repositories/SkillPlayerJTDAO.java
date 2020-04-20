@@ -7,6 +7,8 @@ import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Path;
@@ -33,10 +35,13 @@ import com.revature.g2g.services.helpers.LoggerSingleton;
 public class SkillPlayerJTDAO implements ISkillPlayerJTDAO{
 	private SessionFactory sf;
 	private LoggerSingleton loggerSingleton;
+	@PersistenceContext
+	private EntityManager entityManager;
 	@Autowired
-	public SkillPlayerJTDAO(SessionFactory sf, LoggerSingleton loggerSingleton) {
+	public SkillPlayerJTDAO(LoggerSingleton loggerSingleton) {
 		super();
-		this.sf = sf;
+		Session session = entityManager.unwrap(Session.class);
+		this.sf = session.getSessionFactory();
 		this.loggerSingleton = loggerSingleton;
 	}
 

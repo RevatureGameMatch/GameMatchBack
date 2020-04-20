@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Entity
-@Table(name = "G2G_SKILL_GAME_JT")
+@Table(name = "G3G_SKILL_GAME_JT")
 public class SkillGameJT implements Serializable {
 	private static final long serialVersionUID = 1210666803036366164L;
 

@@ -24,7 +24,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @Component
 @JsonIgnoreProperties(value = { "childSkills", "games", "players", "rooms" })
 @Entity
-@Table(name = "G2G_SKILL")
+@Table(name = "G3G_SKILL")
 public class Skill implements Serializable{
 	private static final long serialVersionUID = -6477932264861456053L;
 

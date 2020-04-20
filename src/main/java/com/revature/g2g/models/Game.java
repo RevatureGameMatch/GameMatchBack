@@ -22,7 +22,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @Component
 @JsonIgnoreProperties(value = { "skills" })
 @Entity
-@Table(name = "G2G_GAME")
+@Table(name = "G3G_GAME")
 public class Game implements Serializable{
 	private static final long serialVersionUID = 2159855250913785420L;
 

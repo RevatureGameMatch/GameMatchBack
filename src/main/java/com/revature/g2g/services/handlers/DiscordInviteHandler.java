@@ -1,5 +1,6 @@
 package com.revature.g2g.services.handlers;
 
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,7 @@ public class DiscordInviteHandler{
 	public DiscordInvite findByDiscordCode(String discordCode) {
 		return this.repository.findByDiscordCode(discordCode);
 	}
-	public Set<DiscordInvite> findAll() {
+	public List<DiscordInvite> findAll() {
 		return this.repository.findAll();
 	}
 	public Set<DiscordInvite> findByStatus(DiscordInviteStatus status) {

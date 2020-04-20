@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Entity
-@Table(name = "G2G_PLAYER_ROOM_JT")
+@Table(name = "G3G_PLAYER_ROOM_JT")
 public class PlayerRoomJT implements Serializable{
 	private static final long serialVersionUID = -7131529712503037883L;
 

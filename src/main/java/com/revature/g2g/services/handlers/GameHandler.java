@@ -1,6 +1,7 @@
 package com.revature.g2g.services.handlers;
 
-import java.util.Set;
+import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
@@ -23,15 +24,15 @@ public class GameHandler {
 		this.repository = repository;
 	}
 	public void insert(Game g) {
-		this.repository.insert(g);
+		this.repository.save(g);
 	}
-	public Game findById(int id) {
+	public Optional<Game> findById(long id) {
 		return this.repository.findById(id);
 	}
 	public Game findByName(String name) {
 		return this.repository.findByName(name);
 	}
-	public Set<Game> findAll(){
+	public List<Game> findAll(){
 		return this.repository.findAll();
 	}
 	public void update(Game g) {

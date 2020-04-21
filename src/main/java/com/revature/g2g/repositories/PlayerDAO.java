@@ -24,7 +24,7 @@ import com.revature.g2g.models.PlayerRole;
 @Transactional
 @Repository
 @Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
-public class PlayerDAO implements IPlayerDAO {
+public class PlayerDAO {
 	
 	private SessionFactory sf;
 	@PersistenceContext
@@ -35,7 +35,6 @@ public class PlayerDAO implements IPlayerDAO {
 		this.sf = session.getSessionFactory();
 	}
 
-	@Override
 	public void insert(Player p) {
 		
 		Session s = sf.getCurrentSession();
@@ -43,7 +42,6 @@ public class PlayerDAO implements IPlayerDAO {
 		
 	}
 
-	@Override
 	public Player findById(int id) {
 		
 		Session s = sf.getCurrentSession();
@@ -51,7 +49,6 @@ public class PlayerDAO implements IPlayerDAO {
 		
 	}
 
-	@Override
 	public Player findByUsername(String username) {
 		
 		Session ses = sf.getCurrentSession();
@@ -77,7 +74,6 @@ public class PlayerDAO implements IPlayerDAO {
 	
 	}
 
-	@Override
 	public Player findByEmail(String email) {
 		
 		Session ses = sf.getCurrentSession();
@@ -103,7 +99,6 @@ public class PlayerDAO implements IPlayerDAO {
 		
 	}
 
-	@Override
 	public Set<Player> findAll() {
 		
 		Session ses = this.sf.getCurrentSession();
@@ -128,7 +123,6 @@ public class PlayerDAO implements IPlayerDAO {
 		
 	}
 
-	@Override
 	public Set<Player> findByRole(PlayerRole role) {
 		
 		Session ses = sf.getCurrentSession();
@@ -155,7 +149,6 @@ public class PlayerDAO implements IPlayerDAO {
 		
 	}
 
-	@Override
 	public void update(Player p) {
 		
 		Session s = sf.getCurrentSession();
@@ -163,7 +156,6 @@ public class PlayerDAO implements IPlayerDAO {
 		
 	}
 
-	@Override
 	public void delete(Player p) {
 		
 		Session s = sf.getCurrentSession();

@@ -196,6 +196,10 @@
 		<artifactId>ojdbc8</artifactId>
 		<scope>runtime</scope>
 	</dependency>
+	<dependency>
+		<groupId>org.projectlombok</groupId>
+		<artifactId>lombok</artifactId>
+	</dependency>
   </dependencies>
   <repositories>
 	<!-- https://github.com/DV8FromTheWorld/JDA/blob/master/README.md -->

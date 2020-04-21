@@ -30,7 +30,7 @@ import com.revature.g2g.models.SkillGameJT;
 @Transactional
 @Repository
 @Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
-public class SkillGameJTDAO implements ISkillGameJTDAO {
+public class SkillGameJTDAO {
 	private SessionFactory sf;
 	@PersistenceContext
 	private EntityManager entityManager;
@@ -40,7 +40,6 @@ public class SkillGameJTDAO implements ISkillGameJTDAO {
 		this.sf = session.getSessionFactory();
 	}
 
-	@Override
 	public void insert(SkillGameJT sg) {
 		
 		Session ses = sf.getCurrentSession();
@@ -48,7 +47,6 @@ public class SkillGameJTDAO implements ISkillGameJTDAO {
 	
 	}
 
-	@Override
 	public SkillGameJT findById(int id) {
 		
 		Session ses = sf.getCurrentSession();	
@@ -56,7 +54,6 @@ public class SkillGameJTDAO implements ISkillGameJTDAO {
 		
 	}
 
-	@Override
 	public Set<SkillGameJT> findAll() {
 	
 		Session ses = sf.getCurrentSession();
@@ -81,7 +78,6 @@ public class SkillGameJTDAO implements ISkillGameJTDAO {
 
 	}
 
-	@Override
 	public Set<Game> findBySkill(Skill skill) {
 		
 		Set<Game> set = new HashSet<>();
@@ -123,7 +119,6 @@ public class SkillGameJTDAO implements ISkillGameJTDAO {
 		
 	}
 
-	@Override
 	public Skill findTopSkill(Game game) {
 		
 		Session ses = sf.getCurrentSession();
@@ -151,7 +146,6 @@ public class SkillGameJTDAO implements ISkillGameJTDAO {
 		
 	}
 
-	@Override
 	public Set<Skill> findByGame(Game game) {
 		
 		Set<Skill> set = new HashSet<>();
@@ -189,7 +183,6 @@ public class SkillGameJTDAO implements ISkillGameJTDAO {
 		
 	}
 	
-	@Override
 	public SkillGameJT findBySkillGame(Skill skill, Game game) {
 		Set<SkillGameJT> set = null;
 		
@@ -229,7 +222,6 @@ public class SkillGameJTDAO implements ISkillGameJTDAO {
 		
 	}
 
-	@Override
 	public void update(SkillGameJT sg) {
 		
 		Session ses = sf.getCurrentSession();
@@ -237,7 +229,6 @@ public class SkillGameJTDAO implements ISkillGameJTDAO {
 		
 	}
 
-	@Override
 	public void delete(SkillGameJT sg) {
 		
 		Session ses = sf.getCurrentSession();

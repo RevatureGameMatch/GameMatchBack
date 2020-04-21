@@ -34,7 +34,7 @@ import com.revature.g2g.models.Room;
 @Transactional
 @Repository
 @Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
-public class PlayerRoomJTDAO implements IPlayerRoomJTDAO {
+public class PlayerRoomJTDAO {
 	
 	private SessionFactory sf;
 	@PersistenceContext
@@ -45,7 +45,6 @@ public class PlayerRoomJTDAO implements IPlayerRoomJTDAO {
 		this.sf = session.getSessionFactory();
 	}
 
-	@Override
 	public void insert(PlayerRoomJT pr) {
 		
 		Session s = sf.getCurrentSession();
@@ -53,7 +52,6 @@ public class PlayerRoomJTDAO implements IPlayerRoomJTDAO {
 		
 	}
 
-	@Override
 	public PlayerRoomJT findById(int id) {
 		
 		Session s = sf.getCurrentSession();
@@ -61,7 +59,6 @@ public class PlayerRoomJTDAO implements IPlayerRoomJTDAO {
 		
 	}
 
-	@Override
 	public int countCurrentPlayers() {
 		
 		Session ses = this.sf.getCurrentSession();
@@ -83,7 +80,6 @@ public class PlayerRoomJTDAO implements IPlayerRoomJTDAO {
 	
 	}
 
-	@Override
 	public int countCurrentPlayers(Room room) {
 		
 		Session ses = sf.getCurrentSession();
@@ -106,7 +102,6 @@ public class PlayerRoomJTDAO implements IPlayerRoomJTDAO {
 		} 
 	}
 
-	@Override
 	public Set<PlayerRoomJT> findAll() {
 		
 		Session ses = sf.getCurrentSession();
@@ -131,7 +126,6 @@ public class PlayerRoomJTDAO implements IPlayerRoomJTDAO {
 		
 	}
 
-	@Override
 	public Set<PlayerRoomJT> findAll(Room room) {
 		Session ses = sf.getCurrentSession();
 		CriteriaBuilder builder = ses.getCriteriaBuilder();
@@ -147,7 +141,6 @@ public class PlayerRoomJTDAO implements IPlayerRoomJTDAO {
 		}
 	}
 
-	@Override
 	public Set<Player> findPlayers(Room room) {
 		Set<Player> set = new HashSet<>();
 		
@@ -188,7 +181,6 @@ public class PlayerRoomJTDAO implements IPlayerRoomJTDAO {
 		
 	}
 
-	@Override
 	public Set<Room> findRooms(Player player) {
 		Set<Room> set = new HashSet<>();
 		
@@ -227,7 +219,6 @@ public class PlayerRoomJTDAO implements IPlayerRoomJTDAO {
 		
 	}
 	
-	@Override
 	public Set<PlayerRoomJT> findByPlayer(Player player){
 		Session ses = sf.getCurrentSession();
 		CriteriaBuilder builder = ses.getCriteriaBuilder();
@@ -243,7 +234,6 @@ public class PlayerRoomJTDAO implements IPlayerRoomJTDAO {
 		}
 	}
 	
-	@Override
 	public PlayerRoomJT findByPlayerRoom(Player player, Room room) {
 		Set<PlayerRoomJT> set = null;
 		
@@ -281,7 +271,6 @@ public class PlayerRoomJTDAO implements IPlayerRoomJTDAO {
 		
 	}
 
-	@Override
 	public Set<Room> findSurveyRooms(Player player) {
 		
 		Set<Room> set = new HashSet<>();
@@ -338,7 +327,6 @@ public class PlayerRoomJTDAO implements IPlayerRoomJTDAO {
 		
 	}
 
-	@Override
 	public void update(PlayerRoomJT pr) {
 		
 		Session s = sf.getCurrentSession();
@@ -346,7 +334,6 @@ public class PlayerRoomJTDAO implements IPlayerRoomJTDAO {
 		
 	}
 
-	@Override
 	public void delete(PlayerRoomJT pr) {
 		
 		Session s = sf.getCurrentSession();

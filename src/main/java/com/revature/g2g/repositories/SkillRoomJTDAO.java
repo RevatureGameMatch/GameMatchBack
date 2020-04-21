@@ -27,7 +27,7 @@ import com.revature.g2g.models.SkillRoomJT;
 @Transactional
 @Repository
 @Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
-public class SkillRoomJTDAO implements ISkillRoomJTDAO {
+public class SkillRoomJTDAO {
 	private SessionFactory sf;
 	@PersistenceContext
 	private EntityManager entityManager;
@@ -37,7 +37,6 @@ public class SkillRoomJTDAO implements ISkillRoomJTDAO {
 		this.sf = session.getSessionFactory();
 	}
 
-	@Override
 	public void insert(SkillRoomJT sr) {
 	
 		Session ses = sf.getCurrentSession();
@@ -45,7 +44,6 @@ public class SkillRoomJTDAO implements ISkillRoomJTDAO {
 	
 	}
 
-	@Override
 	public SkillRoomJT findById(int id) {
 		
 		Session ses = sf.getCurrentSession();
@@ -53,7 +51,6 @@ public class SkillRoomJTDAO implements ISkillRoomJTDAO {
 		
 	}
 
-//	@Override //find by game name or skill name
 //	public SkillRoomJT findBySkillName(String name) {
 //		Set<SkillRoomJT> set = findAll();
 //		
@@ -74,7 +71,6 @@ public class SkillRoomJTDAO implements ISkillRoomJTDAO {
 //	}
 	
 
-	@Override
 	public Set<SkillRoomJT> findAll() {
 	
 		Session ses = sf.getCurrentSession();
@@ -98,7 +94,6 @@ public class SkillRoomJTDAO implements ISkillRoomJTDAO {
 		}
 	}
 
-	@Override
 	public Set<SkillRoomJT> findBySkill(Skill skill) {
 		
 		Session ses = sf.getCurrentSession();
@@ -123,7 +118,6 @@ public class SkillRoomJTDAO implements ISkillRoomJTDAO {
 		}
 	}
 
-	@Override
 	public Set<SkillRoomJT> findByRoom(Room room) {
 		
 		Session ses = sf.getCurrentSession();
@@ -149,7 +143,6 @@ public class SkillRoomJTDAO implements ISkillRoomJTDAO {
 		}
 	}
 	
-	@Override
 	public Set<Skill> findSkillsByRoom(Room room) {
 		Set<Skill> set = new HashSet<>();
 		
@@ -186,7 +179,6 @@ public class SkillRoomJTDAO implements ISkillRoomJTDAO {
 		
 	}
 	
-	@Override
 	public void update(SkillRoomJT sr) {
 		
 		Session ses = sf.getCurrentSession();
@@ -194,7 +186,6 @@ public class SkillRoomJTDAO implements ISkillRoomJTDAO {
 		
 	}
 
-	@Override
 	public void delete(SkillRoomJT sr) {
 		
 		Session ses = sf.getCurrentSession();

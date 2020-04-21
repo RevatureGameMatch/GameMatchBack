@@ -29,7 +29,7 @@ import com.revature.g2g.models.SkillPlayerChangeJT;
 @Transactional
 @Repository
 @Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
-public class SkillPlayerChangeJTDAO implements ISkillPlayerChangeJTDAO{
+public class SkillPlayerChangeJTDAO {
 	private SessionFactory sf;
 	@PersistenceContext
 	private EntityManager entityManager;
@@ -39,7 +39,6 @@ public class SkillPlayerChangeJTDAO implements ISkillPlayerChangeJTDAO{
 		this.sf = session.getSessionFactory();
 	}
 
-	@Override
 	public void insert(SkillPlayerChangeJT spc) {
 	
 		Session ses = sf.getCurrentSession();
@@ -76,7 +75,6 @@ public class SkillPlayerChangeJTDAO implements ISkillPlayerChangeJTDAO{
 		}
 	}
 
-	@Override
 	public SkillPlayerChangeJT findBy(Player modifiedBy, Player player, Room room, Skill skill) {
 		Session ses = sf.getCurrentSession();
 		
@@ -111,7 +109,6 @@ public class SkillPlayerChangeJTDAO implements ISkillPlayerChangeJTDAO{
 		}
 	}
 
-	@Override
 	public void update(SkillPlayerChangeJT spc) {
 		
 		Session ses = sf.getCurrentSession();
@@ -119,7 +116,6 @@ public class SkillPlayerChangeJTDAO implements ISkillPlayerChangeJTDAO{
 		
 	}
 
-	@Override
 	public void delete(SkillPlayerChangeJT spc) {
 		
 		Session ses = sf.getCurrentSession();

@@ -7,4 +7,5 @@ config.properties
 config.properties
 spring-front-controller-servlet.xml
 applicationContext.xml
+application.properties
 !.gitignore

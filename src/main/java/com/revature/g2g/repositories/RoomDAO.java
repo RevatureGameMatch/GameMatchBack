@@ -28,7 +28,7 @@ import com.revature.g2g.models.RoomStatus;
 @Transactional
 @Repository
 @Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
-public class RoomDAO implements IRoomDAO {
+public class RoomDAO {
 	
 	private SessionFactory sf;
 	@PersistenceContext
@@ -39,7 +39,6 @@ public class RoomDAO implements IRoomDAO {
 		this.sf = session.getSessionFactory();
 	}
 
-	@Override
 	public void insert(Room r) {
 		
 		Session ses = sf.getCurrentSession();
@@ -47,7 +46,6 @@ public class RoomDAO implements IRoomDAO {
 		
 	}
 
-	@Override
 	public Room findById(int id) {
 		
 		Session ses = sf.getCurrentSession();	
@@ -55,7 +53,6 @@ public class RoomDAO implements IRoomDAO {
 		
 	}
 	
-	@Override
 	public Room findRoomByDiscordVoice(Long discordVoiceId) {
 		
 		Session ses = sf.getCurrentSession();
@@ -81,7 +78,6 @@ public class RoomDAO implements IRoomDAO {
 		
 	}
 
-	@Override
 	public Set<Room> findAll() {
 		
 		Session ses = sf.getCurrentSession();
@@ -106,7 +102,6 @@ public class RoomDAO implements IRoomDAO {
 	
 	}
 	
-	@Override
 	public Set<Room> findStatusPlayStyle(RoomStatus status, RoomPlayStyle style){
 		
 		Session ses = sf.getCurrentSession();
@@ -139,7 +134,6 @@ public class RoomDAO implements IRoomDAO {
 		
 	}
 
-	@Override
 	public Set<Room> findByStatus(RoomStatus status) {
 		
 		Session ses = sf.getCurrentSession();
@@ -166,7 +160,6 @@ public class RoomDAO implements IRoomDAO {
 		
 	}
 
-	@Override
 	public Set<Room> findByPlayStyle(RoomPlayStyle style) {
 		
 		Session ses = sf.getCurrentSession();
@@ -233,7 +226,6 @@ public class RoomDAO implements IRoomDAO {
 		}
 	}
 
-//	@Override
 //	public Set<Room> findBySkill(RoomStatus status, SkillPlayerJT[] skills) {
 //		Set<Room> set = null;
 //		
@@ -258,14 +250,12 @@ public class RoomDAO implements IRoomDAO {
 //		return set;
 //	}
 
-	@Override
 	public void update(Room r) {
 		
 		Session ses = sf.getCurrentSession();
 		ses.update(r);
 	}
 
-	@Override
 	public void delete(Room r) {
 		
 		Session ses = sf.getCurrentSession();

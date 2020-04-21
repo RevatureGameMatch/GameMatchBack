@@ -23,7 +23,7 @@ import com.revature.g2g.models.Skill;
 @Transactional
 @Repository
 @Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
-public class SkillDAO implements ISkillDAO {
+public class SkillDAO {
 	private SessionFactory sf;
 	@PersistenceContext
 	private EntityManager entityManager;
@@ -33,7 +33,6 @@ public class SkillDAO implements ISkillDAO {
 		this.sf = session.getSessionFactory();
 	}
 
-	@Override
 	public void insert(Skill s) {
 		
 		Session ses = sf.getCurrentSession();
@@ -41,7 +40,6 @@ public class SkillDAO implements ISkillDAO {
 		
 	}
 
-	@Override
 	public Skill findById(int id) {
 		
 		Session ses = sf.getCurrentSession();
@@ -50,7 +48,6 @@ public class SkillDAO implements ISkillDAO {
 		
 	}
 
-	@Override
 	public Skill findByName(String name) {
 		
 		Session ses = sf.getCurrentSession();
@@ -76,7 +73,6 @@ public class SkillDAO implements ISkillDAO {
 		
 	}
 
-	@Override
 	public Set<Skill> findAll() {
 		
 		Session ses = sf.getCurrentSession();
@@ -100,7 +96,6 @@ public class SkillDAO implements ISkillDAO {
 		}
 	}
 
-	@Override
 	public Set<Skill> findByParent(Skill skill) {
 		
 		Session ses = sf.getCurrentSession();
@@ -127,7 +122,6 @@ public class SkillDAO implements ISkillDAO {
 			
 	}
 
-	@Override
 	public void update(Skill s) {
 		
 		Session ses = sf.getCurrentSession();
@@ -135,7 +129,6 @@ public class SkillDAO implements ISkillDAO {
 		
 	}
 
-	@Override
 	public void delete(Skill s) {
 		
 		Session ses = sf.getCurrentSession();

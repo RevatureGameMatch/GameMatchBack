@@ -2,7 +2,6 @@ package com.revature.g2g.models;
 
 import java.io.Serializable;
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -22,10 +21,16 @@ import org.springframework.stereotype.Component;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.revature.g2g.services.helpers.BalanceConstants;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
 @Component
 @JsonIgnoreProperties(value = { "changes" })
 @Entity
 @Table(name = "G3G_SKILL_PLAYER_JT")
+@Getter @Setter @EqualsAndHashCode(exclude = {"changes"}) @ToString(exclude = {"changes"})
 public class SkillPlayerJT implements Serializable{
 	private static final long serialVersionUID = 9019617057828732231L;
 
@@ -67,64 +72,5 @@ public class SkillPlayerJT implements Serializable{
 		this.player = player;
 		this.value = value;
 		this.expertise = expertise;
-	}
-	public long getSkillPlayerJtId() {
-		return skillPlayerJtId;
-	}
-	public void setSkillPlayerJtId(long skillPlayerJtId) {
-		this.skillPlayerJtId = skillPlayerJtId;
-	}
-	public Skill getSkill() {
-		return skill;
-	}
-	public void setSkill(Skill skill) {
-		this.skill = skill;
-	}
-	public Player getPlayer() {
-		return player;
-	}
-	public void setPlayer(Player player) {
-		this.player = player;
-	}
-	public double getValue() {
-		return value;
-	}
-	public void setValue(double value) {
-		this.value = value;
-	}
-	public double getExpertise() {
-		return expertise;
-	}
-	public void setExpertise(double expertise) {
-		this.expertise = expertise;
-	}
-	public Set<SkillPlayerChangeJT> getChanges() {
-		return changes;
-	}
-	public void setChanges(Set<SkillPlayerChangeJT> changes) {
-		this.changes = changes;
-	}
-	@Override
-	public int hashCode() {
-		return Objects.hash(expertise, player, skill, skillPlayerJtId, value);
-	}
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (!(obj instanceof SkillPlayerJT)) {
-			return false;
-		}
-		SkillPlayerJT other = (SkillPlayerJT) obj;
-		return Double.doubleToLongBits(expertise) == Double.doubleToLongBits(other.expertise)
-				&& Objects.equals(player, other.player) && Objects.equals(skill, other.skill)
-				&& skillPlayerJtId == other.skillPlayerJtId
-				&& Double.doubleToLongBits(value) == Double.doubleToLongBits(other.value);
-	}
-	@Override
-	public String toString() {
-		return "SkillPlayerJT [skillPlayerJtId=" + skillPlayerJtId + ", skill=" + skill + ", player=" + player
-				+ ", value=" + value + ", expertise=" + expertise + "]";
 	}
 }

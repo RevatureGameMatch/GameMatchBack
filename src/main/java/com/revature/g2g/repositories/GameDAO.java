@@ -23,7 +23,7 @@ import com.revature.g2g.models.Game;
 @Transactional
 @Repository
 @Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
-public class GameDAO implements IGameDAO {
+public class GameDAO {
 	private SessionFactory sf;
 	@PersistenceContext
 	private EntityManager entityManager;

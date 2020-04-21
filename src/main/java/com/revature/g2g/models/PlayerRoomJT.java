@@ -15,16 +15,22 @@ import javax.validation.constraints.NotNull;
 
 import org.springframework.stereotype.Component;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
 @Component
 @Entity
 @Table(name = "G3G_PLAYER_ROOM_JT")
+@Getter @Setter @EqualsAndHashCode @ToString
 public class PlayerRoomJT implements Serializable{
 	private static final long serialVersionUID = -7131529712503037883L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "player_room_jt_id")
-	private int playerRoomJTId;
+	private long playerRoomJTId;
 	
 	@NotNull(message="PlayerRoomJT requires a player.")
 	@ManyToOne()
@@ -54,76 +60,5 @@ public class PlayerRoomJT implements Serializable{
 		this.room = room;
 		this.joined = joined;
 		this.left = left;
-	}
-	public int getPlayerRoomJTId() {
-		return playerRoomJTId;
-	}
-	public void setPlayerRoomJTId(int playerRoomJTId) {
-		this.playerRoomJTId = playerRoomJTId;
-	}
-	public Player getPlayer() {
-		return player;
-	}
-	public void setPlayer(Player player) {
-		this.player = player;
-	}
-	public Room getRoom() {
-		return room;
-	}
-	public void setRoom(Room room) {
-		this.room = room;
-	}
-	public Date getJoined() {
-		return joined;
-	}
-	public void setJoined(Date joined) {
-		this.joined = joined;
-	}
-	public Date getLeft() {
-		return left;
-	}
-	public void setLeft(Date left) {
-		this.left = left;
-	}
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((player == null) ? 0 : player.hashCode());
-		result = prime * result + playerRoomJTId;
-		result = prime * result + ((room == null) ? 0 : room.hashCode());
-		return result;
-	}
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (!(obj instanceof PlayerRoomJT)) {
-			return false;
-		}
-		PlayerRoomJT other = (PlayerRoomJT) obj;
-		if (player == null) {
-			if (other.player != null) {
-				return false;
-			}
-		} else if (!player.equals(other.player)) {
-			return false;
-		}
-		if (playerRoomJTId != other.playerRoomJTId) {
-			return false;
-		}
-		if (room == null) {
-			if (other.room != null) {
-				return false;
-			}
-		} else if (!room.equals(other.room)) {
-			return false;
-		}
-		return true;
-	}
-	@Override
-	public String toString() {
-		return "PlayerRoomJT [playerRoomJTId=" + playerRoomJTId + ", player=" + player + ", room=" + room + "]";
 	}
 }

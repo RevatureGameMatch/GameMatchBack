@@ -2,7 +2,6 @@ package com.revature.g2g.models;
 
 import java.io.Serializable;
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -21,17 +20,23 @@ import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
 @Component
 @JsonIgnoreProperties(value = { "childSkills", "games", "players", "rooms" })
 @Entity
 @Table(name = "G3G_SKILL")
+@Getter @Setter @EqualsAndHashCode(exclude = { "childSkills", "games", "players", "rooms" }) @ToString(exclude = { "childSkills", "games", "players", "rooms" })
 public class Skill implements Serializable{
 	private static final long serialVersionUID = -6477932264861456053L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "skill_id")
-	private int skillId;
+	private long skillId;
 	
 	@NotNull(message="Skill requires name.")
 	@Column(name = "skill_name", unique = true)
@@ -63,69 +68,5 @@ public class Skill implements Serializable{
 		this.skillId = skillId;
 		this.name = name;
 		this.parentSkill = parentSkill;
-	}
-	public int getSkillId() {
-		return skillId;
-	}
-	public void setSkillId(int skillId) {
-		this.skillId = skillId;
-	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	public Skill getParentSkill() {
-		return parentSkill;
-	}
-	public void setParentSkill(Skill parentSkill) {
-		this.parentSkill = parentSkill;
-	}
-	public Set<Skill> getChildSkills() {
-		return childSkills;
-	}
-	public void setChildSkills(Set<Skill> childSkills) {
-		this.childSkills = childSkills;
-	}
-	public Set<SkillGameJT> getGames() {
-		return games;
-	}
-	public void setGames(Set<SkillGameJT> games) {
-		this.games = games;
-	}
-	public Set<SkillPlayerJT> getPlayers() {
-		return players;
-	}
-	public void setPlayers(Set<SkillPlayerJT> players) {
-		this.players = players;
-	}
-	public Set<SkillRoomJT> getRooms() {
-		return rooms;
-	}
-	public void setRooms(Set<SkillRoomJT> rooms) {
-		this.rooms = rooms;
-	}
-	@Override
-	public int hashCode() {
-		return Objects.hash(name, parentSkill, skillId);
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (!(obj instanceof Skill)) {
-			return false;
-		}
-		Skill other = (Skill) obj;
-		return Objects.equals(name, other.name) && Objects.equals(parentSkill, other.parentSkill)
-				&& skillId == other.skillId;
-	}
-
-	@Override
-	public String toString() {
-		return "Skill [skillId=" + skillId + ", name=" + name + "]";
 	}
 }

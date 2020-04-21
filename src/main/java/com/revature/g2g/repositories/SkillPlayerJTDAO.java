@@ -32,7 +32,7 @@ import com.revature.g2g.services.helpers.LoggerSingleton;
 @Transactional
 @Repository
 @Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
-public class SkillPlayerJTDAO implements ISkillPlayerJTDAO{
+public class SkillPlayerJTDAO {
 	private SessionFactory sf;
 	private LoggerSingleton loggerSingleton;
 	@PersistenceContext
@@ -45,7 +45,6 @@ public class SkillPlayerJTDAO implements ISkillPlayerJTDAO{
 		this.loggerSingleton = loggerSingleton;
 	}
 
-	@Override
 	public void insert(SkillPlayerJT sp) {
 		
 		Session ses = sf.getCurrentSession();
@@ -53,7 +52,6 @@ public class SkillPlayerJTDAO implements ISkillPlayerJTDAO{
 	
 	}
 
-	@Override
 	public SkillPlayerJT findById(int id) {
 		
 		Session ses = sf.getCurrentSession();
@@ -61,7 +59,6 @@ public class SkillPlayerJTDAO implements ISkillPlayerJTDAO{
 		
 	}
 
-	@Override
 	public double findValue(Player player, Skill skill) {
 		
 		Session ses = sf.getCurrentSession();
@@ -94,7 +91,6 @@ public class SkillPlayerJTDAO implements ISkillPlayerJTDAO{
 		
 	}
 
-	@Override
 	public Set<SkillPlayerJT> findAll() {
 		
 		Session ses = sf.getCurrentSession();
@@ -118,7 +114,6 @@ public class SkillPlayerJTDAO implements ISkillPlayerJTDAO{
 		}
 	}
 
-	@Override
 	public Set<SkillPlayerJT> findBySkill(Skill skill) {
 	
 		Session ses = sf.getCurrentSession();
@@ -144,7 +139,6 @@ public class SkillPlayerJTDAO implements ISkillPlayerJTDAO{
 		}
 	}
 
-	@Override
 	public Set<SkillPlayerJT> findByPlayer(Player player) {
 	
 		Session ses = sf.getCurrentSession();
@@ -170,7 +164,6 @@ public class SkillPlayerJTDAO implements ISkillPlayerJTDAO{
 		}
 	}
 	
-	@Override
 	public Set<Skill> findPlayerSkills(Player player) {
 		Set<Skill> set = new HashSet<>();
 		
@@ -209,7 +202,6 @@ public class SkillPlayerJTDAO implements ISkillPlayerJTDAO{
 		
 	}
 
-	@Override
 	public SkillPlayerJT findBySkillPlayer(Skill skill, Player player) {
 		Set<SkillPlayerJT> set = null;
 		
@@ -254,7 +246,6 @@ public class SkillPlayerJTDAO implements ISkillPlayerJTDAO{
 	}
 	
 	
-	@Override
 	public void update(SkillPlayerJT sp) {
 		
 		Session ses = sf.getCurrentSession();
@@ -262,7 +253,6 @@ public class SkillPlayerJTDAO implements ISkillPlayerJTDAO{
 		
 	}
 
-	@Override
 	public void delete(SkillPlayerJT sp) {
 		
 		Session ses = sf.getCurrentSession();

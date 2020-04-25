@@ -1,7 +1,7 @@
 package com.revature.g2g.data.generators;
 
+import java.util.List;
 import java.util.Random;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
@@ -24,7 +24,7 @@ public class RoomGenerator implements DataGenerator {
 	private RoomHandler roomHandler;
 	private RoomHelper roomHelper;
 	private LoggerSingleton loggerSingleton;
-	private Set<Game> games;
+	private List<Game> games;
 	@Autowired
 	public RoomGenerator(RoomHandler roomHandler, RoomHelper roomHelper, GameHandler gameHandler, LoggerSingleton loggerSingleton) {
 		super();
@@ -34,7 +34,7 @@ public class RoomGenerator implements DataGenerator {
 	}
 	@Override
 	public void generate() {
-		Set<Room> activeRooms = roomHandler.findByStatus(RoomStatus.JOINING);
+		List<Room> activeRooms = roomHandler.findByStatus(RoomStatus.JOINING);
 		int roomsToMake = 15 - activeRooms.size() + 1;
 		for(int a=1; a<roomsToMake; a++) {
 			Game game = randomGame();

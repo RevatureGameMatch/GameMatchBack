@@ -1,6 +1,7 @@
 package com.revature.g2g.services.handlers;
 
-import java.util.Set;
+import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
@@ -14,31 +15,25 @@ import com.revature.g2g.repositories.ISkillDAO;
 @Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
 public class SkillHandler {
 	private ISkillDAO repository;
-	public SkillHandler() {
-		super();
-	}
 	@Autowired
 	public SkillHandler(ISkillDAO repository) {
 		super();
 		this.repository = repository;
 	}
-	public void insert(Skill s) {
-		this.repository.insert(s);
+	public void save(Skill s) {
+		this.repository.save(s);
 	}
-	public Skill findById(int id) {
+	public Optional<Skill> findById(long id) {
 		return this.repository.findById(id);
 	}
 	public Skill findByName(String name) {
 		return this.repository.findByName(name);
 	}
-	public Set<Skill> findAll(){
+	public List<Skill> findAll(){
 		return this.repository.findAll();
 	}
-	public Set<Skill> findByParent(Skill skill){
+	public List<Skill> findByParent(Skill skill){
 		return this.repository.findByParent(skill);
-	}
-	public void update(Skill s) {
-		this.repository.update(s);
 	}
 	public void delete(Skill s) {
 		this.repository.delete(s);

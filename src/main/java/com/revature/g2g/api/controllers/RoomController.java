@@ -1,7 +1,7 @@
 package com.revature.g2g.api.controllers;
 
 import java.util.List;
-import java.util.Set;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -52,22 +52,40 @@ public class RoomController {
 	private GameHandler gameHandler;
 	private GuildHelper guildHelper;
 	@Autowired
-	public RoomController(RoomHandler roomHandler, AuthenticatorHelper authenticatorHelper, RoomHelper roomHelper,
-			PlayerRoomJTHandler playerRoomJTHandler, PlayerRoomService playerRoomService,
-			LoggerSingleton loggerSingleton, GameHandler gameHandler, GuildHelper guildHelper) {
-		super();
+	public void setRoomHandler(RoomHandler roomHandler) {
 		this.roomHandler = roomHandler;
+	}
+	@Autowired
+	public void setAuthenticatorHelper(AuthenticatorHelper authenticatorHelper) {
 		this.authenticatorHelper = authenticatorHelper;
+	}
+	@Autowired
+	public void setRoomHelper(RoomHelper roomHelper) {
 		this.roomHelper = roomHelper;
+	}
+	@Autowired
+	public void setPlayerRoomJTHandler(PlayerRoomJTHandler playerRoomJTHandler) {
 		this.playerRoomJTHandler = playerRoomJTHandler;
+	}
+	@Autowired
+	public void setPlayerRoomService(PlayerRoomService playerRoomService) {
 		this.playerRoomService = playerRoomService;
+	}
+	@Autowired
+	public void setLoggerSingleton(LoggerSingleton loggerSingleton) {
 		this.loggerSingleton = loggerSingleton;
+	}
+	@Autowired
+	public void setGameHandler(GameHandler gameHandler) {
 		this.gameHandler = gameHandler;
+	}
+	@Autowired
+	public void setGuildHelper(GuildHelper guildHelper) {
 		this.guildHelper = guildHelper;
 	}
 	@GetMapping
-	public ResponseEntity<Set<Room>> getRooms(){
-		Set<Room> rooms = roomHandler.findAll();
+	public ResponseEntity<List<Room>> getRooms(){
+		List<Room> rooms = roomHandler.findAll();
 		if(rooms.isEmpty()) {
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 		}else {
@@ -76,11 +94,11 @@ public class RoomController {
 	}
 	@GetMapping("/id/{id}")
 	public ResponseEntity<Room> findById(@PathVariable("id") int id){
-		Room room = roomHandler.findById(id);
-		if(room == null) {
-			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+		Optional<Room> roomOpt = roomHandler.findById(id);
+		if(roomOpt.isPresent()) {
+			return ResponseEntity.status(HttpStatus.ACCEPTED).body(roomOpt.get());
 		}else {
-			return ResponseEntity.status(HttpStatus.ACCEPTED).body(room);
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 		}
 	}
 	@PostMapping("")
@@ -94,11 +112,11 @@ public class RoomController {
 		}
 		Room room = roomHelper.clean(roomTemplate.getRoom());
 		room.setCurrentPlayers(0);
-		roomHandler.insert(room);
+		roomHandler.save(room);
 		return ResponseEntity.status(HttpStatus.CREATED).body(room);
 	}
 	@PatchMapping("")
-	public ResponseEntity<Set<Room>> update(@RequestBody RoomTemplate roomTemplate){
+	public ResponseEntity<List<Room>> update(@RequestBody RoomTemplate roomTemplate){
 		if(roomTemplate == null || roomTemplate.getRoom() == null) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 		}
@@ -109,13 +127,14 @@ public class RoomController {
 		if(!(player.getPlayerRole().equals(PlayerRole.ADMIN) || player.getPlayerRole().equals(PlayerRole.MODERATOR))) {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 		}
-		Room room = roomHandler.findById(roomTemplate.getRoom().getRoomId());
-		if(room == null) {
+		Optional<Room> roomOpt = roomHandler.findById(roomTemplate.getRoom().getRoomId());
+		if(!roomOpt.isPresent()) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		}
+		Room room = roomOpt.get();
 		roomHelper.ammend(room, roomTemplate.getRoom());
-		roomHandler.update(roomTemplate.getRoom());
-		Set<Room> rooms = roomHandler.findAll();
+		roomHandler.save(roomTemplate.getRoom());
+		List<Room> rooms = roomHandler.findAll();
 		if(rooms.isEmpty()) {
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 		}else {
@@ -131,15 +150,16 @@ public class RoomController {
 		if(player == null) {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 		}
-		Room room = roomHandler.findById(template.getRoom().getRoomId());
-		if(room == null) {
+		Optional<Room> roomOpt = roomHandler.findById(template.getRoom().getRoomId());
+		if(!roomOpt.isPresent()) {
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 		}
-		PlayerRoomJT alreadyInRoom = playerRoomJTHandler.findByPlayerRoom(player, room);
+		Room room = roomOpt.get();
+		PlayerRoomJT alreadyInRoom = playerRoomJTHandler.findByPlayerAndRoom(player, room);
 		Invite invite = roomHelper.getInvite(room,player);
 		if(alreadyInRoom == null) {
 			room.setCurrentPlayers(room.getCurrentPlayers() + 1);
-			roomHandler.update(room);
+			roomHandler.save(room);
 		}
 		DiscordInviteTemplate discordInviteTemplate = new DiscordInviteTemplate();
 		discordInviteTemplate.setChannelId(room.getDiscordVoiceChannelId());
@@ -151,7 +171,6 @@ public class RoomController {
 		discordInviteTemplate.setUrlWeb(invite.getUrl());
 		discordInviteTemplate.setUrlApp("discord://discordapp.com/invite/" + invite.getCode());
 		return ResponseEntity.status(HttpStatus.CREATED).body(discordInviteTemplate);
-//		return ResponseEntity.status(HttpStatus.CREATED).body(message);
 	}
 	@PostMapping(value="/Style/Casual")
 	public ResponseEntity<List<Room>> casual(@Valid @RequestBody PlayerTemplate template){
@@ -183,11 +202,11 @@ public class RoomController {
 		if(player==null) {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 		}
-		Game game = gameHandler.findById(id);
-		if(game==null) {
+		Optional<Game> gameOpt = gameHandler.findById(id);
+		if(!gameOpt.isPresent()) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		}
-		return getRooms(player, RoomPlayStyle.CASUAL, game);
+		return getRooms(player, RoomPlayStyle.CASUAL, gameOpt.get());
 	}
 	@PostMapping(value="/Game/Hybrid/{id}")
 	public ResponseEntity<List<Room>> HybridName(@Valid @RequestBody PlayerTemplate template, @PathVariable("id") int id){
@@ -195,11 +214,11 @@ public class RoomController {
 		if(player==null) {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 		}
-		Game game = gameHandler.findById(id);
-		if(game==null) {
+		Optional<Game> gameOpt = gameHandler.findById(id);
+		if(!gameOpt.isPresent()) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		}
-		return getRooms(player, RoomPlayStyle.HYBRID, game);
+		return getRooms(player, RoomPlayStyle.HYBRID, gameOpt.get());
 	}
 	@PostMapping(value="/Game/Serious/{id}")
 	public ResponseEntity<List<Room>> SeriousName(@Valid @RequestBody PlayerTemplate template, @PathVariable("id") int id){
@@ -207,11 +226,11 @@ public class RoomController {
 		if(player==null) {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 		}
-		Game game = gameHandler.findById(id);
-		if(game==null) {
+		Optional<Game> gameOpt = gameHandler.findById(id);
+		if(!gameOpt.isPresent()) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		}
-		return getRooms(player, RoomPlayStyle.SERIOUS, game);
+		return getRooms(player, RoomPlayStyle.SERIOUS, gameOpt.get());
 	}
 	@PostMapping(value="/Game/Id/{id}")
 	public ResponseEntity<List<Room>> name(@RequestBody PlayerTemplate template, @PathVariable("id") int id){
@@ -219,11 +238,11 @@ public class RoomController {
 		if(player==null) {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 		}
-		Game game = gameHandler.findById(id);
-		if(game==null) {
+		Optional<Game> gameOpt = gameHandler.findById(id);
+		if(!gameOpt.isPresent()) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		}
-		return getRooms(player, game);
+		return getRooms(player, gameOpt.get());
 	}
 	private ResponseEntity<List<Room>> getRooms(Player player, RoomPlayStyle style){
 		List<Room> rooms = playerRoomService.getQualifiedRooms(player, style);

@@ -1,6 +1,7 @@
 package com.revature.g2g.services.handlers;
 
-import java.util.Set;
+import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
@@ -24,26 +25,23 @@ public class SkillRoomJTHandler {
 		super();
 		this.repository = repository;
 	}
-	public void insert(SkillRoomJT sr) {
-		this.repository.insert(sr);
+	public void save(SkillRoomJT skillRoomJT) {
+		this.repository.save(skillRoomJT);
 	}
-	public SkillRoomJT findById(int id) {
+	public Optional<SkillRoomJT> findById(long id) {
 		return this.repository.findById(id);
 	}
-	public Set<SkillRoomJT> findAll(){
+	public List<SkillRoomJT> findAll(){
 		return this.repository.findAll();
 	}
-	public Set<SkillRoomJT> findBySkill(Skill skill){
+	public List<SkillRoomJT> findBySkill(Skill skill){
 		return this.repository.findBySkill(skill);
 	}
-	public Set<SkillRoomJT> findByRoom(Room room){
+	public List<SkillRoomJT> findByRoom(Room room){
 		return this.repository.findByRoom(room);
 	}
-	public Set<Skill> findSkillsByRoom(Room room){
+	public List<Skill> findSkillsByRoom(Room room){
 		return this.repository.findSkillsByRoom(room);
-	}
-	public void update(SkillRoomJT sr) {
-		this.repository.update(sr);
 	}
 	public void delete(SkillRoomJT sr) {
 		this.repository.delete(sr);

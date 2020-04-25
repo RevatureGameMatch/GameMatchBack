@@ -1,6 +1,7 @@
 package com.revature.g2g.api.controllers;
 
-import java.util.Set;
+import java.util.List;
+import java.util.Optional;
 
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
@@ -43,8 +44,8 @@ public class GameController {
 		this.skillGameJTHandler = skillGameJTHandler;
 	}
 	@GetMapping
-	public ResponseEntity<Set<Game>> getGames(){
-		Set<Game> games = gameHandler.findAll();
+	public ResponseEntity<List<Game>> getGames(){
+		List<Game> games = gameHandler.findAll();
 		if(games.isEmpty()) {
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 		}else {
@@ -63,18 +64,18 @@ public class GameController {
 	}
 	@GetMapping("/Id/{id}")
 	public ResponseEntity<Game> findById(@PathVariable("id") int id){
-		Game game = gameHandler.findById(id);
-		if(game == null) {
-			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+		Optional<Game> gameOpt = gameHandler.findById(id);
+		if(gameOpt.isPresent()) {
+			return ResponseEntity.status(HttpStatus.ACCEPTED).body(gameOpt.get());
 		}else {
-			return ResponseEntity.status(HttpStatus.ACCEPTED).body(game);
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 		}
 	}
 	@GetMapping("/Name/{name}/Skills")
-	public ResponseEntity<Set<Skill>> findAllSkillsByName(@PathVariable("name") String name){
+	public ResponseEntity<List<Skill>> findAllSkillsByName(@PathVariable("name") String name){
 		String cleanName = Jsoup.clean(name, Whitelist.none()).replace('_', ' ');
 		Game game = gameHandler.findByName(cleanName);
-		Set<Skill> set = skillGameJTHandler.findByGame(game);
+		List<Skill> set = skillGameJTHandler.findByGame(game);
 		if (game == null) {
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 		} else {
@@ -82,17 +83,17 @@ public class GameController {
 		}
 	}
 	@GetMapping("/Id/{id}/Skills")
-	public ResponseEntity<Set<Skill>> findAllSkillsById(@PathVariable("id") int id){
-		Game game = gameHandler.findById(id);
-		Set<Skill> set = skillGameJTHandler.findByGame(game);
-		if (game == null) {
-			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-		} else {
+	public ResponseEntity<List<Skill>> findAllSkillsById(@PathVariable("id") int id){
+		Optional<Game> gameOpt = gameHandler.findById(id);
+		if (gameOpt.isPresent()) {
+			List<Skill> set = skillGameJTHandler.findByGame(gameOpt.get());
 			return ResponseEntity.status(HttpStatus.ACCEPTED).body(set);
+		} else {
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 		}
 	}
 	@PostMapping("")
-	public ResponseEntity<Set<Game>> insert(@RequestBody GameTemplate gameTemplate){
+	public ResponseEntity<List<Game>> insert(@RequestBody GameTemplate gameTemplate){
 		if(gameTemplate == null || gameTemplate.getGame() == null) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 		}
@@ -106,8 +107,8 @@ public class GameController {
 		if(gameHandler.findByName(gameTemplate.getGame().getName()) != null) {
 			return ResponseEntity.status(HttpStatus.CONFLICT).build();
 		}
-		gameHandler.insert(gameHelper.clean(gameTemplate.getGame()));
-		Set<Game> games = gameHandler.findAll();
+		gameHandler.save(gameHelper.clean(gameTemplate.getGame()));
+		List<Game> games = gameHandler.findAll();
 		if(games.isEmpty()) {
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 		}else {
@@ -116,7 +117,7 @@ public class GameController {
 	}
 
 	@PatchMapping("")
-	public ResponseEntity<Set<Game>> update(@RequestBody GameTemplate gameTemplate){
+	public ResponseEntity<List<Game>> update(@RequestBody GameTemplate gameTemplate){
 		if(gameTemplate == null || gameTemplate.getGame() == null) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 		}
@@ -127,15 +128,16 @@ public class GameController {
 		if(!(player.getPlayerRole().equals(PlayerRole.ADMIN) || player.getPlayerRole().equals(PlayerRole.MODERATOR))) {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 		}
-		Game game = gameHandler.findById(gameTemplate.getGame().getGameId());
-		if(game == null) {
+		Optional<Game> gameOpt = gameHandler.findById(gameTemplate.getGame().getGameId());
+		if(!gameOpt.isPresent()) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		}
+		Game game = gameOpt.get();
 		game.setName(Jsoup.clean(gameTemplate.getGame().getName(), Whitelist.none()));
 		game.setDescription(Jsoup.clean(gameTemplate.getGame().getDescription(), Whitelist.none()));
 		game.setLink(Jsoup.clean(gameTemplate.getGame().getLink(), Whitelist.none()));
-		gameHandler.update(gameTemplate.getGame());
-		Set<Game> games = gameHandler.findAll();
+		gameHandler.save(gameTemplate.getGame());
+		List<Game> games = gameHandler.findAll();
 		if(games.isEmpty()) {
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 		}else {

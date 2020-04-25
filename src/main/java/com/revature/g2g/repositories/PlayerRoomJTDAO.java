@@ -84,7 +84,7 @@ public class PlayerRoomJTDAO {
 		
 		Session ses = sf.getCurrentSession();
 		
-		int roomID = room.getRoomId();
+		long roomID = room.getRoomId();
 		
 		String sql = "SELECT COUNT(*) FROM G2G_PLAYER_ROOM_JT WHERE LEFT_ROOM IS NULL AND ROOM_ID=" + roomID;
 		

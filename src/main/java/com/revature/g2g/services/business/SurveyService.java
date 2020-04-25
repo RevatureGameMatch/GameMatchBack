@@ -55,7 +55,7 @@ public class SurveyService {
 		float newValue = (float) (skillPlayerJT.getValue() + change);
 		newValue = balanceHelper.limitValue(newValue);
 		skillPlayerJT.setValue(newValue);
-		skillPlayerJTHandler.update(skillPlayerJT);
+		skillPlayerJTHandler.save(skillPlayerJT);
 		
 		//Make record and log
 		skillPlayerChangeJT.setExpertise(modifiedByExpertise);
@@ -64,7 +64,7 @@ public class SurveyService {
 		skillPlayerChangeJT.setRoom(room);
 		skillPlayerChangeJT.setSkillPlayerJT(skillPlayerJT);
 		skillPlayerChangeJT.setValue(change);
-		skillPlayerChangeJTHandler.insert(skillPlayerChangeJT);
+		skillPlayerChangeJTHandler.save(skillPlayerChangeJT);
 		String logMessage = "SurveyService: adding change to records " + skillPlayerChangeJT.toString();
 		loggerSingleton.getBusinessLog().trace(logMessage);
 		return skillPlayerChangeJT;

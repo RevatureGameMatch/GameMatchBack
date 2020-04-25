@@ -1,6 +1,7 @@
 package com.revature.g2g.services.helpers;
 
 import java.util.Date;
+import java.util.Optional;
 
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
@@ -51,7 +52,7 @@ public class RoomHelper {
 	}
 	public Room insert(String name, RoomPlayStyle style, Game game, int maxPlayers, int currentPlayers, String description) {
 		Room room = new Room(name, currentPlayers, maxPlayers, description, style, game);
-		this.roomHandler.insert(clean(room));
+		this.roomHandler.save(clean(room));
 		return room;
 	}
 	public Room clean(Room room) {
@@ -82,7 +83,8 @@ public class RoomHelper {
 		original.setCurrentPlayers(changes.getCurrentPlayers());
 		original.setDescription(Jsoup.clean(changes.getDescription(),Whitelist.none()));
 		if(changes.getGame() != null) {
-			original.setGame(gameHandler.findById(changes.getGame().getGameId()));
+			Optional<Game> gameOpt = gameHandler.findById(changes.getGame().getGameId());
+			if(gameOpt.isPresent())original.setGame(gameOpt.get());
 		}
 		original.setMaxPlayers(changes.getMaxPlayers());
 		original.setName(Jsoup.clean(changes.getName(), Whitelist.none()));
@@ -106,7 +108,7 @@ public class RoomHelper {
 		discordInvite.setRoom(room);
 		discordInvite.setPlayer(player);
 		discordInvite.setStatus(DiscordInviteStatus.CREATED);
-		discordInviteHandler.insert(discordInvite);
+		discordInviteHandler.save(discordInvite);
 		return invite;
 	}
 }

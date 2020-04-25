@@ -1,21 +1,14 @@
 package com.revature.g2g;
 
-import java.sql.Timestamp;
-import java.util.Date;
+import java.util.Optional;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.revature.g2g.models.Player;
-import com.revature.g2g.models.Room;
-import com.revature.g2g.repositories.IGameDAO;
 import com.revature.g2g.repositories.IPlayerDAO;
 import com.revature.g2g.repositories.IPlayerRoomJTDAO;
-import com.revature.g2g.repositories.IRoomDAO;
 import com.revature.g2g.repositories.ISkillPlayerChangeJTDAO;
-import com.revature.g2g.repositories.ISkillRoomJTDAO;
-import com.revature.g2g.repositories.PlayerDAO;
-import com.revature.g2g.repositories.PlayerRoomJTDAO;
 
 public class DAODriver {
 //	private static SkillHandler skillHandler = new SkillHandler();
@@ -27,7 +20,9 @@ public class DAODriver {
 		System.out.println(dao.hashCode());
 		IPlayerDAO daoP = ac.getBean(IPlayerDAO.class);
 		IPlayerRoomJTDAO daoPR = ac.getBean(IPlayerRoomJTDAO.class);
-		Player player = daoP.findById(17);
-		System.out.println(daoPR.findSurveyRooms(player));
+		Optional<Player> player = daoP.findById(17L);
+		if(player.isPresent()) {
+			System.out.println(daoPR.findSurveyRooms(player.get()));
+		}
 	}
 }

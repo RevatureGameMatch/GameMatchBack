@@ -1,6 +1,7 @@
 package com.revature.g2g.services.handlers;
 
-import java.util.Set;
+import java.util.Optional;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
@@ -16,37 +17,31 @@ import com.revature.g2g.repositories.ISkillGameJTDAO;
 @Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
 public class SkillGameJTHandler {
 	private ISkillGameJTDAO repository;
-	public SkillGameJTHandler() {
-		super();
-	}
 	@Autowired
 	public SkillGameJTHandler(ISkillGameJTDAO repository) {
 		super();
 		this.repository = repository;
 	}
-	public void insert(SkillGameJT sg) {
-		this.repository.insert(sg);
+	public void save(SkillGameJT skillGameJT) {
+		this.repository.save(skillGameJT);
 	}
-	public SkillGameJT findById(int id) {
+	public Optional<SkillGameJT> findById(long id) {
 		return this.repository.findById(id);
 	}
-	public Set<SkillGameJT> findAll(){
+	public List<SkillGameJT> findAll(){
 		return this.repository.findAll();
 	}
-	public Set<Game> findBySkill(Skill skill){
+	public List<Game> findBySkill(Skill skill){
 		return this.repository.findBySkill(skill);
 	}
 	public Skill findTopSkill(Game game) {
 		return this.repository.findTopSkill(game);
 	}
-	public Set<Skill> findByGame(Game game){
+	public List<Skill> findByGame(Game game){
 		return this.repository.findByGame(game);
 	}
 	public SkillGameJT findBySkillGame(Skill skill, Game game) {
 		return this.repository.findBySkillGame(skill, game);
-	}
-	public void update(SkillGameJT sg) {
-		this.repository.update(sg);
 	}
 	public void delete(SkillGameJT sg) {
 		this.repository.delete(sg);

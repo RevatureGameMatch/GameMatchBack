@@ -1,27 +1,21 @@
 package com.revature.g2g.repositories;
 
-import java.util.Set;
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.revature.g2g.models.Player;
 import com.revature.g2g.models.PlayerRoomJT;
 import com.revature.g2g.models.Room;
 
-public interface IPlayerRoomJTDAO {
-	//Create
-	public void insert(PlayerRoomJT pr);
+public interface IPlayerRoomJTDAO extends JpaRepository<PlayerRoomJT, Long>{
 	//Read
-	public PlayerRoomJT findById(int id);
 	public int countCurrentPlayers();
 	public int countCurrentPlayers(Room room);
-	public PlayerRoomJT findByPlayerRoom(Player player, Room room);
-	public Set<PlayerRoomJT> findAll();
-	public Set<PlayerRoomJT> findAll(Room room);
-	public Set<Player> findPlayers(Room room);
-	public Set<Room> findRooms(Player player);
-	public Set<Room> findSurveyRooms(Player player);
-	//Update
-	public void update(PlayerRoomJT pr);
-	//Delete
-	public void delete(PlayerRoomJT pr);
-	Set<PlayerRoomJT> findByPlayer(Player player);
+	public PlayerRoomJT findByPlayerAndRoom(Player player, Room room);
+	public List<PlayerRoomJT> findByPlayer(Player player);
+	public List<PlayerRoomJT> findByRoom(Room room);
+	public List<Player> findPlayers(Room room);
+	public List<Room> findRooms(Player player);
+	public List<Room> findSurveyRooms(Player player);
 }

@@ -15,15 +15,12 @@ import com.revature.g2g.repositories.IGameDAO;
 @Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
 public class GameHandler {
 	private IGameDAO repository;
-	public GameHandler() {
-		super();
-	}
 	@Autowired
 	public GameHandler(IGameDAO repository) {
 		super();
 		this.repository = repository;
 	}
-	public void insert(Game g) {
+	public void save(Game g) {
 		this.repository.save(g);
 	}
 	public Optional<Game> findById(long id) {
@@ -34,9 +31,6 @@ public class GameHandler {
 	}
 	public List<Game> findAll(){
 		return this.repository.findAll();
-	}
-	public void update(Game g) {
-		this.repository.update(g);
 	}
 	public void delete(Game g) {
 		this.repository.delete(g);

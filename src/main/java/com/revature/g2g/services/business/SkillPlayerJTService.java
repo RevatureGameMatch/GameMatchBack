@@ -26,7 +26,7 @@ public class SkillPlayerJTService {
 		skillPlayerJT.setSkill(skill);
 		skillPlayerJT.setValue(BalanceConstants.getStartValue());
 		skillPlayerJT.setExpertise(balanceHelper.calculateExpertise(skillPlayerJT));
-		skillPlayerJTHandler.insert(skillPlayerJT);
+		skillPlayerJTHandler.save(skillPlayerJT);
 		return skillPlayerJT;
 	}
 }

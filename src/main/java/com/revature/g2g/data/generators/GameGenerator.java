@@ -40,20 +40,13 @@ public class GameGenerator implements DataGenerator {
 	}
 	private void make(String name, String description, String link, int rawgId) {
 		Game game = null;
-		boolean preExistant = false;
-		if((game = gameHandler.findByName(name)) != null) {
-			preExistant = true;
-		}else {
+		if((game = gameHandler.findByName(name)) == null) {
 			game = new Game();
 		}
 		game.setName(name);
 		game.setDescription(description);
 		game.setLink(link);
 		game.setRawgId(rawgId);
-		if(preExistant) {
-			gameHandler.update(game);
-		}else {
-			gameHandler.insert(game);
-		}
+		gameHandler.save(game);
 	}
 }

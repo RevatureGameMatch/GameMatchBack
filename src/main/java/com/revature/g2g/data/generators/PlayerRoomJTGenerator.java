@@ -2,7 +2,7 @@ package com.revature.g2g.data.generators;
 
 import java.util.Date;
 import java.util.Random;
-import java.util.Set;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
@@ -30,8 +30,8 @@ public class PlayerRoomJTGenerator implements DataGenerator {
 	private PlayerRoomJTHandler playerRoomJTHandler;
 	@Autowired
 	private LoggerSingleton loggerSingleton;
-	private Set<Player> players;
-	private Set<Room> rooms;
+	private List<Player> players;
+	private List<Room> rooms;
 	@Override
 	public void generate() {
 		players = playerHandler.findAll();
@@ -42,14 +42,14 @@ public class PlayerRoomJTGenerator implements DataGenerator {
 			playerRoomJT.setRoom(randRoom());
 			playerRoomJT.setJoined(new Date(new Date().getTime() - 3_600_000 - new Random().nextInt(18_000_000)));
 			playerRoomJT.setLeft(new Date(new Date().getTime() - 600_000 - new Random().nextInt(3_000_000)));
-			playerRoomJTHandler.insert(playerRoomJT);
+			playerRoomJTHandler.save(playerRoomJT);
 		}
 		for(int a=0; a<10; a++) {
 			PlayerRoomJT playerRoomJT = new PlayerRoomJT();
 			playerRoomJT.setPlayer(randPlayer());
 			playerRoomJT.setRoom(randRoom());
 			playerRoomJT.setJoined(new Date());
-			playerRoomJTHandler.insert(playerRoomJT);
+			playerRoomJTHandler.save(playerRoomJT);
 		}
 	}
 	private Player randPlayer() {

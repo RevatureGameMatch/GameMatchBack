@@ -1,6 +1,6 @@
 package com.revature.g2g.services.handlers;
 
-import java.util.Set;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
@@ -17,27 +17,21 @@ import com.revature.g2g.repositories.ISkillPlayerChangeJTDAO;
 @Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
 public class SkillPlayerChangeJTHandler {
 	private ISkillPlayerChangeJTDAO repository;
-	public SkillPlayerChangeJTHandler() {
-		super();
-	}
 	@Autowired
 	public SkillPlayerChangeJTHandler(ISkillPlayerChangeJTDAO repository) {
 		super();
 		this.repository = repository;
 	}
-	public void insert(SkillPlayerChangeJT spc) {
-		this.repository.insert(spc);
-	}
-	public Set<SkillPlayerChangeJT> findBy(Room room, Player modifiedBy){
-		return this.repository.findBy(room, modifiedBy);
-	}
-	public void update(SkillPlayerChangeJT spc) {
-		this.repository.update(spc);
-	}
-	public void delete(SkillPlayerChangeJT spc) {
-		this.repository.delete(spc);
+	public void save(SkillPlayerChangeJT spc) {
+		this.repository.save(spc);
 	}
 	public SkillPlayerChangeJT findBy(Player modifiedBy, Player player, Room room, Skill skill) {
 		return this.repository.findBy(modifiedBy, player, room, skill);
+	}
+	public List<SkillPlayerChangeJT> findBy(Room room, Player modifiedBy){
+		return this.repository.findBy(room, modifiedBy);
+	}
+	public void delete(SkillPlayerChangeJT spc) {
+		this.repository.delete(spc);
 	}
 }

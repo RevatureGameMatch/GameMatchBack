@@ -1,23 +1,16 @@
 package com.revature.g2g.repositories;
 
-import java.util.Set;
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.revature.g2g.models.Room;
 import com.revature.g2g.models.Skill;
 import com.revature.g2g.models.SkillRoomJT;
 
-public interface ISkillRoomJTDAO {
-	//Create
-	public void insert(SkillRoomJT sr);
+public interface ISkillRoomJTDAO extends JpaRepository<SkillRoomJT, Long>{
 	//Read
-	public SkillRoomJT findById(int id);
-//	public SkillRoomJT findBySkillName(String name);
-	public Set<SkillRoomJT> findAll();
-	public Set<SkillRoomJT> findBySkill(Skill skill);
-	public Set<SkillRoomJT> findByRoom(Room room);
-	//Update
-	public void update(SkillRoomJT sr);
-	//Delete
-	public void delete(SkillRoomJT sr);
-	Set<Skill> findSkillsByRoom(Room room);
+	public List<SkillRoomJT> findBySkill(Skill skill);
+	public List<SkillRoomJT> findByRoom(Room room);
+	public List<Skill> findSkillsByRoom(Room room);
 }

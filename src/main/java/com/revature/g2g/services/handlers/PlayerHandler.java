@@ -1,6 +1,7 @@
 package com.revature.g2g.services.handlers;
 
-import java.util.Set;
+import java.util.Optional;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
@@ -16,10 +17,10 @@ import com.revature.g2g.repositories.IPlayerDAO;
 public class PlayerHandler {
 	@Autowired
 	private IPlayerDAO repository;
-	public void insert(Player p) {
-		repository.insert(p);
+	public void save(Player p) {
+		repository.save(p);
 	}
-	public Player findById(int id) {
+	public Optional<Player> findById(long id) {
 		return repository.findById(id);
 	}
 	public Player findByUsername(String username) {
@@ -28,14 +29,11 @@ public class PlayerHandler {
 	public Player findByEmail(String email) {
 		return repository.findByEmail(email);
 	}
-	public Set<Player> findAll(){
+	public List<Player> findAll(){
 		return repository.findAll();
 	}
-	public Set<Player> findByRole(PlayerRole role){
+	public List<Player> findByRole(PlayerRole role){
 		return repository.findByRole(role);
-	}
-	public void update(Player p) {
-		repository.update(p);
 	}
 	public void delete(Player p) {
 		repository.delete(p);

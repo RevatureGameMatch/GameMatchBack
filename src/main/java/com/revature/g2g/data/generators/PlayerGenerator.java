@@ -47,7 +47,7 @@ public class PlayerGenerator implements DataGenerator {
 			player.setPlayerPassword(passwordHelper.encryptPassword("password"));
 			player.setPlayerEmail(username + "@gmail.com");
 			player.setPlayerRole(role);
-			playerHandler.insert(player);
+			playerHandler.save(player);
 		}
 	}
 }

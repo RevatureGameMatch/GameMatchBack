@@ -33,7 +33,7 @@ public class SkillHandler {
 		return this.repository.findAll();
 	}
 	public List<Skill> findByParent(Skill skill){
-		return this.repository.findByParent(skill);
+		return this.repository.findByParentSkill(skill);
 	}
 	public void delete(Skill s) {
 		this.repository.delete(s);

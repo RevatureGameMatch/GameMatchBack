@@ -12,9 +12,9 @@ import com.revature.g2g.models.RoomStatus;
 public interface IRoomDAO extends JpaRepository<Room, Long>{
 	//Read
 	public List<Room> findByStatus(RoomStatus status);
-	public List<Room> findByPlayStyle(RoomPlayStyle style);
-	public List<Room> findByStatusAndPlayStyle(RoomStatus status, RoomPlayStyle style);
+	public List<Room> findByStyle(RoomPlayStyle style);
+	public List<Room> findByStatusAndStyle(RoomStatus status, RoomPlayStyle style);
 	public List<Room> findByStatusAndGame(RoomStatus status, Game game);
-	public List<Room> findByStatusAndPlayStyleAndGame(RoomStatus status, RoomPlayStyle style, Game game);
+	public List<Room> findByStatusAndStyleAndGame(RoomStatus status, RoomPlayStyle style, Game game);
 	public Room findByDiscordVoiceChannelId(Long discordVoiceId);
 }

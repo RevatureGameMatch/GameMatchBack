@@ -10,9 +10,7 @@ import com.revature.g2g.models.SkillPlayerJT;
 
 public interface ISkillPlayerJTDAO extends JpaRepository<SkillPlayerJT, Long>{
 	//Read
-	public double findValue(Player player, Skill skill);
 	public List<SkillPlayerJT> findBySkill(Skill skill);
 	public List<SkillPlayerJT> findByPlayer(Player player);
-	public List<Skill> findPlayerSkills(Player player);
-	public SkillPlayerJT findBySkillPlayer(Skill skill, Player player);
+	public SkillPlayerJT findBySkillAndPlayer(Skill skill, Player player);
 }

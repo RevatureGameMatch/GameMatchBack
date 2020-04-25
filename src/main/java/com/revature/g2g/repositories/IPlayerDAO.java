@@ -9,7 +9,7 @@ import com.revature.g2g.models.PlayerRole;
 
 public interface IPlayerDAO extends JpaRepository<Player, Long>{
 	//Read
-	public Player findByUsername(String username);
-	public Player findByEmail(String email);
-	public List<Player> findByRole(PlayerRole role);
+	public Player findByPlayerUsername(String username);
+	public Player findByPlayerEmail(String email);
+	public List<Player> findByPlayerRole(PlayerRole role);
 }

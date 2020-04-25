@@ -26,9 +26,6 @@ import com.revature.g2g.models.Game;
 import com.revature.g2g.models.Player;
 import com.revature.g2g.models.Room;
 import com.revature.g2g.models.SkillPlayerJT;
-import com.revature.g2g.repositories.PlayerDAO;
-import com.revature.g2g.repositories.RoomDAO;
-import com.revature.g2g.repositories.SkillPlayerJTDAO;
 import com.revature.g2g.services.business.PlayerRoomService;
 import com.revature.g2g.services.handlers.PlayerHandler;
 import com.revature.g2g.services.handlers.RoomHandler;
@@ -46,12 +43,12 @@ public class PlayerRoomServiceTest {
 	Room room;
 	@InjectMocks
 	Game game;
-	@InjectMocks
-	PlayerDAO pdao;
-	@InjectMocks
-	RoomDAO rdao;
-	@InjectMocks
-	SkillPlayerJTDAO spdao;
+//	@InjectMocks
+//	PlayerDAO pdao;
+//	@InjectMocks
+//	RoomDAO rdao;
+//	@InjectMocks
+//	SkillPlayerJTDAO spdao;
 	@InjectMocks
 	PlayerHandler handler;
 	

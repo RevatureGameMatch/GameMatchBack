@@ -24,9 +24,9 @@ public class SkillPlayerJTGenerator implements DataGenerator {
 	private String[] skillNames;
 	@Override
 	public void generate() {
-		make(playerHandler.findByUsername("Kayla"));
-		make(playerHandler.findByUsername("Nancy"));
-		make(playerHandler.findByUsername("Philip"));
+		make(playerHandler.findByPlayerUsername("Kayla"));
+		make(playerHandler.findByPlayerUsername("Nancy"));
+		make(playerHandler.findByPlayerUsername("Philip"));
 	}
 	@Autowired
 	public SkillPlayerJTGenerator(SkillHandler skillHandler, PlayerHandler playerHandler,

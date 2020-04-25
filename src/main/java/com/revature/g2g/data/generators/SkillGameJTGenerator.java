@@ -52,7 +52,7 @@ public class SkillGameJTGenerator implements DataGenerator {
 			Skill skill = skillHandler.findByName(skillTemplate.getSkill());
 			if(skill == null) {continue;}
 			SkillGameJT skillGameJT = null;
-			if((skillGameJT = skillGameJTHandler.findBySkillGame(skill, game)) == null) {
+			if((skillGameJT = skillGameJTHandler.findBySkillAndGame(skill, game)) == null) {
 				skillGameJT = new SkillGameJT();
 			}
 			skillGameJT.setGame(game);

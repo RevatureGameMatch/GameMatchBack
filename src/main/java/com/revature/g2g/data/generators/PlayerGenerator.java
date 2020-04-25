@@ -43,7 +43,7 @@ public class PlayerGenerator implements DataGenerator {
 	private void make(String username, PlayerRole role) {
 		Player player = new Player();
 		player.setPlayerUsername(username);
-		if(playerHandler.findByUsername(player.getPlayerUsername()) == null) {
+		if(playerHandler.findByPlayerUsername(player.getPlayerUsername()) == null) {
 			player.setPlayerPassword(passwordHelper.encryptPassword("password"));
 			player.setPlayerEmail(username + "@gmail.com");
 			player.setPlayerRole(role);

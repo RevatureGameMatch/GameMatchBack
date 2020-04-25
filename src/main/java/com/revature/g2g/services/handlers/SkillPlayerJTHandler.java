@@ -1,5 +1,6 @@
 package com.revature.g2g.services.handlers;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,7 +30,8 @@ public class SkillPlayerJTHandler {
 		return this.repository.findById(id);
 	}
 	public double findValue(Player player, Skill skill) {
-		return this.repository.findValue(player, skill);
+		SkillPlayerJT joinTable = this.findBySkillPlayer(skill, player);
+		return joinTable.getValue();
 	}
 	public List<SkillPlayerJT> findAll(){
 		return this.repository.findAll();
@@ -41,10 +43,15 @@ public class SkillPlayerJTHandler {
 		return this.repository.findByPlayer(player);
 	}
 	public List<Skill> findPlayerSkills(Player player){
-		return this.repository.findPlayerSkills(player);
+		List<SkillPlayerJT> joinTables = this.repository.findByPlayer(player);
+		List<Skill> skills = new ArrayList<>();
+		for(SkillPlayerJT joinTable : joinTables) {
+			skills.add(joinTable.getSkill());
+		}
+		return skills;
 	}
 	public SkillPlayerJT findBySkillPlayer(Skill skill, Player player) {
-		return this.repository.findBySkillPlayer(skill, player);
+		return this.repository.findBySkillAndPlayer(skill, player);
 	}
 	public void delete(SkillPlayerJT sp) {
 		this.repository.delete(sp);

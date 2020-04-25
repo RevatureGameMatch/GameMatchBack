@@ -1,7 +1,8 @@
 package com.revature.g2g.services.handlers;
 
-import java.util.Optional;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
@@ -46,13 +47,31 @@ public class PlayerRoomJTHandler {
 		return this.repository.findByRoom(room);
 	}
 	public List<Player> findPlayers(Room room){
-		return this.repository.findPlayers(room);
+		List<PlayerRoomJT> joinTables = this.findByRoom(room);
+		List<Player> players = new ArrayList<>();
+		for(PlayerRoomJT joinTable : joinTables) {
+			players.add(joinTable.getPlayer());
+		}
+		return players;
 	}
 	public List<Room> findRooms(Player player){
-		return this.repository.findRooms(player);
+		List<PlayerRoomJT> joinTables = this.findByPlayer(player);
+		List<Room> rooms = new ArrayList<>();
+		for(PlayerRoomJT joinTable : joinTables) {
+			rooms.add(joinTable.getRoom());
+		}
+		return rooms;
+	}
+	public List<PlayerRoomJT> findSurveyRoomsJT(Player player){
+		return this.repository.findSurveyRooms(player);
 	}
 	public List<Room> findSurveyRooms(Player player){
-		return this.repository.findSurveyRooms(player);
+		List<PlayerRoomJT> joinTables = this.findSurveyRoomsJT(player);
+		List<Room> rooms = new ArrayList<>();
+		for(PlayerRoomJT joinTable : joinTables) {
+			rooms.add(joinTable.getRoom());
+		}
+		return rooms;
 	}
 	public void delete(PlayerRoomJT pr) {
 		this.repository.delete(pr);

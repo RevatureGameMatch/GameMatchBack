@@ -36,16 +36,16 @@ public class RoomHandler {
 		return this.repository.findByStatus(status);
 	}
 	public List<Room> findByPlayStyle(RoomPlayStyle style){
-		return this.repository.findByPlayStyle(style);
+		return this.repository.findByStyle(style);
 	}
 	public List<Room> findByStatusAndPlayStyle(RoomStatus status, RoomPlayStyle style){
-		return this.repository.findByStatusAndPlayStyle(status, style);
+		return this.repository.findByStatusAndStyle(status, style);
 	}
 	public List<Room> findByStatusAndGame(RoomStatus status, Game game){
 		return this.repository.findByStatusAndGame(status, game);
 	}
 	public List<Room> findByStatusAndPlayStyleAndGame(RoomStatus status, RoomPlayStyle style, Game game){
-		return this.repository.findByStatusAndPlayStyleAndGame(status, style, game);
+		return this.repository.findByStatusAndStyleAndGame(status, style, game);
 	}
 	public Room findByDiscordVoiceChannelId(Long discordVoiceId) {
 		return this.repository.findByDiscordVoiceChannelId(discordVoiceId);

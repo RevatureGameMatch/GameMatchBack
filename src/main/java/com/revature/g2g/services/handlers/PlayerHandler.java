@@ -23,17 +23,17 @@ public class PlayerHandler {
 	public Optional<Player> findById(long id) {
 		return repository.findById(id);
 	}
-	public Player findByUsername(String username) {
-		return repository.findByUsername(username);
+	public Player findByPlayerUsername(String username) {
+		return repository.findByPlayerUsername(username);
 	}
 	public Player findByEmail(String email) {
-		return repository.findByEmail(email);
+		return repository.findByPlayerEmail(email);
 	}
 	public List<Player> findAll(){
 		return repository.findAll();
 	}
 	public List<Player> findByRole(PlayerRole role){
-		return repository.findByRole(role);
+		return repository.findByPlayerRole(role);
 	}
 	public void delete(Player p) {
 		repository.delete(p);

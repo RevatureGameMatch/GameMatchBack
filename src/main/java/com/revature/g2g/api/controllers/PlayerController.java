@@ -48,7 +48,7 @@ public class PlayerController {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 		}
 		template = new PlayerTemplate(template);//sanitizes input
-		Player usernameCheck = playerHandler.findByUsername(template.getPlayerUsername());
+		Player usernameCheck = playerHandler.findByPlayerUsername(template.getPlayerUsername());
 		if(usernameCheck!=null) {
 			template.setPlayerPassword("****");
 			String conflictMessage = "PlayerController: conflict username - " + template.toString();
@@ -87,7 +87,7 @@ public class PlayerController {
 	}
 	@GetMapping("/Username/{username}/Skills")
 	public ResponseEntity<List<SkillValueTemplate>> findAllSkillsByName(@PathVariable("username") String username){
-		Player player = playerHandler.findByUsername(username);
+		Player player = playerHandler.findByPlayerUsername(username);
 		if(player == null) {
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 		} else {

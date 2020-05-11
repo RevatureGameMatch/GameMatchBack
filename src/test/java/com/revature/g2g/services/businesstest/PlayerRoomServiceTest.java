@@ -37,12 +37,12 @@ public class PlayerRoomServiceTest {
 	PlayerRoomService service;
 	@InjectMocks
 	RoomHandler roomHandler;
-	@InjectMocks
-	Player player;
-	@InjectMocks
-	Room room;
-	@InjectMocks
-	Game game;
+//	@InjectMocks
+//	Player player;
+//	@InjectMocks
+//	Room room;
+//	@InjectMocks
+//	Game game;
 //	@InjectMocks
 //	PlayerDAO pdao;
 //	@InjectMocks
@@ -73,6 +73,8 @@ public class PlayerRoomServiceTest {
 	public void testCheckQualiFiedRoomsTrue() {
 		Set<SkillPlayerJT> set = new HashSet<>();
 		SkillPlayerJT[] array = new SkillPlayerJT[set.size()];
+		Player player = getPlayer();
+		Room room = getRoom();
 		when(service.checkQualfiedRoom(player, room, array))
 			.thenReturn(true);
 		boolean result = service.checkQualfiedRoom(player, room, array);
@@ -84,6 +86,8 @@ public class PlayerRoomServiceTest {
 	public void testCheckQualiFiedRoomsFalse() {
 		Set<SkillPlayerJT> set = new HashSet<>();
 		SkillPlayerJT[] array = new SkillPlayerJT[set.size()];
+		Player player = getPlayer();
+		Room room = getRoom();
 		when(service.checkQualfiedRoom(player, room, array))
 			.thenReturn(false);
 		boolean result = service.checkQualfiedRoom(player, room, array);
@@ -93,6 +97,8 @@ public class PlayerRoomServiceTest {
 	
 	@Test
 	public void testGetQualifiedRoomsGame() {
+		Player player = getPlayer();
+		Game game = getGame();
 		List<Room> list = new ArrayList<>();
 		when(service.getQualifiedRooms(player, game))
 			.thenReturn(list);
@@ -100,7 +106,16 @@ public class PlayerRoomServiceTest {
 		verify(service).getQualifiedRooms(player,game);
 		assertEquals(result, list);
 	}
-	
-
-
+	private Player getPlayer() {
+		Player player = new Player();
+		return player;
+	}
+	private Room getRoom() {
+		Room room = new Room();
+		return room;
+	}
+	private Game getGame() {
+		Game game = new Game();
+		return game;
+	}
 }

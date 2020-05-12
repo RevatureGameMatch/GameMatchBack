@@ -209,7 +209,7 @@ public class RoomController {
 		return getRooms(player, RoomPlayStyle.CASUAL, gameOpt.get());
 	}
 	@PostMapping(value="/Game/Hybrid/{id}")
-	public ResponseEntity<List<Room>> HybridName(@Valid @RequestBody PlayerTemplate template, @PathVariable("id") int id){
+	public ResponseEntity<List<Room>> hybridName(@Valid @RequestBody PlayerTemplate template, @PathVariable("id") int id){
 		Player player = authenticatorHelper.getPlayer(template);
 		if(player==null) {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
@@ -221,7 +221,7 @@ public class RoomController {
 		return getRooms(player, RoomPlayStyle.HYBRID, gameOpt.get());
 	}
 	@PostMapping(value="/Game/Serious/{id}")
-	public ResponseEntity<List<Room>> SeriousName(@Valid @RequestBody PlayerTemplate template, @PathVariable("id") int id){
+	public ResponseEntity<List<Room>> seriousName(@Valid @RequestBody PlayerTemplate template, @PathVariable("id") int id){
 		Player player = authenticatorHelper.getPlayer(template);
 		if(player==null) {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();

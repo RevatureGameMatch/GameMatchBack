@@ -3,6 +3,7 @@ package com.revature.g2g.services.helpers;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.revature.g2g.services.jda.JDASingleton;
@@ -13,6 +14,8 @@ import net.dv8tion.jda.api.entities.Role;
 
 @Service
 public class DiscordHelper {
+	@Autowired
+	private JDASingleton jdaSingleton;
 	/**
 	 * Checks a string against the discord usernames of the sprint 1 team. This was meant
 	 * as a temporary security measure until OAuth with discord api could be implemented.
@@ -72,7 +75,7 @@ public class DiscordHelper {
 	 * @return Role discordBot
 	 */
 	public Role getDiscordBot() {
-		JDA jda = JDASingleton.getJda();
+		JDA jda = jdaSingleton.getJda();
 		return jda.getRoleById(695341021277454426L);
 	}
 }

@@ -35,13 +35,16 @@ public class GuildVoiceEventListener extends ListenerAdapter{
 	private RoomHandler roomHandler;
 	private PlayerRoomJTHandler playerRoomJTHandler;
 	private GuildHelper guildHelper;
+	private JDASingleton jdaSingleton;
 	@Autowired
 	public GuildVoiceEventListener(RoomHandler roomHandler, PlayerRoomJTHandler playerRoomJTHandler, GuildHelper guildHelper,
-			DiscordHelper discordHelper) {
+			DiscordHelper discordHelper, JDASingleton jdaSingleton) {
 		super();
 		this.roomHandler = roomHandler;
 		this.playerRoomJTHandler = playerRoomJTHandler;
 		this.guildHelper = guildHelper;
+		this.jdaSingleton = jdaSingleton;
+		jdaSingleton.getJda().addEventListener(this);
 	}
 	@Override
 	public void onGuildVoiceLeave(GuildVoiceLeaveEvent event) {
@@ -71,7 +74,7 @@ public class GuildVoiceEventListener extends ListenerAdapter{
 		Room room = roomHandler.findByDiscordVoiceChannelId(channelId);
 		if(room != null) {
 			long roleId = room.getDiscordRoleId();
-			Role role = JDASingleton.getJda().getRoleById(roleId);
+			Role role = jdaSingleton.getJda().getRoleById(roleId);
 			Member member = event.getEntity();
 			if (roleId > 0 && !member.getRoles().contains(role)) {
 				Guild guild = guildHelper.getGuild();
@@ -87,7 +90,7 @@ public class GuildVoiceEventListener extends ListenerAdapter{
 		} catch (Exception e) {
 			Thread.currentThread().interrupt();
 		}
-		JDA jda = JDASingleton.getJda();
+		JDA jda = jdaSingleton.getJda();
 		Room room = roomHandler.findByDiscordVoiceChannelId(event.getChannelLeft().getIdLong());
 		if (room == null)return;
 		if (room.getStatus().equals(RoomStatus.CLOSED))return;

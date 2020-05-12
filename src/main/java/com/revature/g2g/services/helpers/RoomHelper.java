@@ -35,6 +35,8 @@ import net.dv8tion.jda.api.requests.restaction.InviteAction;
 
 @Service
 public class RoomHelper {
+	@Autowired
+	private JDASingleton jdaSingleton;
 	private GameHandler gameHandler;
 	private DiscordHelper discordHelper;
 	private GuildHelper guildHelper;
@@ -99,7 +101,7 @@ public class RoomHelper {
 	}
 	public Invite getInvite(Room room, Player player) {
 		if(room.getStatus().equals(RoomStatus.CLOSED))return null;
-		JDA jda = JDASingleton.getJda();
+		JDA jda = jdaSingleton.getJda();
 		VoiceChannel voice = jda.getVoiceChannelById(room.getDiscordVoiceChannelId());
 		InviteAction inviteAction = voice.createInvite();
 		Invite invite = inviteAction.complete();

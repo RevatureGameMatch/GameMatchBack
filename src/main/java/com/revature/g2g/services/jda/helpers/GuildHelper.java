@@ -2,6 +2,7 @@ package com.revature.g2g.services.jda.helpers;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.revature.g2g.exceptions.NullGuildException;
@@ -13,10 +14,12 @@ import net.dv8tion.jda.api.entities.Guild;
 @Service
 public class GuildHelper {
 	private Guild guild;
+	@Autowired
+	private JDASingleton jdaSingleton;
 
 	public Guild getGuild() {
 		if(guild == null) {
-			JDA jda = JDASingleton.getJda();
+			JDA jda = jdaSingleton.getJda();
 			List<Guild> guilds = jda.getGuilds();
 			for(Guild guildFound : guilds) {
 				guild = guildFound;

@@ -1,27 +1,27 @@
 package com.revature.g2g.repositories;
 
-import java.util.Set;
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import com.revature.g2g.models.Player;
 import com.revature.g2g.models.PlayerRoomJT;
 import com.revature.g2g.models.Room;
 
-public interface IPlayerRoomJTDAO {
-	//Create
-	public void insert(PlayerRoomJT pr);
+public interface IPlayerRoomJTDAO extends JpaRepository<PlayerRoomJT, Long>{
 	//Read
-	public PlayerRoomJT findById(int id);
+	@Query(value = "SELECT count(jt) from PlayerRoomJT jt WHERE jt.left is null")
 	public int countCurrentPlayers();
+	@Query(value = "SELECT count(jt) from PlayerRoomJT jt WHERE jt.left is null AND jt.room = ?1")
 	public int countCurrentPlayers(Room room);
-	public PlayerRoomJT findByPlayerRoom(Player player, Room room);
-	public Set<PlayerRoomJT> findAll();
-	public Set<PlayerRoomJT> findAll(Room room);
-	public Set<Player> findPlayers(Room room);
-	public Set<Room> findRooms(Player player);
-	public Set<Room> findSurveyRooms(Player player);
-	//Update
-	public void update(PlayerRoomJT pr);
-	//Delete
-	public void delete(PlayerRoomJT pr);
-	Set<PlayerRoomJT> findByPlayer(Player player);
+	public PlayerRoomJT findByPlayerAndRoom(Player player, Room room);
+	@Query(value = "SELECT jt from PlayerRoomJT jt WHERE jt.left is null")
+	public List<PlayerRoomJT> findCurrentPlayers();
+	@Query(value = "SELECT jt from PlayerRoomJT jt WHERE jt.left is null AND jt.room = ?1")
+	public List<PlayerRoomJT> findCurrentPlayersByRoom(Room room);
+	public List<PlayerRoomJT> findByPlayer(Player player);
+	public List<PlayerRoomJT> findByRoom(Room room);
+	@Query(value = "SELECT jt from PlayerRoomJT jt JOIN jt.room rm WHERE jt.player = ?1 AND rm.created < (TIMESTAMP - 600000) AND (rm.closed is null OR rm.closed > TIMESTAMP - 86400000)")
+	public List<PlayerRoomJT> findSurveyRooms(Player player);
 }

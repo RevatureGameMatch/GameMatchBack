@@ -37,10 +37,7 @@ public class SkillGenerator implements DataGenerator {
 	}
 	private void make(String name, String parentSkillName) {
 		Skill skill = null;
-		boolean preExistant = false;
-		if((skill = skillHandler.findByName(name)) != null) {
-			preExistant = true;
-		}else {
+		if((skill = skillHandler.findByName(name)) == null) {
 			skill = new Skill();
 		}
 		skill.setName(name);
@@ -49,11 +46,7 @@ public class SkillGenerator implements DataGenerator {
 			parentSkill = skillHandler.findByName(parentSkillName);
 		}
 		skill.setParentSkill(parentSkill);
-		if(preExistant) {
-			skillHandler.update(skill);
-		}else {
-			skillHandler.insert(skill);
-		}
+		skillHandler.save(skill);
 	}
 
 }

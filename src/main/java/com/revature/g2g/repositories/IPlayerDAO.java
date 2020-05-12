@@ -1,21 +1,15 @@
 package com.revature.g2g.repositories;
 
-import java.util.Set;
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.revature.g2g.models.Player;
 import com.revature.g2g.models.PlayerRole;
 
-public interface IPlayerDAO {
-	//Create
-	public void insert(Player p);
+public interface IPlayerDAO extends JpaRepository<Player, Long>{
 	//Read
-	public Player findById(int id);
-	public Player findByUsername(String username);
-	public Player findByEmail(String email);
-	public Set<Player> findAll();
-	public Set<Player> findByRole(PlayerRole role);
-	//Update
-	public void update(Player p);
-	//Delete
-	public void delete(Player p);
+	public Player findByPlayerUsername(String username);
+	public Player findByPlayerEmail(String email);
+	public List<Player> findByPlayerRole(PlayerRole role);
 }

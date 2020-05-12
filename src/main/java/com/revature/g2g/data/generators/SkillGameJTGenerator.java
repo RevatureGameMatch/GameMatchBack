@@ -1,6 +1,6 @@
 package com.revature.g2g.data.generators;
 
-import java.util.Set;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
@@ -32,7 +32,7 @@ public class SkillGameJTGenerator implements DataGenerator {
 	}
 	@Override
 	public void generate() {
-		Set<Game> games = gameHandler.findAll();
+		List<Game> games = gameHandler.findAll();
 		for(Game game: games) {
 			make(game.getName(), new SkillPriorityTemplate[] {
 				new SkillPriorityTemplate("Fun to Play With",5),
@@ -52,19 +52,13 @@ public class SkillGameJTGenerator implements DataGenerator {
 			Skill skill = skillHandler.findByName(skillTemplate.getSkill());
 			if(skill == null) {continue;}
 			SkillGameJT skillGameJT = null;
-			boolean preExisting = true;
-			if((skillGameJT = skillGameJTHandler.findBySkillGame(skill, game)) == null) {
+			if((skillGameJT = skillGameJTHandler.findBySkillAndGame(skill, game)) == null) {
 				skillGameJT = new SkillGameJT();
-				preExisting = false;
 			}
 			skillGameJT.setGame(game);
 			skillGameJT.setSkill(skill);
 			skillGameJT.setRelevance(skillTemplate.getPriority());
-			if(preExisting) {
-				skillGameJTHandler.update(skillGameJT);
-			}else {
-				skillGameJTHandler.insert(skillGameJT);
-			}
+			skillGameJTHandler.save(skillGameJT);
 		}
 		return true;
 	}

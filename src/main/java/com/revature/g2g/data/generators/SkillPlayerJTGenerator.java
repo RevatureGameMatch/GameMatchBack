@@ -24,9 +24,9 @@ public class SkillPlayerJTGenerator implements DataGenerator {
 	private String[] skillNames;
 	@Override
 	public void generate() {
-		make(playerHandler.findByUsername("Kayla"));
-		make(playerHandler.findByUsername("Nancy"));
-		make(playerHandler.findByUsername("Philip"));
+		make(playerHandler.findByPlayerUsername("Kayla"));
+		make(playerHandler.findByPlayerUsername("Nancy"));
+		make(playerHandler.findByPlayerUsername("Philip"));
 	}
 	@Autowired
 	public SkillPlayerJTGenerator(SkillHandler skillHandler, PlayerHandler playerHandler,
@@ -56,20 +56,14 @@ public class SkillPlayerJTGenerator implements DataGenerator {
 				Skill skill = skillHandler.findByName(skillName);
 				if (skill == null)continue;
 				SkillPlayerJT skillPlayerJT = null;
-				boolean preExistant = true;
 				if((skillPlayerJT = skillPlayerJTHandler.findBySkillPlayer(skill, player)) == null) {
-					preExistant = false;
 					skillPlayerJT = new SkillPlayerJT();
 					skillPlayerJT.setPlayer(player);
 					skillPlayerJT.setSkill(skill);
 				}
 				skillPlayerJT.setExpertise(new Random().nextDouble());
 				skillPlayerJT.setValue((new Random().nextDouble() * 100d) + 100);
-				if(preExistant) {
-					skillPlayerJTHandler.update(skillPlayerJT);
-				}else {
-					skillPlayerJTHandler.insert(skillPlayerJT);
-				}
+				skillPlayerJTHandler.save(skillPlayerJT);
 			}
 		}
 	}

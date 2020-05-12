@@ -1,7 +1,7 @@
 package com.revature.g2g.services.jda.listeners;
 
 import java.util.Date;
-import java.util.Set;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,7 +68,7 @@ public class GuildVoiceEventListener extends ListenerAdapter{
 		}
 		VoiceChannel voice = event.getChannelJoined();
 		long channelId = voice.getIdLong();
-		Room room = roomHandler.findRoomByDiscordVoice(channelId);
+		Room room = roomHandler.findByDiscordVoiceChannelId(channelId);
 		if(room != null) {
 			long roleId = room.getDiscordRoleId();
 			Role role = JDASingleton.getJda().getRoleById(roleId);
@@ -88,20 +88,20 @@ public class GuildVoiceEventListener extends ListenerAdapter{
 			Thread.currentThread().interrupt();
 		}
 		JDA jda = JDASingleton.getJda();
-		Room room = roomHandler.findRoomByDiscordVoice(event.getChannelLeft().getIdLong());
+		Room room = roomHandler.findByDiscordVoiceChannelId(event.getChannelLeft().getIdLong());
 		if (room == null)return;
 		if (room.getStatus().equals(RoomStatus.CLOSED))return;
 		room.setStatus(RoomStatus.CLOSED);
 		room.setClosed(new Date());
-		roomHandler.update(room);
+		roomHandler.save(room);
 		RoleHelper.delete(jda.getRoleById(room.getDiscordRoleId()));
 		TextChannelHelper.delete(jda.getTextChannelById(room.getDiscordTextChannelId()));
 		VoiceChannelHelper.delete(jda.getVoiceChannelById(room.getDiscordVoiceChannelId()));
-		Set<PlayerRoomJT> players = playerRoomJTHandler.findAll(room);
+		List<PlayerRoomJT> players = playerRoomJTHandler.findByRoom(room);
 		for(PlayerRoomJT playerRoomJT : players) {
 			if(playerRoomJT.getLeft() == null) {
 				playerRoomJT.setLeft(new Date());
-				playerRoomJTHandler.update(playerRoomJT);
+				playerRoomJTHandler.save(playerRoomJT);
 			}
 		}
 	}

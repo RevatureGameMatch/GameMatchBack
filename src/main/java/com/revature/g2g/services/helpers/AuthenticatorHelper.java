@@ -1,5 +1,7 @@
 package com.revature.g2g.services.helpers;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +25,9 @@ public class AuthenticatorHelper {
 	 */
 	public Player getPlayer(PlayerTemplate template) {
 		if(template == null)return null;
-		Player player = playerHandler.findById(template.getPlayerId());
+		Optional<Player> playerOpt = playerHandler.findById(template.getPlayerId());
+		if(!playerOpt.isPresent())return null;
+		Player player = playerOpt.get();
 		if(player == null || player.getPlayerEmail() == null || player.getPlayerUsername() == null)return null;
 		if(!player.getPlayerEmail().equals(template.getPlayerEmail()))return null;
 		if(!player.getPlayerUsername().equals(template.getPlayerUsername()))return null;

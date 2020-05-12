@@ -1,5 +1,7 @@
 package com.revature.g2g.services.handlers;
 
+import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,16 +20,16 @@ public class DiscordInviteHandler{
 		super();
 		this.repository = repository;
 	}
-	public void insert(DiscordInvite discordInvite) {
-		this.repository.insert(discordInvite);
+	public void save(DiscordInvite discordInvite) {
+		this.repository.save(discordInvite);
 	}
-	public DiscordInvite findById(int id) {
+	public Optional<DiscordInvite> findById(int id) {
 		return this.repository.findById(id);
 	}
 	public DiscordInvite findByDiscordCode(String discordCode) {
 		return this.repository.findByDiscordCode(discordCode);
 	}
-	public Set<DiscordInvite> findAll() {
+	public List<DiscordInvite> findAll() {
 		return this.repository.findAll();
 	}
 	public Set<DiscordInvite> findByStatus(DiscordInviteStatus status) {
@@ -35,9 +37,6 @@ public class DiscordInviteHandler{
 	}
 	public Set<DiscordInvite> findByPlayer(Player player) {
 		return this.findByPlayer(player);
-	}
-	public void update(DiscordInvite discordInvite) {
-		this.repository.update(discordInvite);
 	}
 	public void delete(DiscordInvite discordInvite) {
 		this.repository.delete(discordInvite);

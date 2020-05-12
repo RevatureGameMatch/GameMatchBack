@@ -23,7 +23,7 @@ public class LoginService {
 	private PlayerHandler playerHandler;
 	public Player login(String username, String password) {
 		Player result = null;
-		Player checkUser = playerHandler.findByUsername(username);
+		Player checkUser = playerHandler.findByPlayerUsername(username);
 		if (checkUser == null) {
 			String messageUser = "Login Failed, invalid user: "+ username;
 			loggerSingleton.getAccessLog().warn(messageUser);

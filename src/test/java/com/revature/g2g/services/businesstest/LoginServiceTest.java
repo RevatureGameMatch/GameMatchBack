@@ -41,7 +41,7 @@ public class LoginServiceTest {
 	@Test
 	public void testLoginValid() {
 		Player p = service.login("Kayla", "password");
-		Player expected = handler.findByUsername("Kayla");
+		Player expected = handler.findByPlayerUsername("Kayla");
 		verify(service).login("Kayla", "password");
 		assertEquals(p, expected);
 			

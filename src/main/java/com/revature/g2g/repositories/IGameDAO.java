@@ -1,18 +1,9 @@
 package com.revature.g2g.repositories;
 
-import java.util.Set;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.revature.g2g.models.Game;
 
-public interface IGameDAO {
-	//Create
-	public void insert(Game g);
-	//Read
-	public Game findById(int id);
+public interface IGameDAO extends JpaRepository<Game, Long>{
 	public Game findByName(String name);
-	public Set<Game> findAll();
-	//Update
-	public void update(Game g);
-	//Delete
-	public void delete(Game g);
 }

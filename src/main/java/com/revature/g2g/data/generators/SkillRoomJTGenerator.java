@@ -1,7 +1,7 @@
 package com.revature.g2g.data.generators;
 
 import java.util.Random;
-import java.util.Set;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
@@ -29,11 +29,11 @@ public class SkillRoomJTGenerator implements DataGenerator{
 	private SkillRoomJTHandler skillRoomJTHandler;
 	@Autowired
 	private LoggerSingleton loggerSingleton;
-	private Set<Skill> skills;
+	private List<Skill> skills;
 	@Override
 	public void generate() {
 		skills = skillHandler.findAll();
-		Set<Room> rooms = roomHandler.findByStatus(RoomStatus.JOINING);
+		List<Room> rooms = roomHandler.findByStatus(RoomStatus.JOINING);
 		for (Room room : rooms) {
 			make(room);
 		}
@@ -45,7 +45,7 @@ public class SkillRoomJTGenerator implements DataGenerator{
 			skillRoomJT.setMinValue(new Random().nextInt(10));
 			skillRoomJT.setRoom(room);
 			skillRoomJT.setSkill(randomSkill());
-			skillRoomJTHandler.insert(skillRoomJT);
+			skillRoomJTHandler.save(skillRoomJT);
 		}
 	}
 	private Skill randomSkill() {

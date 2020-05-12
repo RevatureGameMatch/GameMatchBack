@@ -2,7 +2,7 @@ package com.revature.g2g.api.controllers;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -48,7 +48,7 @@ public class PlayerController {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 		}
 		template = new PlayerTemplate(template);//sanitizes input
-		Player usernameCheck = playerHandler.findByUsername(template.getPlayerUsername());
+		Player usernameCheck = playerHandler.findByPlayerUsername(template.getPlayerUsername());
 		if(usernameCheck!=null) {
 			template.setPlayerPassword("****");
 			String conflictMessage = "PlayerController: conflict username - " + template.toString();
@@ -69,7 +69,7 @@ public class PlayerController {
 		Player player = new Player(template);
 		player.setPlayerPassword(passwordHelper.encryptPassword(player.getPlayerPassword()));
 		player.setPlayerRole(PlayerRole.PLAYER);
-		playerHandler.insert(player);
+		playerHandler.save(player);
 		player.setPlayerPassword("****");
 		PlayerTemplate newTemplate = new PlayerTemplate(player);
 		String newPlayerMessage = "PlayerController: new player - " + player.toString();
@@ -78,16 +78,16 @@ public class PlayerController {
 	}
 	@GetMapping("/Id/{id}/Skills")
 	public ResponseEntity<List<SkillValueTemplate>> findAllSkillsById(@PathVariable("id") int id){
-		Player player = playerHandler.findById(id);
-		if(player == null) {
-			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+		Optional<Player> playerOpt = playerHandler.findById(id);
+		if(playerOpt.isPresent()) {
+			return ResponseEntity.status(HttpStatus.ACCEPTED).body(processSkills(playerOpt.get()));
 		} else {
-			return ResponseEntity.status(HttpStatus.ACCEPTED).body(processSkills(player));
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 		}
 	}
 	@GetMapping("/Username/{username}/Skills")
 	public ResponseEntity<List<SkillValueTemplate>> findAllSkillsByName(@PathVariable("username") String username){
-		Player player = playerHandler.findByUsername(username);
+		Player player = playerHandler.findByPlayerUsername(username);
 		if(player == null) {
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 		} else {
@@ -95,7 +95,7 @@ public class PlayerController {
 		}
 	}
 	private List<SkillValueTemplate> processSkills(Player player){
-		Set<Skill> set = skillPlayerJTHandler.findPlayerSkills(player);
+		List<Skill> set = skillPlayerJTHandler.findPlayerSkills(player);
 		List<SkillValueTemplate> skills = new ArrayList<>();
 		for(Skill skill : set) {
 			double value = skillPlayerJTHandler.findValue(player, skill);

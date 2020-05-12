@@ -1,6 +1,8 @@
 package com.revature.g2g.services.handlers;
 
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
@@ -16,40 +18,40 @@ import com.revature.g2g.repositories.ISkillPlayerJTDAO;
 @Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
 public class SkillPlayerJTHandler {
 	private ISkillPlayerJTDAO repository;
-	public SkillPlayerJTHandler() {
-		super();
-	}
 	@Autowired
 	public SkillPlayerJTHandler(ISkillPlayerJTDAO repository) {
 		super();
 		this.repository = repository;
 	}
-	public void insert(SkillPlayerJT sp) {
-		this.repository.insert(sp);
+	public void save(SkillPlayerJT skillPlayerJT) {
+		this.repository.save(skillPlayerJT);
 	}
-	public SkillPlayerJT findById(int id) {
+	public Optional<SkillPlayerJT> findById(long id) {
 		return this.repository.findById(id);
 	}
 	public double findValue(Player player, Skill skill) {
-		return this.repository.findValue(player, skill);
+		SkillPlayerJT joinTable = this.findBySkillPlayer(skill, player);
+		return joinTable.getValue();
 	}
-	public Set<SkillPlayerJT> findAll(){
+	public List<SkillPlayerJT> findAll(){
 		return this.repository.findAll();
 	}
-	public Set<SkillPlayerJT> findBySkill(Skill skill){
+	public List<SkillPlayerJT> findBySkill(Skill skill){
 		return this.repository.findBySkill(skill);
 	}
-	public Set<SkillPlayerJT> findByPlayer(Player player){
+	public List<SkillPlayerJT> findByPlayer(Player player){
 		return this.repository.findByPlayer(player);
 	}
-	public Set<Skill> findPlayerSkills(Player player){
-		return this.repository.findPlayerSkills(player);
+	public List<Skill> findPlayerSkills(Player player){
+		List<SkillPlayerJT> joinTables = this.repository.findByPlayer(player);
+		List<Skill> skills = new ArrayList<>();
+		for(SkillPlayerJT joinTable : joinTables) {
+			skills.add(joinTable.getSkill());
+		}
+		return skills;
 	}
 	public SkillPlayerJT findBySkillPlayer(Skill skill, Player player) {
-		return this.repository.findBySkillPlayer(skill, player);
-	}
-	public void update(SkillPlayerJT sp) {
-		this.repository.update(sp);
+		return this.repository.findBySkillAndPlayer(skill, player);
 	}
 	public void delete(SkillPlayerJT sp) {
 		this.repository.delete(sp);

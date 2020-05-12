@@ -1,7 +1,7 @@
 package com.revature.g2g.api.templates;
 
 import java.util.Objects;
-import java.util.Set;
+import java.util.List;
 
 import javax.validation.constraints.NotNull;
 
@@ -10,15 +10,15 @@ import com.revature.g2g.models.Room;
 public class SurveyRoomTemplate {
 	@NotNull
 	private Room room;
-	private Set<SurveyTemplate> surveySet;
+	private List<SurveyTemplate> surveyList;
 	public SurveyRoomTemplate() {
 		super();
 		this.room = new Room();
 	}
-	public SurveyRoomTemplate(Room room, Set<SurveyTemplate> surveySet) {
+	public SurveyRoomTemplate(Room room, List<SurveyTemplate> surveyList) {
 		super();
 		this.room = room;
-		this.surveySet = surveySet;
+		this.surveyList = surveyList;
 	}
 	public Room getRoom() {
 		return room;
@@ -26,15 +26,15 @@ public class SurveyRoomTemplate {
 	public void setRoom(Room room) {
 		this.room = room;
 	}
-	public Set<SurveyTemplate> getSurveySet() {
-		return surveySet;
+	public List<SurveyTemplate> getSurveyList() {
+		return surveyList;
 	}
-	public void setSurveySet(Set<SurveyTemplate> surveySet) {
-		this.surveySet = surveySet;
+	public void setSurveyList(List<SurveyTemplate> surveyList) {
+		this.surveyList = surveyList;
 	}
 	@Override
 	public int hashCode() {
-		return Objects.hash(room, surveySet);
+		return Objects.hash(room, surveyList);
 	}
 	@Override
 	public boolean equals(Object obj) {
@@ -45,10 +45,10 @@ public class SurveyRoomTemplate {
 		if (getClass() != obj.getClass())
 			return false;
 		SurveyRoomTemplate other = (SurveyRoomTemplate) obj;
-		return Objects.equals(room, other.room) && Objects.equals(surveySet, other.surveySet);
+		return Objects.equals(room, other.room) && Objects.equals(surveyList, other.surveyList);
 	}
 	@Override
 	public String toString() {
-		return "SurveyRoomTemplate [room=" + room + ", surveySet=" + surveySet + "]";
+		return "SurveyRoomTemplate [room=" + room + ", surveyList=" + surveyList + "]";
 	}
 }

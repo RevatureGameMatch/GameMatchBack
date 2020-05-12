@@ -2,7 +2,6 @@ package com.revature.g2g.services.business;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
@@ -38,22 +37,22 @@ public class PlayerRoomService {
 		this.loggerSingleton = loggerSingleton;
 	}
 	public List<Room> getQualifiedRooms(Player player, RoomPlayStyle style) {
-		Set<Room> rooms = roomHandler.findStatusPlayStyle(RoomStatus.JOINING, style);
+		List<Room> rooms = roomHandler.findByStatusAndPlayStyle(RoomStatus.JOINING, style);
 		return fetchQualifiedRooms(player, rooms);
 	}
 	public List<Room> getQualifiedRooms(Player player, Game game) {
-		Set<Room> rooms = roomHandler.findByStatusGame(RoomStatus.JOINING, game);
+		List<Room> rooms = roomHandler.findByStatusAndGame(RoomStatus.JOINING, game);
 		return fetchQualifiedRooms(player, rooms);
 	}
 	public List<Room> getQualifiedRooms(Player player, RoomPlayStyle style, Game game) {
-		Set<Room> rooms = roomHandler.findByStatusPlayStyleGame(RoomStatus.JOINING, style, game);
+		List<Room> rooms = roomHandler.findByStatusAndPlayStyleAndGame(RoomStatus.JOINING, style, game);
 		return fetchQualifiedRooms(player, rooms);
 	}
-	private List<Room> fetchQualifiedRooms(Player player, Set<Room> rooms) {
+	private List<Room> fetchQualifiedRooms(Player player, List<Room> rooms) {
 		loggerSingleton.getBusinessLog().trace("PlayerRoomService: Starting to check get Qualified Rooms");
 		List<Room> result = new ArrayList<>();
-		Set<SkillPlayerJT> playerSkillsSet = skillPlayerJTHandler.findByPlayer(player);
-		SkillPlayerJT[] playerSkills = playerSkillsSet.toArray( new SkillPlayerJT[0]);
+		List<SkillPlayerJT> playerSkillsList = skillPlayerJTHandler.findByPlayer(player);
+		SkillPlayerJT[] playerSkills = playerSkillsList.toArray( new SkillPlayerJT[0]);
 		for(Room room : rooms) {
 			if(checkQualfiedRoom(player, room, playerSkills)) {
 				result.add(room);
@@ -63,13 +62,13 @@ public class PlayerRoomService {
 	}
 	public boolean checkQualfiedRoom(Player player, Room room, SkillPlayerJT[] playerSkills) {
 		if(playerSkills == null) {
-			Set<SkillPlayerJT> playerSkillsSet = skillPlayerJTHandler.findByPlayer(player);
-			playerSkills = playerSkillsSet.toArray( new SkillPlayerJT[0]);
+			List<SkillPlayerJT> playerSkillsList = skillPlayerJTHandler.findByPlayer(player);
+			playerSkills = playerSkillsList.toArray( new SkillPlayerJT[0]);
 		}
 		int playerSkillsLen = playerSkills.length;
 		boolean qualified = true;
-		Set<SkillRoomJT> roomSkillsSet = skillRoomJTHandler.findByRoom(room);
-		SkillRoomJT[] roomSkills = roomSkillsSet.toArray( new SkillRoomJT[0]);
+		List<SkillRoomJT> roomSkillsList = skillRoomJTHandler.findByRoom(room);
+		SkillRoomJT[] roomSkills = roomSkillsList.toArray( new SkillRoomJT[0]);
 		int roomSkillsLen = roomSkills.length;
 		for (int a=0; a<roomSkillsLen; a++) {
 			if(roomSkills[a].getMinValue() == 0) {

@@ -29,7 +29,7 @@ import com.revature.g2g.services.helpers.GameHelper;
 
 @CrossOrigin
 @RestController
-@RequestMapping(value="Game")
+@RequestMapping(value="game")
 public class GameController {
 	private GameHandler gameHandler;
 	private AuthenticatorHelper authenticatorHelper;

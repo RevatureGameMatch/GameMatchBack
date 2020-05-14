@@ -4,7 +4,6 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 import com.revature.g2g.junit.exceptions.ConnectionToDatabaseFailedException;
-import com.revature.g2g.junit.exceptions.NullGuildExceptionTest;
 import com.revature.g2g.junit.exceptions.PasswordMatchFailedTest;
 import com.revature.g2g.junit.exceptions.UserNotFoundTest;
 import com.revature.g2g.junit.services.helpers.BalanceConstantsTest;
@@ -23,7 +22,6 @@ import com.revature.g2g.services.jda.helpers.GameHelperTest;
 	LoggerSingletonTest.class,
 	PasswordHelperTest.class,
 	ConnectionToDatabaseFailedException.class,
-	NullGuildExceptionTest.class,
 	PasswordMatchFailedTest.class,
 	UserNotFoundTest.class
 })

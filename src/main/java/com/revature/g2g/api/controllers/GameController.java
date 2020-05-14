@@ -52,7 +52,7 @@ public class GameController {
 			return ResponseEntity.status(HttpStatus.ACCEPTED).body(games);
 		}
 	}
-	@GetMapping("/Name/{name}")
+	@GetMapping("/name/{name}")
 	public ResponseEntity<Game> findByName(@PathVariable("name") String name){
 		String cleanName = Jsoup.clean(name, Whitelist.none()).replace('_', ' ');
 		Game game = gameHandler.findByName(cleanName);
@@ -62,7 +62,7 @@ public class GameController {
 			return ResponseEntity.status(HttpStatus.ACCEPTED).body(game);
 		}
 	}
-	@GetMapping("/Id/{id}")
+	@GetMapping("/id/{id}")
 	public ResponseEntity<Game> findById(@PathVariable("id") int id){
 		Optional<Game> gameOpt = gameHandler.findById(id);
 		if(gameOpt.isPresent()) {
@@ -71,7 +71,7 @@ public class GameController {
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 		}
 	}
-	@GetMapping("/Name/{name}/Skills")
+	@GetMapping("/name/{name}/skills")
 	public ResponseEntity<List<Skill>> findAllSkillsByName(@PathVariable("name") String name){
 		String cleanName = Jsoup.clean(name, Whitelist.none()).replace('_', ' ');
 		Game game = gameHandler.findByName(cleanName);
@@ -82,7 +82,7 @@ public class GameController {
 			return ResponseEntity.status(HttpStatus.ACCEPTED).body(set);
 		}
 	}
-	@GetMapping("/Id/{id}/Skills")
+	@GetMapping("/id/{id}/skills")
 	public ResponseEntity<List<Skill>> findAllSkillsById(@PathVariable("id") int id){
 		Optional<Game> gameOpt = gameHandler.findById(id);
 		if (gameOpt.isPresent()) {

@@ -13,6 +13,7 @@ import com.revature.g2g.models.RoomStatus;
 import com.revature.g2g.services.handlers.PlayerRoomJTHandler;
 import com.revature.g2g.services.handlers.RoomHandler;
 import com.revature.g2g.services.helpers.DiscordHelper;
+import com.revature.g2g.services.helpers.LoggerSingleton;
 import com.revature.g2g.services.jda.JDASingleton;
 import com.revature.g2g.services.jda.helpers.GuildHelper;
 import com.revature.g2g.services.jda.helpers.RoleHelper;
@@ -36,6 +37,7 @@ public class GuildVoiceEventListener extends ListenerAdapter{
 	private PlayerRoomJTHandler playerRoomJTHandler;
 	private GuildHelper guildHelper;
 	private JDASingleton jdaSingleton;
+	private LoggerSingleton loggerSingleton;
 	@Autowired
 	public GuildVoiceEventListener(RoomHandler roomHandler, PlayerRoomJTHandler playerRoomJTHandler, GuildHelper guildHelper,
 			DiscordHelper discordHelper, JDASingleton jdaSingleton) {
@@ -44,7 +46,12 @@ public class GuildVoiceEventListener extends ListenerAdapter{
 		this.playerRoomJTHandler = playerRoomJTHandler;
 		this.guildHelper = guildHelper;
 		this.jdaSingleton = jdaSingleton;
-		jdaSingleton.getJda().addEventListener(this);
+		JDA jda = jdaSingleton.getJda();
+		if(jda != null) {
+			jda.addEventListener(this);
+		}else {
+			loggerSingleton.getExceptionLogger().trace("GuildVoiceEventListener: listener not set as JDA was null");
+		}
 	}
 	@Override
 	public void onGuildVoiceLeave(GuildVoiceLeaveEvent event) {

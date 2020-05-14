@@ -41,7 +41,7 @@ import net.dv8tion.jda.api.entities.Invite;
 
 @CrossOrigin
 @RestController
-@RequestMapping(value="Room")
+@RequestMapping(value="room")
 public class RoomController {
 	private RoomHandler roomHandler;
 	private AuthenticatorHelper authenticatorHelper;
@@ -141,7 +141,7 @@ public class RoomController {
 			return ResponseEntity.status(HttpStatus.RESET_CONTENT).body(rooms);
 		}
 	}
-	@PostMapping("/Player")
+	@PostMapping("/player")
 	public ResponseEntity<DiscordInviteTemplate> insert(@RequestBody PlayerRoomTemplate template){
 		if(template == null || template.getRoom() == null) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
@@ -172,7 +172,7 @@ public class RoomController {
 		discordInviteTemplate.setUrlApp("discord://discordapp.com/invite/" + invite.getCode());
 		return ResponseEntity.status(HttpStatus.CREATED).body(discordInviteTemplate);
 	}
-	@PostMapping(value="/Style/Casual")
+	@PostMapping(value="/style/casual")
 	public ResponseEntity<List<Room>> casual(@Valid @RequestBody PlayerTemplate template){
 		Player player = authenticatorHelper.getPlayer(template);
 		if(player==null) {
@@ -180,7 +180,7 @@ public class RoomController {
 		}
 		return getRooms(player, RoomPlayStyle.CASUAL);
 	}
-	@PostMapping(value="/Style/Hybrid")
+	@PostMapping(value="/style/hybrid")
 	public ResponseEntity<List<Room>> hybrid(@Valid @RequestBody PlayerTemplate template){
 		Player player = authenticatorHelper.getPlayer(template);
 		if(player==null) {
@@ -188,7 +188,7 @@ public class RoomController {
 		}
 		return getRooms(player, RoomPlayStyle.HYBRID);
 	}
-	@PostMapping(value="/Style/Serious")
+	@PostMapping(value="/style/serious")
 	public ResponseEntity<List<Room>> serious(@Valid @RequestBody PlayerTemplate template){
 		Player player = authenticatorHelper.getPlayer(template);
 		if(player==null) {
@@ -196,7 +196,7 @@ public class RoomController {
 		}
 		return getRooms(player, RoomPlayStyle.SERIOUS);
 	}
-	@PostMapping(value="/Game/Casual/{id}")
+	@PostMapping(value="/game/casual/{id}")
 	public ResponseEntity<List<Room>> casualName(@Valid @RequestBody PlayerTemplate template, @PathVariable("id") int id){
 		Player player = authenticatorHelper.getPlayer(template);
 		if(player==null) {
@@ -208,7 +208,7 @@ public class RoomController {
 		}
 		return getRooms(player, RoomPlayStyle.CASUAL, gameOpt.get());
 	}
-	@PostMapping(value="/Game/Hybrid/{id}")
+	@PostMapping(value="/game/hybrid/{id}")
 	public ResponseEntity<List<Room>> hybridName(@Valid @RequestBody PlayerTemplate template, @PathVariable("id") int id){
 		Player player = authenticatorHelper.getPlayer(template);
 		if(player==null) {
@@ -220,7 +220,7 @@ public class RoomController {
 		}
 		return getRooms(player, RoomPlayStyle.HYBRID, gameOpt.get());
 	}
-	@PostMapping(value="/Game/Serious/{id}")
+	@PostMapping(value="/game/serious/{id}")
 	public ResponseEntity<List<Room>> seriousName(@Valid @RequestBody PlayerTemplate template, @PathVariable("id") int id){
 		Player player = authenticatorHelper.getPlayer(template);
 		if(player==null) {
@@ -232,7 +232,7 @@ public class RoomController {
 		}
 		return getRooms(player, RoomPlayStyle.SERIOUS, gameOpt.get());
 	}
-	@PostMapping(value="/Game/Id/{id}")
+	@PostMapping(value="/game/id/{id}")
 	public ResponseEntity<List<Room>> name(@RequestBody PlayerTemplate template, @PathVariable("id") int id){
 		Player player = authenticatorHelper.getPlayer(template);
 		if(player==null) {

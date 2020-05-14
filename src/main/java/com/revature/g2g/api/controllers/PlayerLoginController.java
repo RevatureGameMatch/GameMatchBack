@@ -20,7 +20,7 @@ import com.revature.g2g.services.helpers.PasswordHelper;
 
 @CrossOrigin
 @RestController
-@RequestMapping(value="/PlayerLogin")
+@RequestMapping(value="/player-login")
 public class PlayerLoginController {
 	PlayerHandler playerHandler;
 	PasswordHelper passwordHelper;

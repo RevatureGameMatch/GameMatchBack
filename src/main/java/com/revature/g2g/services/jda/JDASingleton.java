@@ -1,5 +1,7 @@
 package com.revature.g2g.services.jda;
 
+import java.util.Properties;
+
 import javax.security.auth.login.LoginException;
 
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
@@ -20,15 +22,15 @@ public class JDASingleton {
 	public JDA getJda() {
 		if(jda == null) {
 			try {
-				String discordKey = PropertiesSingleton.getPropValues().getProperty("discordKey");
-				if(discordKey.length() > 5) {
-					JDABuilder builder = JDABuilder.createDefault(PropertiesSingleton.getPropValues().getProperty("discordKey"));
-					builder.setActivity(Activity.watching("Users for new commands."));
-					jda = builder.build();
-					new LoggerSingleton().getDiscordLog().trace("JDA building");
-					jda.awaitReady();
-					new LoggerSingleton().getDiscordLog().trace("JDA done building");
-				}
+				Properties properties = PropertiesSingleton.getPropValues();
+				if(properties == null)return null;
+				String discordKey = properties.getProperty("discordKey");
+				JDABuilder builder = JDABuilder.createDefault(discordKey);
+				builder.setActivity(Activity.watching("Users for new commands."));
+				jda = builder.build();
+				new LoggerSingleton().getDiscordLog().trace("JDA building");
+				jda.awaitReady();
+				new LoggerSingleton().getDiscordLog().trace("JDA done building");
 			} catch (LoginException e) {
 				jda = null;
 				new LoggerSingleton().getExceptionLogger().warn("JDASingleton: Discord Login failed. ", e);

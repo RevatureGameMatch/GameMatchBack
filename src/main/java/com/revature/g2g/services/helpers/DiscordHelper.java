@@ -76,6 +76,10 @@ public class DiscordHelper {
 	 */
 	public Role getDiscordBot() {
 		JDA jda = jdaSingleton.getJda();
-		return jda.getRoleById(695341021277454426L);
+		if(jda != null) {
+			return jda.getRoleById(695341021277454426L);
+		}else {
+			return null;
+		}
 	}
 }

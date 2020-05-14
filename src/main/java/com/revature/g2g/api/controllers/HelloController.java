@@ -11,7 +11,7 @@ import com.revature.g2g.api.templates.MessageTemplate;
 @CrossOrigin
 @RestController
 public class HelloController {
-	@GetMapping("/Hello")
+	@GetMapping("/hello")
 	public ResponseEntity<MessageTemplate> helloWorld(){
 		MessageTemplate message = new MessageTemplate("Hello World");
 		return ResponseEntity.status(HttpStatus.OK).body(message);

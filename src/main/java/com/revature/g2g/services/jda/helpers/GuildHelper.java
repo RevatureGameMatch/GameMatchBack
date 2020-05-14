@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.revature.g2g.exceptions.NullGuildException;
 import com.revature.g2g.services.jda.JDASingleton;
 
 import net.dv8tion.jda.api.JDA;
@@ -20,13 +19,12 @@ public class GuildHelper {
 	public Guild getGuild() {
 		if(guild == null) {
 			JDA jda = jdaSingleton.getJda();
-			List<Guild> guilds = jda.getGuilds();
-			for(Guild guildFound : guilds) {
-				guild = guildFound;
+			if(jda != null) {
+				List<Guild> guilds = jda.getGuilds();
+				for(Guild guildFound : guilds) {
+					guild = guildFound;
+				}
 			}
-		}
-		if(guild == null) {
-			throw new NullGuildException("Null guild called from GuildHelper");
 		}
 		return guild;
 	}

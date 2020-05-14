@@ -13,6 +13,7 @@ import com.revature.g2g.services.helpers.LoggerSingleton;
 import com.revature.g2g.services.helpers.RoomHelper;
 import com.revature.g2g.services.jda.JDASingleton;
 
+import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
@@ -34,7 +35,12 @@ public class MessageListener extends ListenerAdapter{
 		this.roomHelper = roomHelper;
 		this.discordHelper = discordHelper;
 		this.gameHandler = gameHandler;
-		jdaSingleton.getJda().addEventListener(this);
+		JDA jda = jdaSingleton.getJda();
+		if(jda != null) {
+			jda.addEventListener(this);
+		}else {
+			loggerSingleton.getExceptionLogger().trace("MessageListener: listener not set as JDA was null");
+		}
 	}
 	@Override
 	public void onMessageReceived(MessageReceivedEvent event) {

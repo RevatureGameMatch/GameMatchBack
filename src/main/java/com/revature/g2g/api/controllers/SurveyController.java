@@ -38,7 +38,7 @@ import com.revature.g2g.services.helpers.AuthenticatorHelper;
 
 @CrossOrigin
 @RestController
-@RequestMapping(value = "Survey")
+@RequestMapping(value = "survey")
 public class SurveyController {
 	private AuthenticatorHelper authenticatorHelper;
 	private PlayerHandler playerHandler;
@@ -89,7 +89,7 @@ public class SurveyController {
 		List<Room> rooms = playerRoomJTHandler.findSurveyRooms(player);
 		return ResponseEntity.status(HttpStatus.ACCEPTED).body(rooms);
 	}
-	@PostMapping("/Player")
+	@PostMapping("/player")
 	public ResponseEntity<List<SurveyRoomTemplate>> getSurveysForPlayer(@Valid @RequestBody PlayerTemplate template){
 		Player player = authenticatorHelper.getPlayer(template);
 		if(player == null) {
@@ -127,7 +127,7 @@ public class SurveyController {
 		}
 		return surveyTemplateList;
 	}
-	@PostMapping("/Room/Id/{id}")
+	@PostMapping("/room/id/{id}")
 	public ResponseEntity<List<SurveyTemplate>> getSurvey(@Valid @RequestBody PlayerTemplate template, @PathVariable("id") int id){
 		Player player = authenticatorHelper.getPlayer(template);
 		Optional<Room> roomOpt = roomHandler.findById(id);
@@ -183,7 +183,7 @@ public class SurveyController {
 		}
 		return surveySkillTemplateArray;
 	}
-	@PostMapping("/Room/Id/{id}/Submit")
+	@PostMapping("/room/id/{id}/submit")
 	public ResponseEntity<MessageTemplate> insertSurvey(@Valid @RequestBody SurveySubmitTemplate template, @PathVariable("id") int roomId){
 		Player modifiedBy = authenticatorHelper.getPlayer(template.getModifiedBy());
 		Optional<Player> playerOpt = playerHandler.findById(template.getPlayer().getPlayerId());

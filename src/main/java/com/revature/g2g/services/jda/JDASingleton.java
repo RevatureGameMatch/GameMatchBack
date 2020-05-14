@@ -20,11 +20,15 @@ public class JDASingleton {
 	public JDA getJda() {
 		if(jda == null) {
 			try {
-				JDABuilder builder = JDABuilder.createDefault(PropertiesSingleton.getPropValues().getProperty("discordKey"));
-				builder.setActivity(Activity.watching("Users for new commands."));
-				jda = builder.build();
-				Thread.sleep(2000);
-				new LoggerSingleton().getDiscordLog().trace("JDA building");
+				String discordKey = PropertiesSingleton.getPropValues().getProperty("discordKey");
+				if(discordKey.length() > 5) {
+					JDABuilder builder = JDABuilder.createDefault(PropertiesSingleton.getPropValues().getProperty("discordKey"));
+					builder.setActivity(Activity.watching("Users for new commands."));
+					jda = builder.build();
+					new LoggerSingleton().getDiscordLog().trace("JDA building");
+					jda.awaitReady();
+					new LoggerSingleton().getDiscordLog().trace("JDA done building");
+				}
 			} catch (LoginException e) {
 				jda = null;
 				new LoggerSingleton().getExceptionLogger().warn("JDASingleton: Discord Login failed. ", e);

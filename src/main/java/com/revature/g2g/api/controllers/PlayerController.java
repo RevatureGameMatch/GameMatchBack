@@ -27,7 +27,7 @@ import com.revature.g2g.services.helpers.PasswordHelper;
 
 @CrossOrigin
 @RestController
-@RequestMapping(value="/Player")
+@RequestMapping(value="/player")
 public class PlayerController {
 	PlayerHandler playerHandler;
 	PasswordHelper passwordHelper;
@@ -76,7 +76,7 @@ public class PlayerController {
 		loggerSingleton.getBusinessLog().trace(newPlayerMessage);
 		return ResponseEntity.status(HttpStatus.ACCEPTED).body(newTemplate);
 	}
-	@GetMapping("/Id/{id}/Skills")
+	@GetMapping("/id/{id}/skills")
 	public ResponseEntity<List<SkillValueTemplate>> findAllSkillsById(@PathVariable("id") int id){
 		Optional<Player> playerOpt = playerHandler.findById(id);
 		if(playerOpt.isPresent()) {
@@ -85,7 +85,7 @@ public class PlayerController {
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 		}
 	}
-	@GetMapping("/Username/{username}/Skills")
+	@GetMapping("/username/{username}/skills")
 	public ResponseEntity<List<SkillValueTemplate>> findAllSkillsByName(@PathVariable("username") String username){
 		Player player = playerHandler.findByPlayerUsername(username);
 		if(player == null) {

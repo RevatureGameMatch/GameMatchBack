@@ -20,6 +20,7 @@ import com.revature.g2g.api.templates.SkillValueTemplate;
 import com.revature.g2g.models.Player;
 import com.revature.g2g.models.PlayerRole;
 import com.revature.g2g.models.Skill;
+import com.revature.g2g.services.business.SkillPlayerJTService;
 import com.revature.g2g.services.handlers.PlayerHandler;
 import com.revature.g2g.services.handlers.SkillPlayerJTHandler;
 import com.revature.g2g.services.helpers.LoggerSingleton;
@@ -33,14 +34,16 @@ public class PlayerController {
 	PasswordHelper passwordHelper;
 	LoggerSingleton loggerSingleton;
 	SkillPlayerJTHandler skillPlayerJTHandler;
+	SkillPlayerJTService skillPlayerJTService;
 	@Autowired
 	public PlayerController(PlayerHandler playerHandler, PasswordHelper passwordHelper, LoggerSingleton loggerSingleton,
-			SkillPlayerJTHandler skillPlayerJTHandler) {
+			SkillPlayerJTHandler skillPlayerJTHandler, SkillPlayerJTService skillPlayerJTService) {
 		super();
 		this.playerHandler = playerHandler;
 		this.passwordHelper = passwordHelper;
 		this.loggerSingleton = loggerSingleton;
 		this.skillPlayerJTHandler = skillPlayerJTHandler;
+		this.skillPlayerJTService = skillPlayerJTService;
 	}
 	@PostMapping
 	public ResponseEntity<PlayerTemplate> insert(@RequestBody PlayerTemplate template){
@@ -70,6 +73,7 @@ public class PlayerController {
 		player.setPlayerPassword(passwordHelper.encryptPassword(player.getPlayerPassword()));
 		player.setPlayerRole(PlayerRole.PLAYER);
 		playerHandler.save(player);
+		skillPlayerJTService.addDefaultSkills(player);
 		player.setPlayerPassword("****");
 		PlayerTemplate newTemplate = new PlayerTemplate(player);
 		String newPlayerMessage = "PlayerController: new player - " + player.toString();

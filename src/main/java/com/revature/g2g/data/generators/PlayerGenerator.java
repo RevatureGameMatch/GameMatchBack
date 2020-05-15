@@ -23,7 +23,7 @@ public class PlayerGenerator implements DataGenerator {
 		make("BobTheGreat",PlayerRole.PLAYER);
 		make("JillTheStrong",PlayerRole.PLAYER);
 		make("RodrickTheValiant",PlayerRole.PLAYER);
-		make("StephanieTheVictorious",PlayerRole.PLAYER);
+		make("StephanieTheVictor",PlayerRole.PLAYER);
 		make("BillTheDecimator",PlayerRole.PLAYER);
 		make("RyanTheFoolish",PlayerRole.PLAYER);
 		make("KaylaTheWise",PlayerRole.PLAYER);

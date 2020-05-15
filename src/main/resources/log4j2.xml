@@ -77,7 +77,7 @@
         <Logger name="performanceLogger" level="all" additivity="true">
             <AppenderRef ref="performanceLogger" />
         </Logger>
-        <Logger name="org.springframework.boot" level="debug" additivity="false">
+        <Logger name="org.springframework.boot" level="info" additivity="false">
             <AppenderRef ref="springLogger" />
             <AppenderRef ref="console" />
         </Logger>

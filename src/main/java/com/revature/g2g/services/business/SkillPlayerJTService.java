@@ -30,6 +30,7 @@ public class SkillPlayerJTService {
 		super();
 		this.balanceHelper = balanceHelper;
 		this.skillPlayerJTHandler = skillPlayerJTHandler;
+		this.skillGameJTHandler = skillGameJTHandler;
 		this.skillHandler = skillHandler;
 		this.gameHandler = gameHandler;
 	}

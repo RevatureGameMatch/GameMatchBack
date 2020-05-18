@@ -40,12 +40,13 @@ public class GuildVoiceEventListener extends ListenerAdapter{
 	private LoggerSingleton loggerSingleton;
 	@Autowired
 	public GuildVoiceEventListener(RoomHandler roomHandler, PlayerRoomJTHandler playerRoomJTHandler, GuildHelper guildHelper,
-			DiscordHelper discordHelper, JDASingleton jdaSingleton) {
+			DiscordHelper discordHelper, JDASingleton jdaSingleton, LoggerSingleton loggerSingleton) {
 		super();
 		this.roomHandler = roomHandler;
 		this.playerRoomJTHandler = playerRoomJTHandler;
 		this.guildHelper = guildHelper;
 		this.jdaSingleton = jdaSingleton;
+		this.loggerSingleton = loggerSingleton;
 		JDA jda = jdaSingleton.getJda();
 		if(jda != null) {
 			jda.addEventListener(this);

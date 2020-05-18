@@ -94,6 +94,7 @@ public class Room implements Serializable{
 		this.style = style;
 		this.game = game;
 	}
+	
 	public Room(Long discordTextChannelId, Long discordVoiceChannelId, Long discordRoleId, Date created,
 			String description, RoomStatus status, RoomPlayStyle style) {
 		super();
@@ -104,5 +105,22 @@ public class Room implements Serializable{
 		this.description = description;
 		this.status = status;
 		this.style = style;
+	}
+	
+	public Room(RoomDTO source) {
+		this();
+		this.roomId = source.getRoomId();
+		this.discordTextChannelId = source.getDiscordTextChannelId();
+		this.discordVoiceChannelId = source.getDiscordVoiceChannelId();
+		this.discordRoleId = source.getDiscordRoleId();
+		this.created = source.getCreated();
+		this.closed = source.getClosed();
+		this.name = source.getName();
+		this.currentPlayers =  source.getCurrentPlayers();
+		this.maxPlayers = source.getMaxPlayers();
+		this.description = source.getDescription();
+		this.status = source.getStatus();
+		this.style = source.getStyle();
+		this.game = new Game(source.getGame() );
 	}
 }

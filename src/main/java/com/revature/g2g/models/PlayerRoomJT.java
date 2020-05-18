@@ -53,6 +53,7 @@ public class PlayerRoomJT implements Serializable{
 		this.player = new Player();
 		this.room = new Room();
 	}
+	
 	public PlayerRoomJT(int playerRoomJTId, Player player, Room room, Date joined, Date left) {
 		super();
 		this.playerRoomJTId = playerRoomJTId;
@@ -60,5 +61,14 @@ public class PlayerRoomJT implements Serializable{
 		this.room = room;
 		this.joined = joined;
 		this.left = left;
+	}
+	
+	public PlayerRoomJT(PlayerRoomDTO source) {
+		this();
+		this.playerRoomJTId = source.getPlayerRoomId();
+		this.player = new Player(source.getPlayer() );
+		this.room = new Room(source.getRoom() );
+		this.joined = source.getJoined();
+		this.left = source.getLeft();
 	}
 }

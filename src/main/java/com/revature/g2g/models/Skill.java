@@ -16,9 +16,11 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.revature.g2g.services.handlers.SkillHandler;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -32,6 +34,8 @@ import lombok.ToString;
 @Getter @Setter @EqualsAndHashCode(exclude = { "childSkills", "games", "players", "rooms" }) @ToString(exclude = { "childSkills", "games", "players", "rooms" })
 public class Skill implements Serializable{
 	private static final long serialVersionUID = -6477932264861456053L;
+	@Autowired
+	private SkillHandler skillHandler;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -69,4 +73,14 @@ public class Skill implements Serializable{
 		this.name = name;
 		this.parentSkill = parentSkill;
 	}
+
+	public Skill(SkillDTO source) {
+		this();
+		this.skillId = source.getSkillId();
+		this.name = source.getName();
+		if (this.parentSkill != null) {
+			this.parentSkill = skillHandler.findByName(source.getParentSkill().getName() );
+		}
+	}
+	
 }

@@ -82,6 +82,7 @@ public class Player implements Serializable {
 		this.playerPassword = playerPassword;
 		this.playerRole = playerRole;
 	}
+	
 	public Player(PlayerTemplate template) {
 		super();
 		this.playerId = template.getPlayerId();
@@ -94,5 +95,13 @@ public class Player implements Serializable {
 		}else {
 			this.playerRole = PlayerRole.PLAYER;
 		}
+	}
+	
+	public Player(PlayerDTO source) {
+		this();
+		this.playerId = source.getPlayerId();
+		this.playerUsername = source.getPlayerUsername();
+		this.playerEmail = source.getPlayerEmail();
+		this.playerRole = source.getPlayerRole();
 	}
 }

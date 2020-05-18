@@ -60,6 +60,7 @@ public class Game implements Serializable{
 		this.link = "";
 		this.rawgId = 158;
 	}
+	
 	public Game(long gameId, String name, String link, String description) {
 		super();
 		this.gameId = gameId;
@@ -68,6 +69,7 @@ public class Game implements Serializable{
 		this.description = description;
 		this.rawgId = 158;
 	}
+	
 	public Game(long gameId, String name, String link, String description, int rawgId, Set<SkillGameJT> skills) {
 		super();
 		this.gameId = gameId;
@@ -76,5 +78,14 @@ public class Game implements Serializable{
 		this.description = description;
 		this.rawgId = rawgId;
 		this.skills = skills;
+	}
+
+	public Game(GameDTO source) {
+		this();
+		this.gameId = source.getGameId();
+		this.name = source.getName();
+		this.link = source.getLink();
+		this.description = source.getDescription();
+		this.rawgId = source.getRawgId();
 	}
 }

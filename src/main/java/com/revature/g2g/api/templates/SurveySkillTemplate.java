@@ -9,18 +9,22 @@ public class SurveySkillTemplate {
 	private Skill skill;
 	private double value;
 	private Game game;
+	
 	public SurveySkillTemplate() {
 		super();
 	}
+	
 	public SurveySkillTemplate(Skill skill, double value, Game game) {
 		super();
 		this.skill = skill;
 		this.value = value;
 		this.game = game;
 	}
+	
 	public Skill getSkill() {
 		return skill;
 	}
+	
 	public void setSkill(Skill skill) {
 		this.skill = skill;
 	}

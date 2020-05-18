@@ -65,6 +65,7 @@ public class SkillPlayerJT implements Serializable{
 		this.player = new Player();
 		this.value = BalanceConstants.getStartValue();
 	}
+	
 	public SkillPlayerJT(long skillPlayerJtId, Skill skill, Player player, double value, double expertise) {
 		super();
 		this.skillPlayerJtId = skillPlayerJtId;
@@ -72,5 +73,14 @@ public class SkillPlayerJT implements Serializable{
 		this.player = player;
 		this.value = value;
 		this.expertise = expertise;
+	}
+	
+	public SkillPlayerJT(SkillPlayerDTO source) {
+		this();
+		this.skillPlayerJtId = source.getSkillPlayerId();
+		this.skill = new Skill(source.getSkill() );
+		this.player = new Player(source.getPlayer() );
+		this.value = source.getValue();
+		this.expertise = source.getExpertise();
 	}
 }

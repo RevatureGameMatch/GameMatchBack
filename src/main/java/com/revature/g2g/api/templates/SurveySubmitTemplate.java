@@ -10,11 +10,15 @@ import com.revature.g2g.models.Skill;
 public class SurveySubmitTemplate {
 	@NotNull(message="SurveySubmitTemplate requires a player")
 	private Player player;
+	
 	@NotNull(message="SurveySubmitTemplate requires a modifiedBy")
 	private PlayerTemplate modifiedBy;
+	
 	@NotNull(message="SurveySubmitTemplate requires a skill")
 	private Skill skill;
+	
 	private float value;
+	
 	public SurveySubmitTemplate() {
 		super();
 		this.player = new Player();

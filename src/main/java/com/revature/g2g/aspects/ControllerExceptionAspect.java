@@ -43,15 +43,4 @@ public class ControllerExceptionAspect {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("{\"message\": \"Custom Error Message\"}");
     }
 
-	/*
-	 * @Around("within(com.revature.g2g.api.controllers.*)") public ResponseEntity
-	 * logControllers(ProceedingJoinPoint jp) { ResponseEntity result = null;
-	 * 
-	 * try { result = (ResponseEntity) jp.proceed(); return result; } catch
-	 * (Throwable e) { System.out.println("Punch line two"); String controlLog =
-	 * jp.getTarget() + " invoked " + jp.getSignature() + " throwing: " + e;
-	 * loggerSingleton.getExceptionLogger().warn(controlLog, e); MessageTemplate
-	 * errorMessage = new MessageTemplate("Custom Internal Server Error"); return
-	 * ResponseEntity.status(HttpStatus.ACCEPTED).body(errorMessage); } }
-	 */	
 }

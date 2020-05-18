@@ -49,11 +49,20 @@ public class SkillGameJT implements Serializable {
 		this.skill = new Skill();
 		this.game = new Game();
 	}
+	
 	public SkillGameJT(int skillGameJTId, Skill skill, Game game, int relevance) {
 		super();
 		this.skillGameJTId = skillGameJTId;
 		this.skill = skill;
 		this.game = game;
 		this.relevance = relevance;
+	}
+	
+	public SkillGameJT(SkillGameDTO source) {
+		this();
+		this.skillGameJTId = source.getSkillGameId();
+		this.skill = new Skill(source.getSkill() );
+		this.game = new Game(source.getGame() );
+		this.relevance = source.getRelevance();
 	}
 }

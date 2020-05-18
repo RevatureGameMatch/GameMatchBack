@@ -75,4 +75,15 @@ public class SkillPlayerChangeJT implements Serializable{
 		this.room = room;
 		this.value = value;
 	}
+	public SkillPlayerChangeJT(SkillPlayerChangeDTO source) {
+		this();
+		this.skillPlayerChangeJTId = source.getSkillPlayerChangeId();
+		this.skillPlayerJT = new SkillPlayerJT(source.getSkillPlayer() );
+		this.player = new Player(source.getPlayer() );
+		this.modifiedBy = new Player(source.getModifiedBy() );
+		this.expertise = source.getExpertise();
+		this.room = new Room(source.getRoom() );
+		this.value = source.getValue();
+		
+	}
 }

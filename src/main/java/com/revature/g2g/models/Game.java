@@ -79,4 +79,13 @@ public class Game implements Serializable{
 		this.rawgId = rawgId;
 		this.skills = skills;
 	}
+
+	public Game(GameDTO source) {
+		this();
+		this.gameId = source.getGameId();
+		this.name = source.getName();
+		this.link = source.getLink();
+		this.description = source.getDescription();
+		this.rawgId = source.getRawgId();
+	}
 }

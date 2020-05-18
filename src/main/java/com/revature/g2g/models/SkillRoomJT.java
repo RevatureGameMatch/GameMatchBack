@@ -49,11 +49,20 @@ public class SkillRoomJT implements Serializable{
 		this.skill = new Skill();
 		this.room = new Room();
 	}
+	
 	public SkillRoomJT(int skillRoomJTId, Skill skill, Room room, double minValue) {
 		super();
 		this.skillRoomJTId = skillRoomJTId;
 		this.skill = skill;
 		this.room = room;
 		this.minValue = minValue;
+	}
+	
+	public SkillRoomJT(SkillRoomDTO source) {
+		this();
+		this.skillRoomJTId = source.getSkillRoomId();
+		this.skill = new Skill(source.getSkill() );
+		this.room = new Room(source.getRoom() );
+		this.minValue = source.getMinValue();
 	}
 }

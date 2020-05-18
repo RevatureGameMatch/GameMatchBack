@@ -1,5 +1,9 @@
 package com.revature.g2g.models;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data @NoArgsConstructor
 public class SkillPlayerChangeDTO {
 	private long skillPlayerChangeId;
 	private SkillPlayerDTO skillPlayer;

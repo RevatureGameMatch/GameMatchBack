@@ -22,6 +22,7 @@ public interface IPlayerRoomJTDAO extends JpaRepository<PlayerRoomJT, Long>{
 	public List<PlayerRoomJT> findCurrentPlayersByRoom(Room room);
 	public List<PlayerRoomJT> findByPlayer(Player player);
 	public List<PlayerRoomJT> findByRoom(Room room);
-	@Query(value = "SELECT jt from PlayerRoomJT jt JOIN jt.room rm WHERE jt.player = ?1 AND rm.created < (TIMESTAMP - 600000) AND (rm.closed is null OR rm.closed > TIMESTAMP - 86400000)")
+	//HQL timestamp is in days. 0.007 ~ 10 minutes
+	@Query(value = "SELECT jt from PlayerRoomJT jt JOIN jt.room rm WHERE jt.player = ?1 AND rm.created < (current_timestamp - 0.007) AND (rm.closed is null OR rm.closed > (current_timestamp - 1))")
 	public List<PlayerRoomJT> findSurveyRooms(Player player);
 }

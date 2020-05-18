@@ -27,6 +27,7 @@ import com.revature.g2g.models.Player;
 import com.revature.g2g.models.Room;
 import com.revature.g2g.models.Skill;
 import com.revature.g2g.models.SkillPlayerChangeJT;
+import com.revature.g2g.models.SurveyDTO;
 import com.revature.g2g.services.business.SurveyService;
 import com.revature.g2g.services.handlers.PlayerHandler;
 import com.revature.g2g.services.handlers.PlayerRoomJTHandler;
@@ -89,6 +90,7 @@ public class SurveyController {
 		List<Room> rooms = playerRoomJTHandler.findSurveyRooms(player);
 		return ResponseEntity.status(HttpStatus.ACCEPTED).body(rooms);
 	}
+	//TODO deprecated as of 5/18/2020 will be removed in the future use the new endpoint "/"
 	@PostMapping("/player")
 	public ResponseEntity<List<SurveyRoomTemplate>> getSurveysForPlayer(@Valid @RequestBody PlayerTemplate template){
 		Player player = authenticatorHelper.getPlayer(template);
@@ -127,6 +129,7 @@ public class SurveyController {
 		}
 		return surveyTemplateList;
 	}
+	//TODO deprecated as of 5/18/2020 will be removed in the future use the new endpoint "/room/{id}"
 	@PostMapping("/room/id/{id}")
 	public ResponseEntity<List<SurveyTemplate>> getSurvey(@Valid @RequestBody PlayerTemplate template, @PathVariable("id") int id){
 		Player player = authenticatorHelper.getPlayer(template);
@@ -210,5 +213,47 @@ public class SurveyController {
 				skillPlayerChangeJT.getSkillPlayerJT().getSkill().getName() + ". Together we will build a brighter tomorrow.";
 		MessageTemplate successTemplate = new MessageTemplate(successMessage);
 		return ResponseEntity.status(HttpStatus.ACCEPTED).body(successTemplate);
+	}
+	@PostMapping("/")
+	public ResponseEntity<List<SurveyDTO>> getAllSurveysForPlayer(@Valid @RequestBody PlayerTemplate template){
+		Player player = authenticatorHelper.getPlayer(template);
+		if(player == null) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+		}
+		List<Room> roomList = playerRoomJTHandler.findSurveyRooms(player);
+		if( roomList == null || roomList.isEmpty()) {
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+		}
+		List<SurveyDTO> result = new ArrayList<>();
+		for(Room room : roomList) {
+			result.add(buildSurveyDTO(room, player));
+		}
+		return ResponseEntity.ok(result);
+	}
+	@PostMapping("/room/{id}")
+	public ResponseEntity<SurveyDTO> getOneSurvey(@Valid @RequestBody PlayerTemplate template, @PathVariable("id") int id){
+		Player player = authenticatorHelper.getPlayer(template);
+		Optional<Room> roomOpt = roomHandler.findById(id);
+		if(!roomOpt.isPresent() || player == null) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+		}
+		Room room = roomOpt.get();
+		if( playerRoomJTHandler.findByPlayerAndRoom(player, room) == null) {
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+		}
+		SurveyDTO result = buildSurveyDTO(room, player);
+		return ResponseEntity.ok(result);
+	}
+	private SurveyDTO buildSurveyDTO(Room room, Player player) {
+		List<Player> players = playerRoomJTHandler.findPlayers(room);
+		List<Skill> skills = skillGameJTHandler.findByGame(room.getGame());
+		while(players.remove(player)) {
+			//Empty because all we want to loop over is the remove, which returns a boolean
+		};
+		SurveyDTO result = new SurveyDTO();
+		result.setPlayers(players);
+		result.setSkills(skills);
+		result.setRoom(room);
+		return result;
 	}
 }

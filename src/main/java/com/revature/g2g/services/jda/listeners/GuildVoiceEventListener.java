@@ -91,7 +91,6 @@ public class GuildVoiceEventListener extends ListenerAdapter{
 		}
 	}
 	private void processMoveLeave(GuildVoiceUpdateEvent event){
-		//TODO add logic to mark person as having left.
 		if(event.getChannelLeft().getMembers().size() != 0)return;
 		try {
 			TimeUnit.SECONDS.sleep(1);

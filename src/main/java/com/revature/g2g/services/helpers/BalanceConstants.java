@@ -10,6 +10,12 @@ public class BalanceConstants {
 	private static final float MAX_EXPERTISE = 1F;
 	private static final float MIN_EXPERTISE = 0.00001F;
 	private static final long DEFAULT_GAME_TIME = 3_600_000l;
+	public static String[] getDefaultSkills() {
+		String[] result = new String[2];
+		result[0] = "Fun to Play With";
+		result[1] = "Good at Game";
+		return result;
+	}
 	/**
 	 * The minimum value possible for a skill in a SkillPlayerJT.
 	 * @return float

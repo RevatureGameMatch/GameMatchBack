@@ -38,7 +38,7 @@ public class SurveyService {
 		float modifiedByExpertise = modifiedBySkill == null ? BalanceConstants.getMinExpertise() : balanceHelper.calculateExpertise(modifiedBySkill);
 		SkillPlayerJT skillPlayerJT = skillPlayerJTHandler.findBySkillPlayer(skill, player);
 		if(skillPlayerJT == null) {
-			skillPlayerJT = skillPlayerJTService.makeDefault(skill, player);
+			skillPlayerJT = skillPlayerJTService.addSkillWithDefaultValue(skill, player);
 		}
 		SkillPlayerChangeJT skillPlayerChangeJT = new SkillPlayerChangeJT();
 		long gameTime = 0;

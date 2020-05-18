@@ -37,7 +37,6 @@ public class DummyDataDriver {
 	@Autowired
 	private PlayerRoomJTGenerator playerRoomJTGenerator;
 	public void generate() {
-//		throw new RuntimeException("Generation is turned off right now");
 		loggerSingleton.getBusinessLog().trace("Generating Players");
 		playerGenerator.generate();
 		loggerSingleton.getBusinessLog().trace("Generating Games");

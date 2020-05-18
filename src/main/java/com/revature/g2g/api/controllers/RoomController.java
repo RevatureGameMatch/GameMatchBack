@@ -28,6 +28,7 @@ import com.revature.g2g.models.PlayerRoomJT;
 import com.revature.g2g.models.Room;
 import com.revature.g2g.models.RoomPlayStyle;
 import com.revature.g2g.services.business.PlayerRoomService;
+import com.revature.g2g.services.business.SkillPlayerJTService;
 import com.revature.g2g.services.handlers.GameHandler;
 import com.revature.g2g.services.handlers.PlayerRoomJTHandler;
 import com.revature.g2g.services.handlers.RoomHandler;
@@ -51,6 +52,7 @@ public class RoomController {
 	private LoggerSingleton loggerSingleton;
 	private GameHandler gameHandler;
 	private GuildHelper guildHelper;
+	private SkillPlayerJTService skillPlayerJTService;
 	@Autowired
 	public void setRoomHandler(RoomHandler roomHandler) {
 		this.roomHandler = roomHandler;
@@ -83,6 +85,10 @@ public class RoomController {
 	public void setGuildHelper(GuildHelper guildHelper) {
 		this.guildHelper = guildHelper;
 	}
+	@Autowired
+	public void setSkillPlayerJTService(SkillPlayerJTService skillPlayerJTService) {
+		this.skillPlayerJTService = skillPlayerJTService;
+	}
 	@GetMapping
 	public ResponseEntity<List<Room>> getRooms(){
 		List<Room> rooms = roomHandler.findAll();
@@ -102,7 +108,7 @@ public class RoomController {
 		}
 	}
 	@PostMapping("")
-	public ResponseEntity<Room> insert(@RequestBody RoomTemplate roomTemplate){
+	public ResponseEntity<Room> makeNewRoom(@RequestBody RoomTemplate roomTemplate){
 		if(roomTemplate == null || roomTemplate.getRoom() == null) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 		}
@@ -116,7 +122,7 @@ public class RoomController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(room);
 	}
 	@PatchMapping("")
-	public ResponseEntity<List<Room>> update(@RequestBody RoomTemplate roomTemplate){
+	public ResponseEntity<List<Room>> updateRoom(@RequestBody RoomTemplate roomTemplate){
 		if(roomTemplate == null || roomTemplate.getRoom() == null) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 		}
@@ -142,7 +148,7 @@ public class RoomController {
 		}
 	}
 	@PostMapping("/player")
-	public ResponseEntity<DiscordInviteTemplate> insert(@RequestBody PlayerRoomTemplate template){
+	public ResponseEntity<DiscordInviteTemplate> playerJoinRoom(@RequestBody PlayerRoomTemplate template){
 		if(template == null || template.getRoom() == null) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 		}
@@ -160,6 +166,7 @@ public class RoomController {
 		if(alreadyInRoom == null) {
 			room.setCurrentPlayers(room.getCurrentPlayers() + 1);
 			roomHandler.save(room);
+			skillPlayerJTService.checkThenAddGamesSkills(player, room.getGame());
 		}
 		DiscordInviteTemplate discordInviteTemplate = new DiscordInviteTemplate();
 		discordInviteTemplate.setChannelId(room.getDiscordVoiceChannelId());

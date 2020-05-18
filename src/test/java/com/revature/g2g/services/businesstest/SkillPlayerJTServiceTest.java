@@ -52,16 +52,16 @@ public class SkillPlayerJTServiceTest {
 		Skill skill = new Skill();
 		Player player = new Player();
 		SkillPlayerJT spJT = new SkillPlayerJT();
-		when(service.makeDefault(skill, player))
+		when(service.addSkillWithDefaultValue(skill, player))
 			.thenReturn(spJT);
-		SkillPlayerJT result = service.makeDefault(skill, player);
+		SkillPlayerJT result = service.addSkillWithDefaultValue(skill, player);
 		result.setExpertise(balanceHelper.calculateExpertise(result));
 		SkillPlayerJT expected = new SkillPlayerJT();
 		expected.setPlayer(player);
 		expected.setSkill(skill);
 		expected.setValue(BalanceConstants.getStartValue());
 		expected.setExpertise(balanceHelper.calculateExpertise(expected));
-		verify(service).makeDefault(skill,player);
+		verify(service).addSkillWithDefaultValue(skill,player);
 		assertEquals(result, expected);
 		
 		

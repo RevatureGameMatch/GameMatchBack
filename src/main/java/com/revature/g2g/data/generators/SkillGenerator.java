@@ -25,15 +25,15 @@ public class SkillGenerator implements DataGenerator {
 		make(fun, null);
 		make(technical, null);
 		make("Participation", null);
-		make("Communicator", fun);
-		make("Listener", fun);
 		make("Coach", fun);
+		make("Communicator", fun);
 		make("Empower Team Decisions", fun);
-		make("Interest in Others Success", fun);
-		make("Productive", technical);
-		make("Strategic", technical);
-		make("Roleplay", fun);
 		make("Family Friendly", fun);
+		make("Interest in Others Success", fun);
+		make("Listener", fun);
+		make("Productive", technical);
+		make("Roleplay", fun);
+		make("Strategic", technical);
 	}
 	private void make(String name, String parentSkillName) {
 		Skill skill = null;

@@ -3,6 +3,7 @@ package com.revature.g2g.api.controllers;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -18,11 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.revature.g2g.api.templates.MessageTemplate;
 import com.revature.g2g.api.templates.PlayerTemplate;
-import com.revature.g2g.api.templates.SurveyRoomTemplate;
-import com.revature.g2g.api.templates.SurveySkillTemplate;
 import com.revature.g2g.api.templates.SurveySubmitTemplate;
-import com.revature.g2g.api.templates.SurveyTemplate;
-import com.revature.g2g.models.Game;
 import com.revature.g2g.models.Player;
 import com.revature.g2g.models.Room;
 import com.revature.g2g.models.Skill;
@@ -81,111 +78,6 @@ public class SurveyController {
 	public void setSurveyService(SurveyService surveyService) {
 		this.surveyService = surveyService;
 	}
-	@PostMapping
-	public ResponseEntity<List<Room>> getSurveys(@Valid @RequestBody PlayerTemplate template){
-		Player player = authenticatorHelper.getPlayer(template);
-		if(player == null) {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-		}
-		List<Room> rooms = playerRoomJTHandler.findSurveyRooms(player);
-		return ResponseEntity.status(HttpStatus.ACCEPTED).body(rooms);
-	}
-	//TODO deprecated as of 5/18/2020 will be removed in the future use the new endpoint "/"
-	@PostMapping("/player")
-	public ResponseEntity<List<SurveyRoomTemplate>> getSurveysForPlayer(@Valid @RequestBody PlayerTemplate template){
-		Player player = authenticatorHelper.getPlayer(template);
-		if(player == null) {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-		}
-		if( playerRoomJTHandler.findByPlayer(player) == null) {
-			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-		}
-		List<SurveyRoomTemplate> bodyList = new ArrayList<>();
-		List<Room> roomList = new ArrayList<>();
-		List<Room> surveyRoomList = playerRoomJTHandler.findSurveyRooms(player);
-		roomList.addAll(surveyRoomList);
-		for(Room r: roomList) {
-			List<SurveyTemplate> surveyTemplateList = templateGeneratingLoop(r, player);
-			SurveyRoomTemplate surveyRoomTemplate = new SurveyRoomTemplate(r, surveyTemplateList);
-			bodyList.add(surveyRoomTemplate);
-		}
-		return ResponseEntity.status(HttpStatus.ACCEPTED).body(bodyList);
-	}
-	public List<SurveyTemplate> templateGeneratingLoop(Room room, Player player){
-		List<Player> players = playerRoomJTHandler.findPlayers(room);
-		List<Skill> skills = skillGameJTHandler.findByGame(room.getGame());
-		List<SurveyTemplate> surveyTemplateList = new ArrayList<>();
-		List<SkillPlayerChangeJT> skillPlayerChangeJTList = skillPlayerChangeJTHandler.findBy(room, player);
-		SurveySkillTemplate[] arr = new SurveySkillTemplate[skills.size()];
-		for (Player p: players) {
-			if(p.equals(player)) {
-				continue;
-			}
-			ArrayList<SurveySkillTemplate> surveySkillTemplateArray = skillGeneratingLoop(arr, skills, p, player, room, skillPlayerChangeJTList);
-			PlayerTemplate playerTemplate = new PlayerTemplate(p);
-			SurveyTemplate surveyTemplate = new SurveyTemplate(playerTemplate, surveySkillTemplateArray.toArray(arr));
-			
-			surveyTemplateList.add(surveyTemplate);
-		}
-		return surveyTemplateList;
-	}
-	//TODO deprecated as of 5/18/2020 will be removed in the future use the new endpoint "/room/{id}"
-	@PostMapping("/room/id/{id}")
-	public ResponseEntity<List<SurveyTemplate>> getSurvey(@Valid @RequestBody PlayerTemplate template, @PathVariable("id") int id){
-		Player player = authenticatorHelper.getPlayer(template);
-		Optional<Room> roomOpt = roomHandler.findById(id);
-		if(!roomOpt.isPresent() || player == null) {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-		}
-		Room room = roomOpt.get();
-		if( playerRoomJTHandler.findByPlayerAndRoom(player, room) == null) {
-			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-		}
-		List<Player> players = playerRoomJTHandler.findPlayers(room);
-		List<Skill> skills = skillGameJTHandler.findByGame(room.getGame());
-		List<SurveyTemplate> surveyTemplateList = new ArrayList<>();
-		List<SkillPlayerChangeJT> skillPlayerChangeJTList = skillPlayerChangeJTHandler.findBy(room, player);//checks room and modified by
-		
-		SurveySkillTemplate[] arr = new SurveySkillTemplate[skills.size()];
-		for (Player p: players) {
-			if(p.equals(player)) {
-				continue;
-			}
-			ArrayList<SurveySkillTemplate> surveySkillTemplateArray = skillGeneratingLoop(arr, skills, p, player, room, skillPlayerChangeJTList);
-			PlayerTemplate playerTemplate = new PlayerTemplate(p);
-			SurveyTemplate surveyTemplate = new SurveyTemplate(playerTemplate, surveySkillTemplateArray.toArray(arr));
-			
-			surveyTemplateList.add(surveyTemplate);
-		}
-		return ResponseEntity.status(HttpStatus.ACCEPTED).body(surveyTemplateList);
-	}
-	private ArrayList<SurveySkillTemplate> skillGeneratingLoop(SurveySkillTemplate[] arr, List<Skill> skills, Player p, Player modifiedBy, 
-			Room room, List<SkillPlayerChangeJT> skillPlayerChangeJTList) {
-		ArrayList<SurveySkillTemplate> surveySkillTemplateArray = new ArrayList<>();
-		int size = skillPlayerChangeJTList.size();
-		Game game = room.getGame();
-		for (Skill s: skills) {
-			boolean found = false;
-			if (size != 0) {
-				for (SkillPlayerChangeJT spc: skillPlayerChangeJTList) {
-					if(spc.getSkillPlayerJT().getSkill().equals(s) && spc.getPlayer().equals(p)) {
-						double val = spc.getValue();
-						SurveySkillTemplate surveySkillTemplate = new SurveySkillTemplate(
-								s, (val * 100), game);
-						surveySkillTemplateArray.add(surveySkillTemplate);
-						found = true;
-						break;
-					}
-				}
-			}
-			if (!found) {
-				SurveySkillTemplate surveySkillTemplate = new SurveySkillTemplate(
-						s, 0, game);
-				surveySkillTemplateArray.add(surveySkillTemplate);	
-			}
-		}
-		return surveySkillTemplateArray;
-	}
 	@PostMapping("/room/id/{id}/submit")
 	public ResponseEntity<MessageTemplate> insertSurvey(@Valid @RequestBody SurveySubmitTemplate template, @PathVariable("id") int roomId){
 		Player modifiedBy = authenticatorHelper.getPlayer(template.getModifiedBy());
@@ -220,7 +112,7 @@ public class SurveyController {
 		if(player == null) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 		}
-		List<Room> roomList = playerRoomJTHandler.findSurveyRooms(player);
+		List<Room> roomList = playerRoomJTHandler.findSurveyRooms(player).stream().distinct().collect(Collectors.toList());
 		if( roomList == null || roomList.isEmpty()) {
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 		}
@@ -245,11 +137,9 @@ public class SurveyController {
 		return ResponseEntity.ok(result);
 	}
 	private SurveyDTO buildSurveyDTO(Room room, Player player) {
-		List<Player> players = playerRoomJTHandler.findPlayers(room);
-		List<Skill> skills = skillGameJTHandler.findByGame(room.getGame());
-		while(players.remove(player)) {
-			//Empty because all we want to loop over is the remove, which returns a boolean
-		};
+		List<Player> players = playerRoomJTHandler.findPlayers(room).stream().distinct().collect(Collectors.toList());
+		List<Skill> skills = skillGameJTHandler.findByGame(room.getGame()).stream().distinct().collect(Collectors.toList());
+		players.remove(player);
 		SurveyDTO result = new SurveyDTO();
 		result.setPlayers(players);
 		result.setSkills(skills);

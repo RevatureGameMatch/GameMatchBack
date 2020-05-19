@@ -26,4 +26,12 @@ public class SkillDTO {
 			this.parentSkill = null; 
 		} 
 	}
+
+	public SkillDTO(SkillDTO skill) {
+		super(); 
+		this.skillId = skill.getSkillId(); 
+		this.name = skill.getName(); 
+			this.parentSkill = new SkillDTO(skill.getParentSkill() ); 
+	}
+	
 }

@@ -162,9 +162,10 @@ public class GameController {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		}
 		Game game = gameOpt.get();
-		game.setName(Jsoup.clean(game.getName(), Whitelist.none()));
-		game.setDescription(Jsoup.clean(game.getDescription(), Whitelist.none()));
-		game.setLink(Jsoup.clean(game.getLink(), Whitelist.none()));
+		gameDTO = new GameDTO(gameDTO); //
+		game.setName(gameDTO.getName() );
+		game.setDescription(gameDTO.getDescription() );
+		game.setLink(gameDTO.getLink() );
 		gameHandler.save(game);
 		List<Game> games = gameHandler.findAll();
 		if(games.isEmpty()) {

@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.revature.g2g.api.templates.MessageTemplate;
 import com.revature.g2g.api.templates.SurveySkillTemplate;
-import com.revature.g2g.api.templates.SurveySubmitTemplate;
 import com.revature.g2g.models.Game;
 import com.revature.g2g.models.Player;
 import com.revature.g2g.models.PlayerDTO;
@@ -29,6 +28,7 @@ import com.revature.g2g.models.Skill;
 import com.revature.g2g.models.SkillDTO;
 import com.revature.g2g.models.SkillPlayerChangeJT;
 import com.revature.g2g.models.SurveyDTO;
+import com.revature.g2g.models.SurveySubmitDTO;
 import com.revature.g2g.services.business.SurveyService;
 import com.revature.g2g.services.handlers.PlayerHandler;
 import com.revature.g2g.services.handlers.PlayerRoomJTHandler;
@@ -158,11 +158,11 @@ public class SurveyController {
 
 
 	@PostMapping("/room/id/{id}/submit")
-	public ResponseEntity<MessageTemplate> insertSurvey(@Valid @RequestBody SurveySubmitTemplate template, @PathVariable("id") int roomId){
-		Player modifiedBy = authenticatorHelper.getPlayer(new PlayerDTO(template.getModifiedBy()) );
-		Optional<Player> playerOpt = playerHandler.findById(template.getPlayer().getPlayerId());
+	public ResponseEntity<MessageTemplate> insertSurvey(@Valid @RequestBody SurveySubmitDTO dto, @PathVariable("id") int roomId){
+		Player modifiedBy = authenticatorHelper.getPlayer(new PlayerDTO(dto.getModifiedBy()) );
+		Optional<Player> playerOpt = playerHandler.findById(dto.getPlayer().getPlayerId());
 		Optional<Room> roomOpt = roomHandler.findById(roomId);
-		Optional<Skill> skillOpt = skillHandler.findById(template.getSkill().getSkillId());
+		Optional<Skill> skillOpt = skillHandler.findById(dto.getSkill().getSkillId());
 		if(!roomOpt.isPresent() || !playerOpt.isPresent() || modifiedBy == null || !skillOpt.isPresent()) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 		}
@@ -179,7 +179,7 @@ public class SurveyController {
 			MessageTemplate messageTemplate = new MessageTemplate(message);
 			return ResponseEntity.status(HttpStatus.CONFLICT).body(messageTemplate);
 		}
-		skillPlayerChangeJT = surveyService.submit(modifiedBy, player, room, skill, template.getValue());
+		skillPlayerChangeJT = surveyService.submit(modifiedBy, player, room, skill, dto.getValue());
 		String successMessage = "Thank you for ranking " + skillPlayerChangeJT.getPlayer().getPlayerUsername() + "'s skill in " +
 				skillPlayerChangeJT.getSkillPlayerJT().getSkill().getName() + ". Together we will build a brighter tomorrow.";
 		MessageTemplate successTemplate = new MessageTemplate(successMessage);

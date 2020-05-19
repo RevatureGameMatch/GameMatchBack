@@ -46,7 +46,7 @@ public class PlayerController {
 		this.skillPlayerJTService = skillPlayerJTService;
 	}
 	
-	// TODO: PlayerTemplate is depreciated, but required here for password manipulation
+	// TODO: rework this once Cognito is working.
 	@PostMapping
 	public ResponseEntity<PlayerDTO> insert(@RequestBody PlayerDTO dto){
 		if(dto == null) {

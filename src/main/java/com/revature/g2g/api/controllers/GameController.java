@@ -162,7 +162,7 @@ public class GameController {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		}
 		Game game = gameOpt.get();
-		gameDTO = new GameDTO(gameDTO); //
+		gameDTO = new GameDTO(gameDTO); //sanitize gameDTO
 		game.setName(gameDTO.getName() );
 		game.setDescription(gameDTO.getDescription() );
 		game.setLink(gameDTO.getLink() );

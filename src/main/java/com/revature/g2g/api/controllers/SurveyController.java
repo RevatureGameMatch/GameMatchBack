@@ -17,11 +17,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.revature.g2g.api.templates.MessageTemplate;
-import com.revature.g2g.api.templates.PlayerTemplate;
 import com.revature.g2g.api.templates.SurveyRoomTemplate;
 import com.revature.g2g.api.templates.SurveySkillTemplate;
 import com.revature.g2g.api.templates.SurveySubmitTemplate;
-import com.revature.g2g.api.templates.SurveyTemplate;
 import com.revature.g2g.models.Game;
 import com.revature.g2g.models.Player;
 import com.revature.g2g.models.PlayerDTO;
@@ -113,7 +111,7 @@ public class SurveyController {
 		Player innerPlayer = new Player(player);
 		List<Player> players = playerRoomJTHandler.findPlayers(innerRoom );
 		List<Skill> skills = skillGameJTHandler.findByGame(innerRoom.getGame() );
-		List<SurveyTemplate> surveyTemplateList = new ArrayList<>();
+		List<SurveyDTO> surveyDTOList = new ArrayList<>();
 		List<SkillPlayerChangeJT> skillPlayerChangeJTList = skillPlayerChangeJTHandler.findBy(innerRoom, innerPlayer);
 		SurveySkillTemplate[] arr = new SurveySkillTemplate[skills.size()];
 		List<SurveyDTO> returnThis = new ArrayList<SurveyDTO>();
@@ -123,7 +121,7 @@ public class SurveyController {
 				continue;
 			}
 			ArrayList<SurveySkillTemplate> surveySkillTemplateArray = skillGeneratingLoop(arr, skills, p, innerPlayer, innerRoom, skillPlayerChangeJTList);
-			PlayerTemplate playerTemplate = new PlayerTemplate(p);
+			PlayerDTO playerDTO = new PlayerDTO(p);
 			SurveyDTO surveyDTO = new SurveyDTO(player, surveySkillTemplateArray.toArray(arr));
 			
 			returnThis.add(surveyDTO);

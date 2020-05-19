@@ -1,6 +1,7 @@
 package com.revature.g2g.models;
 
-import com.revature.g2g.api.templates.PlayerTemplate;
+import org.jsoup.Jsoup;
+import org.jsoup.safety.Whitelist;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,26 +12,33 @@ public class PlayerDTO {
 	private String playerUsername;
 	private String playerEmail;
 	private PlayerRole  playerRole;
+	private String message;
 
-	public PlayerDTO(Player player) {
+	public PlayerDTO(Player source) {
 		super();
-		this.playerId = player.getPlayerId();
-		this.playerUsername = player.getPlayerUsername();
-		this.playerEmail = player.getPlayerEmail();
-		this.playerRole = player.getPlayerRole();
+		this.setPlayerEmail(Jsoup.clean(source.getPlayerEmail(), Whitelist.none()));
+		this.setPlayerUsername(Jsoup.clean(source.getPlayerUsername(), Whitelist.none()));
+		this.setPlayerId(source.getPlayerId());
+		PlayerRole role = source.getPlayerRole();
+		try {
+			this.setPlayerRole(PlayerRole.valueOf(role.toString()));
+		}catch (IllegalArgumentException e) {
+			this.setPlayerRole(PlayerRole.PLAYER);
+		}
 	}
 
-	/**
-	 * This method is depreciated, and can be removed once PlayerTemplate has been removed.
-	 * 
-	 * @param source
-	 */
-	public PlayerDTO(PlayerTemplate source) {
+	public PlayerDTO(PlayerDTO source) {
 		super();
-		this.playerId = source.getPlayerId();
-		this.playerUsername = source.getPlayerUsername();
-		this.playerEmail = source.getPlayerEmail();
-		this.playerRole = source.getPlayerRole();
+		this.setPlayerEmail(Jsoup.clean(source.getPlayerEmail(), Whitelist.none()));
+		this.setPlayerUsername(Jsoup.clean(source.getPlayerUsername(), Whitelist.none()));
+		this.setPlayerId(source.getPlayerId());
+		PlayerRole role = source.getPlayerRole();
+		try {
+			this.setPlayerRole(PlayerRole.valueOf(role.toString()));
+		}catch (IllegalArgumentException e) {
+			this.setPlayerRole(PlayerRole.PLAYER);
+		}
+		this.setMessage(Jsoup.clean(source.getMessage(), Whitelist.none()) );
 	}
 
 }

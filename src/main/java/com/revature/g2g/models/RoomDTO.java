@@ -2,6 +2,9 @@ package com.revature.g2g.models;
 
 import java.util.Date;
 
+import org.jsoup.Jsoup;
+import org.jsoup.safety.Whitelist;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -20,22 +23,43 @@ public class RoomDTO {
 	private RoomStatus status;
 	private RoomPlayStyle style;
 	private GameDTO game;
+	private RoomDTO room;
+	private PlayerDTO sender;
 
-	public RoomDTO(Room room) {
+	public RoomDTO(Room source) {
 		super();
-		this.roomId = room.getRoomId();
-		this.discordTextChannelId = room.getDiscordTextChannelId();
-		this.discordVoiceChannelId = room.getDiscordVoiceChannelId();
-		this.discordRoleId = room.getDiscordRoleId();
-		this.created = room.getCreated();
-		this.closed = room.getClosed();
-		this.name = room.getName();
-		this.currentPlayers = room.getCurrentPlayers();
-		this.maxPlayers =  room.getMaxPlayers();
-		this.description =  room.getDescription();
-		this.status = room.getStatus();
-		this.style = room.getStyle();
-		this.game = new GameDTO(room.getGame() );
+		this.roomId = source.getRoomId();
+		this.discordTextChannelId = source.getDiscordTextChannelId();
+		this.discordVoiceChannelId = source.getDiscordVoiceChannelId();
+		this.discordRoleId = source.getDiscordRoleId();
+		this.created = source.getCreated();
+		this.closed = source.getClosed();
+		this.setName(Jsoup.clean(source.getName(), Whitelist.none()) );
+		this.currentPlayers = source.getCurrentPlayers();
+		this.maxPlayers =  source.getMaxPlayers();
+		this.setDescription(Jsoup.clean(source.getDescription(), Whitelist.none()) );
+		this.status = source.getStatus();
+		this.style = source.getStyle();
+		this.game = new GameDTO(source.getGame() );
+	}
+
+	public RoomDTO(RoomDTO source) {
+		super();
+		this.roomId = source.getRoomId();
+		this.discordTextChannelId = source.getDiscordTextChannelId();
+		this.discordVoiceChannelId = source.getDiscordVoiceChannelId();
+		this.discordRoleId = source.getDiscordRoleId();
+		this.created = source.getCreated();
+		this.closed = source.getClosed();
+		this.setName(Jsoup.clean(source.getName(), Whitelist.none()) );
+		this.currentPlayers = source.getCurrentPlayers();
+		this.maxPlayers =  source.getMaxPlayers();
+		this.setDescription(Jsoup.clean(source.getDescription(), Whitelist.none()) );
+		this.status = source.getStatus();
+		this.style = source.getStyle();
+		this.game = new GameDTO(source.getGame() );
+		this.room = new RoomDTO(source.getRoom() );
+		this.sender = new PlayerDTO(source.getSender() );
 	}
 
 }

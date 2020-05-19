@@ -32,6 +32,7 @@ public class GenerateController {
 	public void setLoggerSingleton(LoggerSingleton loggerSingleton) {
 		this.loggerSingleton = loggerSingleton;
 	}
+	
 	@GetMapping
 	public ResponseEntity<MessageTemplate> triggerGeneration(){
 		if(environmentService.isDev()) {

@@ -18,12 +18,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.revature.g2g.api.templates.GameTemplate;
 import com.revature.g2g.models.Game;
 import com.revature.g2g.models.GameDTO;
 import com.revature.g2g.models.Player;
 import com.revature.g2g.models.PlayerRole;
 import com.revature.g2g.models.Skill;
+import com.revature.g2g.models.SkillDTO;
 import com.revature.g2g.services.handlers.GameHandler;
 import com.revature.g2g.services.handlers.SkillGameJTHandler;
 import com.revature.g2g.services.helpers.AuthenticatorHelper;
@@ -45,51 +45,68 @@ public class GameController {
 		this.gameHelper = gameHelper;
 		this.skillGameJTHandler = skillGameJTHandler;
 	}
+	
 	@GetMapping
-	public ResponseEntity<List<Game>> getGames(){
+	public ResponseEntity<List<GameDTO>> getGames(){
 		List<Game> games = gameHandler.findAll();
+		List<GameDTO> returnThis = new ArrayList<GameDTO>();
 		if(games.isEmpty()) {
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 		}else {
-			return ResponseEntity.status(HttpStatus.ACCEPTED).body(games);
+			for (Game game : games) {
+				returnThis.add(new GameDTO(game) );
+			}
+			return ResponseEntity.status(HttpStatus.ACCEPTED).body(returnThis);
 		}
 	}
+	
 	@GetMapping("/name/{name}")
-	public ResponseEntity<Game> findByName(@PathVariable("name") String name){
+	public ResponseEntity<GameDTO> findByName(@PathVariable("name") String name){
 		String cleanName = Jsoup.clean(name, Whitelist.none()).replace('_', ' ');
 		Game game = gameHandler.findByName(cleanName);
 		if(game == null) {
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 		}else {
-			return ResponseEntity.status(HttpStatus.ACCEPTED).body(game);
+			return ResponseEntity.status(HttpStatus.ACCEPTED).body(new GameDTO(game) );
 		}
 	}
+	
 	@GetMapping("/id/{id}")
-	public ResponseEntity<Game> findById(@PathVariable("id") int id){
+	public ResponseEntity<GameDTO> findById(@PathVariable("id") int id){
 		Optional<Game> gameOpt = gameHandler.findById(id);
 		if(gameOpt.isPresent()) {
-			return ResponseEntity.status(HttpStatus.ACCEPTED).body(gameOpt.get());
+			return ResponseEntity.status(HttpStatus.ACCEPTED).body(new GameDTO(gameOpt.get()) );
 		}else {
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 		}
 	}
+	
 	@GetMapping("/name/{name}/skills")
-	public ResponseEntity<List<Skill>> findAllSkillsByName(@PathVariable("name") String name){
+	public ResponseEntity<List<SkillDTO>> findAllSkillsByName(@PathVariable("name") String name){
 		String cleanName = Jsoup.clean(name, Whitelist.none()).replace('_', ' ');
 		Game game = gameHandler.findByName(cleanName);
 		List<Skill> set = skillGameJTHandler.findByGame(game);
+		List<SkillDTO> returnThis = new ArrayList<SkillDTO>();
 		if (game == null) {
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 		} else {
-			return ResponseEntity.status(HttpStatus.ACCEPTED).body(set);
+			for (Skill skill : set) {
+				returnThis.add(new SkillDTO(skill) );
+			}
+			return ResponseEntity.status(HttpStatus.ACCEPTED).body(returnThis);
 		}
 	}
+	
 	@GetMapping("/id/{id}/skills")
-	public ResponseEntity<List<Skill>> findAllSkillsById(@PathVariable("id") int id){
+	public ResponseEntity<List<SkillDTO>> findAllSkillsById(@PathVariable("id") int id){
 		Optional<Game> gameOpt = gameHandler.findById(id);
 		if (gameOpt.isPresent()) {
 			List<Skill> set = skillGameJTHandler.findByGame(gameOpt.get());
-			return ResponseEntity.status(HttpStatus.ACCEPTED).body(set);
+			List<SkillDTO> returnThis = new ArrayList<SkillDTO>();
+			for (Skill skill : set) {
+				returnThis.add(new SkillDTO(skill) );
+			}
+			return ResponseEntity.status(HttpStatus.ACCEPTED).body(returnThis);
 		} else {
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 		}
@@ -97,21 +114,24 @@ public class GameController {
 	
 	// TODO: While we need sender, this depends upon GameTemplate, which is depreciated
 	@PostMapping("")
-	public ResponseEntity<List<GameDTO>> insert(@RequestBody GameTemplate template){
-		if(template == null || template.getGame() == null) {
+	public ResponseEntity<List<GameDTO>> insert(@RequestBody GameDTO dto){
+		Optional<Game> dataGame = null;
+		if(dto == null) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+		} else {
+			dataGame = gameHandler.findById(dto.getGameId() );
 		}
-		Player player = authenticatorHelper.getPlayer(template.getSender());
+		Player player = authenticatorHelper.getPlayer(dto.getSender());
 		if(player == null) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 		}
 		if(!(player.getPlayerRole().equals(PlayerRole.ADMIN) || player.getPlayerRole().equals(PlayerRole.MODERATOR))) {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 		}
-		if(gameHandler.findByName(template.getGame().getName()) != null) {
+		if(dataGame != null) {
 			return ResponseEntity.status(HttpStatus.CONFLICT).build();
 		}
-		gameHandler.save(gameHelper.clean(template.getGame()));
+		gameHandler.save(gameHelper.clean(new Game(dataGame)) );
 		List<Game> games = gameHandler.findAll();
 		if(games.isEmpty()) {
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
@@ -124,32 +144,37 @@ public class GameController {
 		}
 	}
 
+	// TODO: GameTemplate is depreciated, but is needed here while this method needs getSender()
 	@PatchMapping("")
-	public ResponseEntity<List<Game>> update(@RequestBody GameTemplate gameTemplate){
-		if(gameTemplate == null || gameTemplate.getGame() == null) {
+	public ResponseEntity<List<GameDTO>> update(@RequestBody GameDTO gameDTO){
+		if(gameDTO == null) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 		}
-		Player player = authenticatorHelper.getPlayer(gameTemplate.getSender());
+		Player player = authenticatorHelper.getPlayer(gameDTO.getSender());
 		if(player == null) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 		}
 		if(!(player.getPlayerRole().equals(PlayerRole.ADMIN) || player.getPlayerRole().equals(PlayerRole.MODERATOR))) {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 		}
-		Optional<Game> gameOpt = gameHandler.findById(gameTemplate.getGame().getGameId());
+		Optional<Game> gameOpt = gameHandler.findById(gameDTO.getGameId());
 		if(!gameOpt.isPresent()) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		}
 		Game game = gameOpt.get();
-		game.setName(Jsoup.clean(gameTemplate.getGame().getName(), Whitelist.none()));
-		game.setDescription(Jsoup.clean(gameTemplate.getGame().getDescription(), Whitelist.none()));
-		game.setLink(Jsoup.clean(gameTemplate.getGame().getLink(), Whitelist.none()));
-		gameHandler.save(gameTemplate.getGame());
+		game.setName(Jsoup.clean(game.getName(), Whitelist.none()));
+		game.setDescription(Jsoup.clean(game.getDescription(), Whitelist.none()));
+		game.setLink(Jsoup.clean(game.getLink(), Whitelist.none()));
+		gameHandler.save(game);
 		List<Game> games = gameHandler.findAll();
 		if(games.isEmpty()) {
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 		}else {
-			return ResponseEntity.status(HttpStatus.RESET_CONTENT).body(games);
+			List<GameDTO> returnThis = new ArrayList<GameDTO>();
+			for (Game gameElement : games) {
+				returnThis.add(new GameDTO(gameElement) );
+			}
+			return ResponseEntity.status(HttpStatus.RESET_CONTENT).body(returnThis);
 		}
 	}
 }

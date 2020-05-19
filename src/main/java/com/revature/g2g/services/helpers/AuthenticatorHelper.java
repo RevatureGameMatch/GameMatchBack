@@ -7,7 +7,6 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.revature.g2g.api.templates.PlayerTemplate;
 import com.revature.g2g.models.Player;
 import com.revature.g2g.models.PlayerDTO;
 import com.revature.g2g.services.handlers.PlayerHandler;

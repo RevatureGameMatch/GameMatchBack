@@ -5,6 +5,7 @@ import java.util.Objects;
 import javax.validation.constraints.NotNull;
 
 import com.revature.g2g.models.Player;
+import com.revature.g2g.models.PlayerDTO;
 import com.revature.g2g.models.Skill;
 
 public class SurveySubmitTemplate {
@@ -12,7 +13,7 @@ public class SurveySubmitTemplate {
 	private Player player;
 	
 	@NotNull(message="SurveySubmitTemplate requires a modifiedBy")
-	private PlayerTemplate modifiedBy;
+	private PlayerDTO modifiedBy;
 	
 	@NotNull(message="SurveySubmitTemplate requires a skill")
 	private Skill skill;
@@ -22,10 +23,10 @@ public class SurveySubmitTemplate {
 	public SurveySubmitTemplate() {
 		super();
 		this.player = new Player();
-		this.modifiedBy = new PlayerTemplate();
+		this.modifiedBy = new PlayerDTO();
 		this.skill = new Skill();
 	}
-	public SurveySubmitTemplate(Player player, PlayerTemplate modifiedBy, Skill skill, float value) {
+	public SurveySubmitTemplate(Player player, PlayerDTO modifiedBy, Skill skill, float value) {
 		super();
 		this.player = player;
 		this.modifiedBy = modifiedBy;
@@ -38,10 +39,10 @@ public class SurveySubmitTemplate {
 	public void setPlayer(Player player) {
 		this.player = player;
 	}
-	public PlayerTemplate getModifiedBy() {
+	public PlayerDTO getModifiedBy() {
 		return modifiedBy;
 	}
-	public void setModifiedBy(PlayerTemplate modifiedBy) {
+	public void setModifiedBy(PlayerDTO modifiedBy) {
 		this.modifiedBy = modifiedBy;
 	}
 	public Skill getSkill() {

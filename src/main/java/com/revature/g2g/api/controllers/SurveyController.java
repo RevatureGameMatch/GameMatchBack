@@ -94,7 +94,7 @@ public class SurveyController {
 	@PostMapping
 	public ResponseEntity<List<RoomDTO>> getSurveys(@Valid @RequestBody PlayerDTO dto){
 		Player player = authenticatorHelper.getPlayer(dto);
-		List<RoomDTO> returnThis = new ArrayList<RoomDTO>();
+		List<RoomDTO> returnThis = new ArrayList<>();
 		
 		if(player == null) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
@@ -111,17 +111,15 @@ public class SurveyController {
 		Player innerPlayer = new Player(player);
 		List<Player> players = playerRoomJTHandler.findPlayers(innerRoom );
 		List<Skill> skills = skillGameJTHandler.findByGame(innerRoom.getGame() );
-		List<SurveyDTO> surveyDTOList = new ArrayList<>();
 		List<SkillPlayerChangeJT> skillPlayerChangeJTList = skillPlayerChangeJTHandler.findBy(innerRoom, innerPlayer);
 		SurveySkillTemplate[] arr = new SurveySkillTemplate[skills.size()];
-		List<SurveyDTO> returnThis = new ArrayList<SurveyDTO>();
+		List<SurveyDTO> returnThis = new ArrayList<>();
 		
 		for (Player p: players) {
-			if(p.equals(player)) {
+			if(p.equals(new Player(player)) ) {
 				continue;
 			}
 			ArrayList<SurveySkillTemplate> surveySkillTemplateArray = skillGeneratingLoop(arr, skills, p, innerPlayer, innerRoom, skillPlayerChangeJTList);
-			PlayerDTO playerDTO = new PlayerDTO(p);
 			SurveyDTO surveyDTO = new SurveyDTO(player, surveySkillTemplateArray.toArray(arr));
 			
 			returnThis.add(surveyDTO);
@@ -226,8 +224,8 @@ public class SurveyController {
 		Player innerPlayer = new Player(player);
 		List<Player> players = playerRoomJTHandler.findPlayers(innerRoom);
 		List<Skill> skills = skillGameJTHandler.findByGame(innerRoom.getGame());
-		List<PlayerDTO> outerPlayers = new ArrayList<PlayerDTO>();
-		List<SkillDTO> outerSkills = new ArrayList<SkillDTO>();
+		List<PlayerDTO> outerPlayers = new ArrayList<>();
+		List<SkillDTO> outerSkills = new ArrayList<>();
 
 		while(players.remove(innerPlayer)) {
 			//Empty because all we want to loop over is the remove, which returns a boolean

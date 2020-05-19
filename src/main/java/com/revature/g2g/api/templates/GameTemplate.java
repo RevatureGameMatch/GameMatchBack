@@ -5,21 +5,22 @@ import java.util.Objects;
 import javax.validation.constraints.NotNull;
 
 import com.revature.g2g.models.Game;
+import com.revature.g2g.models.PlayerDTO;
 
 public class GameTemplate {
 	@NotNull
 	private Game game;
 	@NotNull
-	private PlayerTemplate sender;
+	private PlayerDTO sender;
 	public GameTemplate() {
 		super();
 		this.game = new Game();
-		this.sender = new PlayerTemplate();
+		this.sender = new PlayerDTO();
 	}
 	public GameTemplate(Game game, PlayerTemplate sender) {
 		super();
 		this.game = game;
-		this.sender = sender;
+		this.sender = new PlayerDTO(sender);
 	}
 	public Game getGame() {
 		return game;
@@ -27,11 +28,11 @@ public class GameTemplate {
 	public void setGame(Game game) {
 		this.game = game;
 	}
-	public PlayerTemplate getSender() {
+	public PlayerDTO getSender() {
 		return sender;
 	}
 	public void setSender(PlayerTemplate sender) {
-		this.sender = sender;
+		this.sender = new PlayerDTO(sender);
 	}
 	@Override
 	public int hashCode() {

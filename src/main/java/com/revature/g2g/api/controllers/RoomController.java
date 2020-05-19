@@ -1,5 +1,6 @@
 package com.revature.g2g.api.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,9 +24,11 @@ import com.revature.g2g.api.templates.PlayerTemplate;
 import com.revature.g2g.api.templates.RoomTemplate;
 import com.revature.g2g.models.Game;
 import com.revature.g2g.models.Player;
+import com.revature.g2g.models.PlayerDTO;
 import com.revature.g2g.models.PlayerRole;
 import com.revature.g2g.models.PlayerRoomJT;
 import com.revature.g2g.models.Room;
+import com.revature.g2g.models.RoomDTO;
 import com.revature.g2g.models.RoomPlayStyle;
 import com.revature.g2g.services.business.PlayerRoomService;
 import com.revature.g2g.services.business.SkillPlayerJTService;
@@ -112,7 +115,7 @@ public class RoomController {
 		if(roomTemplate == null || roomTemplate.getRoom() == null) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 		}
-		Player player = authenticatorHelper.getPlayer(roomTemplate.getSender());
+		Player player = authenticatorHelper.getPlayer(new PlayerDTO(roomTemplate.getSender()) );
 		if(player == null) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 		}
@@ -126,7 +129,7 @@ public class RoomController {
 		if(roomTemplate == null || roomTemplate.getRoom() == null) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 		}
-		Player player = authenticatorHelper.getPlayer(roomTemplate.getSender());
+		Player player = authenticatorHelper.getPlayer(new PlayerDTO(roomTemplate.getSender()) );
 		if(player == null) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 		}
@@ -152,7 +155,7 @@ public class RoomController {
 		if(template == null || template.getRoom() == null) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 		}
-		Player player = authenticatorHelper.getPlayer(template.getSender());
+		Player player = authenticatorHelper.getPlayer(new PlayerDTO(template.getSender()) );
 		if(player == null) {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 		}
@@ -181,7 +184,7 @@ public class RoomController {
 	}
 	@PostMapping(value="/style/casual")
 	public ResponseEntity<List<Room>> casual(@Valid @RequestBody PlayerTemplate template){
-		Player player = authenticatorHelper.getPlayer(template);
+		Player player = authenticatorHelper.getPlayer(new PlayerDTO(template) );
 		if(player==null) {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 		}
@@ -189,7 +192,7 @@ public class RoomController {
 	}
 	@PostMapping(value="/style/hybrid")
 	public ResponseEntity<List<Room>> hybrid(@Valid @RequestBody PlayerTemplate template){
-		Player player = authenticatorHelper.getPlayer(template);
+		Player player = authenticatorHelper.getPlayer(new PlayerDTO(template) );
 		if(player==null) {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 		}
@@ -197,15 +200,15 @@ public class RoomController {
 	}
 	@PostMapping(value="/style/serious")
 	public ResponseEntity<List<Room>> serious(@Valid @RequestBody PlayerTemplate template){
-		Player player = authenticatorHelper.getPlayer(template);
+		Player player = authenticatorHelper.getPlayer(new PlayerDTO(template) );
 		if(player==null) {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 		}
 		return getRooms(player, RoomPlayStyle.SERIOUS);
 	}
 	@PostMapping(value="/game/casual/{id}")
-	public ResponseEntity<List<Room>> casualName(@Valid @RequestBody PlayerTemplate template, @PathVariable("id") int id){
-		Player player = authenticatorHelper.getPlayer(template);
+	public ResponseEntity<List<RoomDTO>> casualName(@Valid @RequestBody PlayerTemplate template, @PathVariable("id") int id){
+		Player player = authenticatorHelper.getPlayer(new PlayerDTO(template) );
 		if(player==null) {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 		}
@@ -216,8 +219,8 @@ public class RoomController {
 		return getRooms(player, RoomPlayStyle.CASUAL, gameOpt.get());
 	}
 	@PostMapping(value="/game/hybrid/{id}")
-	public ResponseEntity<List<Room>> hybridName(@Valid @RequestBody PlayerTemplate template, @PathVariable("id") int id){
-		Player player = authenticatorHelper.getPlayer(template);
+	public ResponseEntity<List<RoomDTO>> hybridName(@Valid @RequestBody PlayerTemplate template, @PathVariable("id") int id){
+		Player player = authenticatorHelper.getPlayer(new PlayerDTO(template) );
 		if(player==null) {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 		}
@@ -228,8 +231,8 @@ public class RoomController {
 		return getRooms(player, RoomPlayStyle.HYBRID, gameOpt.get());
 	}
 	@PostMapping(value="/game/serious/{id}")
-	public ResponseEntity<List<Room>> seriousName(@Valid @RequestBody PlayerTemplate template, @PathVariable("id") int id){
-		Player player = authenticatorHelper.getPlayer(template);
+	public ResponseEntity<List<RoomDTO>> seriousName(@Valid @RequestBody PlayerDTO dto, @PathVariable("id") int id){
+		Player player = authenticatorHelper.getPlayer(dto);
 		if(player==null) {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 		}
@@ -240,8 +243,8 @@ public class RoomController {
 		return getRooms(player, RoomPlayStyle.SERIOUS, gameOpt.get());
 	}
 	@PostMapping(value="/game/id/{id}")
-	public ResponseEntity<List<Room>> name(@RequestBody PlayerTemplate template, @PathVariable("id") int id){
-		Player player = authenticatorHelper.getPlayer(template);
+	public ResponseEntity<List<RoomDTO>> name(@RequestBody PlayerTemplate template, @PathVariable("id") int id){
+		Player player = authenticatorHelper.getPlayer(new PlayerDTO(template) );
 		if(player==null) {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 		}
@@ -261,24 +264,33 @@ public class RoomController {
 			return ResponseEntity.status(HttpStatus.ACCEPTED).body(rooms);
 		}
 	}
-	private ResponseEntity<List<Room>> getRooms(Player player, Game game){
+	private ResponseEntity<List<RoomDTO>> getRooms(Player player, Game game){
 		List<Room> rooms = playerRoomService.getQualifiedRooms(player, game);
+		List<RoomDTO> returnThis = new ArrayList<RoomDTO>();
 		String logMessage = "ViewRoomsController2: qualified rooms requested by: " + player.getPlayerId() + " " + player.getPlayerUsername();
 		loggerSingleton.getBusinessLog().trace(logMessage);
 		if(rooms.isEmpty()) {
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 		}else {
-			return ResponseEntity.status(HttpStatus.ACCEPTED).body(rooms);
+			for (Room room : rooms) {
+				returnThis.add(new RoomDTO(room) );
+			}
+			return ResponseEntity.status(HttpStatus.ACCEPTED).body(returnThis);
 		}
 	}
-	private ResponseEntity<List<Room>> getRooms(Player player, RoomPlayStyle style, Game game){
+	
+	private ResponseEntity<List<RoomDTO>> getRooms(Player player, RoomPlayStyle style, Game game){
 		List<Room> rooms = playerRoomService.getQualifiedRooms(player, style, game);
+		List<RoomDTO> returnThis = new ArrayList<RoomDTO>();
 		String logMessage = "ViewRoomsController3: qualified rooms requested by: " + player.getPlayerId() + " " + player.getPlayerUsername();
 		loggerSingleton.getBusinessLog().trace(logMessage);
 		if(rooms.isEmpty()) {
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 		}else {
-			return ResponseEntity.status(HttpStatus.ACCEPTED).body(rooms);
+			for (Room room : rooms) {
+				returnThis.add(new RoomDTO(room) );
+			}
+			return ResponseEntity.status(HttpStatus.ACCEPTED).body(returnThis);
 		}
 	}
 }

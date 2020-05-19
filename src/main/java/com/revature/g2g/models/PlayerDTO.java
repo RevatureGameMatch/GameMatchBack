@@ -1,5 +1,7 @@
 package com.revature.g2g.models;
 
+import com.revature.g2g.api.templates.PlayerTemplate;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -16,6 +18,19 @@ public class PlayerDTO {
 		this.playerUsername = player.getPlayerUsername();
 		this.playerEmail = player.getPlayerEmail();
 		this.playerRole = player.getPlayerRole();
+	}
+
+	/**
+	 * This method is depreciated, and can be removed once PlayerTemplate has been removed.
+	 * 
+	 * @param source
+	 */
+	public PlayerDTO(PlayerTemplate source) {
+		super();
+		this.playerId = source.getPlayerId();
+		this.playerUsername = source.getPlayerUsername();
+		this.playerEmail = source.getPlayerEmail();
+		this.playerRole = source.getPlayerRole();
 	}
 
 }

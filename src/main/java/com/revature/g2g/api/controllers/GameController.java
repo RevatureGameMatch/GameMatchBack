@@ -1,5 +1,6 @@
 package com.revature.g2g.api.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.revature.g2g.api.templates.GameTemplate;
 import com.revature.g2g.models.Game;
+import com.revature.g2g.models.GameDTO;
 import com.revature.g2g.models.Player;
 import com.revature.g2g.models.PlayerRole;
 import com.revature.g2g.models.Skill;
@@ -92,27 +94,33 @@ public class GameController {
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 		}
 	}
+	
+	// TODO: While we need sender, this depends upon GameTemplate, which is depreciated
 	@PostMapping("")
-	public ResponseEntity<List<Game>> insert(@RequestBody GameTemplate gameTemplate){
-		if(gameTemplate == null || gameTemplate.getGame() == null) {
+	public ResponseEntity<List<GameDTO>> insert(@RequestBody GameTemplate template){
+		if(template == null || template.getGame() == null) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 		}
-		Player player = authenticatorHelper.getPlayer(gameTemplate.getSender());
+		Player player = authenticatorHelper.getPlayer(template.getSender());
 		if(player == null) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 		}
 		if(!(player.getPlayerRole().equals(PlayerRole.ADMIN) || player.getPlayerRole().equals(PlayerRole.MODERATOR))) {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 		}
-		if(gameHandler.findByName(gameTemplate.getGame().getName()) != null) {
+		if(gameHandler.findByName(template.getGame().getName()) != null) {
 			return ResponseEntity.status(HttpStatus.CONFLICT).build();
 		}
-		gameHandler.save(gameHelper.clean(gameTemplate.getGame()));
+		gameHandler.save(gameHelper.clean(template.getGame()));
 		List<Game> games = gameHandler.findAll();
 		if(games.isEmpty()) {
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 		}else {
-			return ResponseEntity.status(HttpStatus.CREATED).body(games);
+			List<GameDTO> returnThis = new ArrayList<GameDTO>();
+			for (Game game : games) {
+				returnThis.add(new GameDTO(game) );
+			}
+			return ResponseEntity.status(HttpStatus.CREATED).body(returnThis);
 		}
 	}
 

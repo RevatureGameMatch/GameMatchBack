@@ -3,6 +3,7 @@ package com.revature.g2g.api.controllers;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -17,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.revature.g2g.api.templates.MessageTemplate;
-import com.revature.g2g.api.templates.SurveyRoomTemplate;
 import com.revature.g2g.api.templates.SurveySkillTemplate;
 import com.revature.g2g.api.templates.SurveySubmitTemplate;
 import com.revature.g2g.models.Game;
@@ -158,6 +158,7 @@ public class SurveyController {
 		return surveySkillTemplateArray;
 	}
 
+
 	@PostMapping("/room/id/{id}/submit")
 	public ResponseEntity<MessageTemplate> insertSurvey(@Valid @RequestBody SurveySubmitTemplate template, @PathVariable("id") int roomId){
 		Player modifiedBy = authenticatorHelper.getPlayer(new PlayerDTO(template.getModifiedBy()) );
@@ -193,7 +194,7 @@ public class SurveyController {
 		if(player == null) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 		}
-		List<Room> roomList = playerRoomJTHandler.findSurveyRooms(player);
+		List<Room> roomList = playerRoomJTHandler.findSurveyRooms(player).stream().distinct().collect(Collectors.toList());
 		if( roomList == null || roomList.isEmpty()) {
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 		}
@@ -231,6 +232,7 @@ public class SurveyController {
 		while(players.remove(innerPlayer)) {
 			//Empty because all we want to loop over is the remove, which returns a boolean
 		};
+
 		SurveyDTO result = new SurveyDTO();
 		for (Player play : players) {
 			outerPlayers.add(new PlayerDTO(play) );

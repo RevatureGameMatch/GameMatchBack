@@ -35,7 +35,7 @@ import lombok.ToString;
 public class Skill implements Serializable{
 	private static final long serialVersionUID = -6477932264861456053L;
 	@Autowired
-	private SkillHandler skillHandler;
+	private transient SkillHandler skillHandler;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

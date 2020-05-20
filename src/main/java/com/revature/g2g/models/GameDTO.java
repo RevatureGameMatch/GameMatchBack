@@ -1,6 +1,6 @@
 package com.revature.g2g.models;
 
-import com.revature.g2g.data.DataInput;
+import com.revature.g2g.services.helpers.SanitizerHelper;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -34,14 +34,14 @@ public class GameDTO {
 	}
 	
 	public void setDescription(String details) {
-		this.description = DataInput.sanitize(details);
+		this.description = SanitizerHelper.sanitize(details);
 	}
 	
 	public void setLink(String neoLink) {
-		this.link = DataInput.sanitize(neoLink);
+		this.link = SanitizerHelper.sanitize(neoLink);
 	}
 
 	public void setName(String neoName) {
-		this.name = DataInput.sanitize(neoName);
+		this.name = SanitizerHelper.sanitize(neoName);
 	}
 }

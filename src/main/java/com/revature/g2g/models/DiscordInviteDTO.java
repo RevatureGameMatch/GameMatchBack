@@ -1,6 +1,6 @@
 package com.revature.g2g.models;
 
-import com.revature.g2g.data.DataInput;
+import com.revature.g2g.services.helpers.SanitizerHelper;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -40,19 +40,19 @@ public class DiscordInviteDTO {
 	}
 
 	public void setUrlApp(String source) {
-		this.urlApp = DataInput.sanitize(source);
+		this.urlApp = SanitizerHelper.sanitize(source);
 	}
 	
 	public void setUrlWeb(String source) {
-		this.urlWeb = DataInput.sanitize(source);
+		this.urlWeb = SanitizerHelper.sanitize(source);
 	}
 	
 	public void setUsername(String source) {
-		this.username = DataInput.sanitize(source);
+		this.username = SanitizerHelper.sanitize(source);
 	}
 	
 	public void setDiscordCode(String source) {
-		this.discordCode = DataInput.sanitize(source);
+		this.discordCode = SanitizerHelper.sanitize(source);
 		this.urlApp = String.format("discord://discordapp.com/invite/%s", this.discordCode);
 		this.urlWeb = String.format("https://discord.gg/%s", this.discordCode);
 	}

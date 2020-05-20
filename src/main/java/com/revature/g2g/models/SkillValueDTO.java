@@ -1,16 +1,14 @@
-package com.revature.g2g.api.templates;
+package com.revature.g2g.models;
 
 import java.util.Objects;
 
-import com.revature.g2g.models.Skill;
-
-public class SkillValueTemplate {
+public class SkillValueDTO {
 	private Skill skill;
 	private double value;
-	public SkillValueTemplate() {
+	public SkillValueDTO() {
 		super();
 	}
-	public SkillValueTemplate(Skill skill, double value) {
+	public SkillValueDTO(Skill skill, double value) {
 		super();
 		this.skill = skill;
 		this.value = value;
@@ -36,10 +34,10 @@ public class SkillValueTemplate {
 		if (this == obj) {
 			return true;
 		}
-		if (!(obj instanceof SkillValueTemplate)) {
+		if (!(obj instanceof SkillValueDTO)) {
 			return false;
 		}
-		SkillValueTemplate other = (SkillValueTemplate) obj;
+		SkillValueDTO other = (SkillValueDTO) obj;
 		return Objects.equals(skill, other.skill)
 				&& Double.doubleToLongBits(value) == Double.doubleToLongBits(other.value);
 	}

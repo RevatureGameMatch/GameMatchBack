@@ -1,6 +1,6 @@
 package com.revature.g2g.models;
 
-import com.revature.g2g.data.DataInput;
+import com.revature.g2g.services.helpers.SanitizerHelper;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,20 +12,21 @@ public class LoginDTO {
 	
 	public LoginDTO(String neoUserName, String neoPassword) {
 		super();
-		this.setUsername(neoUserName);
-		this.setPassword(neoPassword);
+		this.setPlayerUsername(neoUserName);
+		this.setPlayerPassword(neoPassword);
 	}
 	
 	public LoginDTO(LoginDTO other) {
 		this(other.getPlayerUsername(), other.getPlayerPassword() );
 	}
 	
-	public void setPassword(String source) {
-		this.playerPassword = DataInput.sanitize(source);
+	public void setPlayerPassword(String source) {
+
+		this.playerPassword = SanitizerHelper.sanitize(source);
 	}
 
-	public void setUsername(String source) {
-		this.playerUsername = DataInput.sanitize(source);
+	public void setPlayerUsername(String source) {
+		this.playerUsername = SanitizerHelper.sanitize(source);
 	}
 
 }

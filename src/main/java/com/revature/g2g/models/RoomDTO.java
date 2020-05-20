@@ -5,7 +5,7 @@ import java.util.Date;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
 
-import com.revature.g2g.data.DataInput;
+import com.revature.g2g.services.helpers.SanitizerHelper;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -36,10 +36,10 @@ public class RoomDTO {
 		this.discordRoleId = source.getDiscordRoleId();
 		this.created = source.getCreated();
 		this.closed = source.getClosed();
-		this.setName(DataInput.sanitize(source.getName()) );
+		this.setName(SanitizerHelper.sanitize(source.getName()) );
 		this.currentPlayers = source.getCurrentPlayers();
 		this.maxPlayers =  source.getMaxPlayers();
-		this.setDescription(DataInput.sanitize(source.getDescription()) );
+		this.setDescription(SanitizerHelper.sanitize(source.getDescription()) );
 		this.status = source.getStatus();
 		this.style = source.getStyle();
 		this.game = new GameDTO(source.getGame() );
@@ -53,10 +53,10 @@ public class RoomDTO {
 		this.discordRoleId = source.getDiscordRoleId();
 		this.created = source.getCreated();
 		this.closed = source.getClosed();
-		this.setName(DataInput.sanitize(source.getName()) );
+		this.setName(SanitizerHelper.sanitize(source.getName()) );
 		this.currentPlayers = source.getCurrentPlayers();
 		this.maxPlayers =  source.getMaxPlayers();
-		this.setDescription(DataInput.sanitize(source.getDescription()) );
+		this.setDescription(SanitizerHelper.sanitize(source.getDescription()) );
 		this.status = source.getStatus();
 		this.style = source.getStyle();
 		this.game = new GameDTO(source.getGame() );

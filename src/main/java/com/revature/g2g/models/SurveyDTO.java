@@ -10,5 +10,4 @@ public class SurveyDTO {
 	private List<PlayerDTO> players;
 	private List<SkillDTO> skills;
 	private RoomDTO room;
-
 }

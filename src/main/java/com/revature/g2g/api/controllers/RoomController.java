@@ -39,9 +39,6 @@ import com.revature.g2g.services.helpers.LoggerSingleton;
 import com.revature.g2g.services.helpers.RoomHelper;
 import com.revature.g2g.services.jda.helpers.GuildHelper;
 
-import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.Invite;
-
 @CrossOrigin
 @RestController
 @RequestMapping(value="room")

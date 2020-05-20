@@ -144,7 +144,6 @@ public class GameController {
 		}
 	}
 
-	// TODO: GameTemplate is depreciated, but is needed here while this method needs getSender()
 	@PatchMapping("")
 	public ResponseEntity<List<GameDTO>> update(@RequestBody GameDTO gameDTO){
 		if(gameDTO == null) {

@@ -54,7 +54,7 @@ public class PlayerRoomService {
 		List<SkillPlayerJT> playerSkillsList = skillPlayerJTHandler.findByPlayer(player);
 		SkillPlayerJT[] playerSkills = playerSkillsList.toArray( new SkillPlayerJT[0]);
 		for(Room room : rooms) {
-			if(checkQualfiedRoom(player, room, playerSkills)) {
+			if(checkQualfiedRoom(player, room, playerSkills) ) {
 				result.add(room);
 			}
 		}

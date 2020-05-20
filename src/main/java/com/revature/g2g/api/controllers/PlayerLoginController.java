@@ -44,17 +44,17 @@ public class PlayerLoginController {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 		}
 		try {
-			Player player = loginService.login(dto.getUsername(), dto.getPassword());
+			Player player = loginService.login(dto.getPlayerUsername(), dto.getPlayerPassword());
 			if(player != null) {
 				String loginMessage = "PlayerLoginController: player logged in: " + player.getPlayerUsername();
 				loggerSingleton.getAccessLog().trace(loginMessage);
 				return ResponseEntity.status(HttpStatus.ACCEPTED).body(new PlayerDTO(player) );
 			}
 		}catch(PasswordMatchFailed e) {
-			String invalidPasswordMessage = "INVALID PASSWORD login fail: " + dto.getUsername();
+			String invalidPasswordMessage = "INVALID PASSWORD login fail: " + dto.getPlayerUsername();
 			loggerSingleton.getAccessLog().warn(invalidPasswordMessage);
 		}catch(UserNotFound e) {
-			String invalidUsername = "USER NOT FOUND login fail: " + dto.getUsername();
+			String invalidUsername = "USER NOT FOUND login fail: " + dto.getPlayerUsername();
 			loggerSingleton.getAccessLog().warn(invalidUsername);
 		}
 		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();

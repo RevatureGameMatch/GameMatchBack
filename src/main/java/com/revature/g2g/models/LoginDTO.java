@@ -7,8 +7,8 @@ import lombok.NoArgsConstructor;
 
 @Data @NoArgsConstructor
 public class LoginDTO {
-	private String username;
-	private String password;
+	private String playerUsername;
+	private String playerPassword;
 	
 	public LoginDTO(String neoUserName, String neoPassword) {
 		super();
@@ -17,15 +17,15 @@ public class LoginDTO {
 	}
 	
 	public LoginDTO(LoginDTO other) {
-		this(other.getUsername(), other.getPassword() );
+		this(other.getPlayerUsername(), other.getPlayerPassword() );
 	}
 	
 	public void setPassword(String source) {
-		this.password = SanitizerHelper.sanitize(source);
+		this.playerPassword = SanitizerHelper.sanitize(source);
 	}
 
 	public void setUsername(String source) {
-		this.username = SanitizerHelper.sanitize(source);
+		this.playerUsername = SanitizerHelper.sanitize(source);
 	}
 
 }

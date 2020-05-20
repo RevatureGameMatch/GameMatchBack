@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.revature.g2g.api.templates.MessageTemplate;
+import com.revature.g2g.models.MessageDTO;
 import com.revature.g2g.models.Player;
 import com.revature.g2g.models.PlayerDTO;
 import com.revature.g2g.models.Room;
@@ -90,7 +90,7 @@ public class SurveyController {
 	}
 	
 	@PostMapping("/room/id/{id}/submit")
-	public ResponseEntity<MessageTemplate> insertSurvey(@Valid @RequestBody SurveySubmitDTO dto, @PathVariable("id") int roomId){
+	public ResponseEntity<MessageDTO> insertSurvey(@Valid @RequestBody SurveySubmitDTO dto, @PathVariable("id") int roomId){
 		Player modifiedBy = authenticatorHelper.getPlayer(new PlayerDTO(dto.getModifiedBy()) );
 		Optional<Player> playerOpt = playerHandler.findById(dto.getPlayer().getPlayerId());
 		Optional<Room> roomOpt = roomHandler.findById(roomId);
@@ -108,13 +108,13 @@ public class SurveyController {
 		if(skillPlayerChangeJT != null) {
 			String message = "You have already ranked " + skillPlayerChangeJT.getPlayer().getPlayerUsername() + "'s skill in " +
 					skillPlayerChangeJT.getSkillPlayerJT().getSkill().getName() +  " for this game.";
-			MessageTemplate messageTemplate = new MessageTemplate(message);
+			MessageDTO messageTemplate = new MessageDTO(message);
 			return ResponseEntity.status(HttpStatus.CONFLICT).body(messageTemplate);
 		}
 		skillPlayerChangeJT = surveyService.submit(modifiedBy, player, room, skill, dto.getValue());
 		String successMessage = "Thank you for ranking " + skillPlayerChangeJT.getPlayer().getPlayerUsername() + "'s skill in " +
 				skillPlayerChangeJT.getSkillPlayerJT().getSkill().getName() + ". Together we will build a brighter tomorrow.";
-		MessageTemplate successTemplate = new MessageTemplate(successMessage);
+		MessageDTO successTemplate = new MessageDTO(successMessage);
 		return ResponseEntity.status(HttpStatus.ACCEPTED).body(successTemplate);
 	}
 

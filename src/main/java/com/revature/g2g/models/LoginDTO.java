@@ -1,6 +1,6 @@
 package com.revature.g2g.models;
 
-import com.revature.g2g.data.DataInput;
+import com.revature.g2g.services.helpers.SanitizerHelper;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,11 +21,11 @@ public class LoginDTO {
 	}
 	
 	public void setPassword(String source) {
-		this.password = DataInput.sanitize(source);
+		this.password = SanitizerHelper.sanitize(source);
 	}
 
 	public void setUsername(String source) {
-		this.username = DataInput.sanitize(source);
+		this.username = SanitizerHelper.sanitize(source);
 	}
 
 }

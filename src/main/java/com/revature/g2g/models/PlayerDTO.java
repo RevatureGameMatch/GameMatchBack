@@ -1,6 +1,6 @@
 package com.revature.g2g.models;
 
-import com.revature.g2g.data.DataInput;
+import com.revature.g2g.services.helpers.SanitizerHelper;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -37,14 +37,14 @@ public class PlayerDTO {
 		}catch (IllegalArgumentException e) {
 			this.setPlayerRole(PlayerRole.PLAYER);
 		}
-		this.setMessage(DataInput.sanitize(source.getMessage()) );
+		this.setMessage(SanitizerHelper.sanitize(source.getMessage()) );
 	}
 
 	public void setPlayerUsername(String source) {
-		this.playerUsername = DataInput.sanitize(source);
+		this.playerUsername = SanitizerHelper.sanitize(source);
 	}
 	
 	public void setPlayerEmail(String source) {
-		this.playerEmail = DataInput.sanitize(source);
+		this.playerEmail = SanitizerHelper.sanitize(source);
 	}
 }

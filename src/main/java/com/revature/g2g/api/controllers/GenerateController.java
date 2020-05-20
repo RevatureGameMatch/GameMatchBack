@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.revature.g2g.api.templates.MessageTemplate;
 import com.revature.g2g.data.DummyDataDriver;
+import com.revature.g2g.models.MessageDTO;
 import com.revature.g2g.services.business.EnvironmentService;
 import com.revature.g2g.services.helpers.LoggerSingleton;
 
@@ -34,15 +34,15 @@ public class GenerateController {
 	}
 	
 	@GetMapping
-	public ResponseEntity<MessageTemplate> triggerGeneration(){
+	public ResponseEntity<MessageDTO> triggerGeneration(){
 		if(environmentService.isDev()) {
 			String message = "Generation Triggered by api hook.";
-			MessageTemplate messageTemplate = new MessageTemplate(message);
+			MessageDTO messageTemplate = new MessageDTO(message);
 			loggerSingleton.getAccessLog().trace(message);
 			dummyDataDriver.generate();
 			return ResponseEntity.ok().body(messageTemplate);
 		}else {
-			MessageTemplate message = new MessageTemplate("Only available on dev environments.");
+			MessageDTO message = new MessageDTO("Only available on dev environments.");
 			loggerSingleton.getAccessLog().warn("GenerateController: attempt to run generation from non dev environment.");
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(message);
 		}

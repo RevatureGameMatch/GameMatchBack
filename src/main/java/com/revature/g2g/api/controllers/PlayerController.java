@@ -15,11 +15,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.revature.g2g.api.templates.SkillValueTemplate;
 import com.revature.g2g.models.Player;
 import com.revature.g2g.models.PlayerDTO;
 import com.revature.g2g.models.PlayerRole;
 import com.revature.g2g.models.Skill;
+import com.revature.g2g.models.SkillValueDTO;
 import com.revature.g2g.services.business.SkillPlayerJTService;
 import com.revature.g2g.services.handlers.PlayerHandler;
 import com.revature.g2g.services.handlers.SkillPlayerJTHandler;
@@ -82,7 +82,7 @@ public class PlayerController {
 	}
 	
 	@GetMapping("/id/{id}/skills")
-	public ResponseEntity<List<SkillValueTemplate>> findAllSkillsById(@PathVariable("id") int id){
+	public ResponseEntity<List<SkillValueDTO>> findAllSkillsById(@PathVariable("id") int id){
 		Optional<Player> playerOpt = playerHandler.findById(id);
 		if(playerOpt.isPresent()) {
 			return ResponseEntity.status(HttpStatus.ACCEPTED).body(processSkills(playerOpt.get()));
@@ -92,7 +92,7 @@ public class PlayerController {
 	}
 	
 	@GetMapping("/username/{username}/skills")
-	public ResponseEntity<List<SkillValueTemplate>> findAllSkillsByName(@PathVariable("username") String username){
+	public ResponseEntity<List<SkillValueDTO>> findAllSkillsByName(@PathVariable("username") String username){
 		Player player = playerHandler.findByPlayerUsername(username);
 		if(player == null) {
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
@@ -101,12 +101,12 @@ public class PlayerController {
 		}
 	}
 	
-	private List<SkillValueTemplate> processSkills(Player player){
+	private List<SkillValueDTO> processSkills(Player player){
 		List<Skill> set = skillPlayerJTHandler.findPlayerSkills(player);
-		List<SkillValueTemplate> skills = new ArrayList<>();
+		List<SkillValueDTO> skills = new ArrayList<>();
 		for(Skill skill : set) {
 			double value = skillPlayerJTHandler.findValue(player, skill);
-			skills.add(new SkillValueTemplate(skill, value));
+			skills.add(new SkillValueDTO(skill, value));
 		}
 		return skills;
 	}

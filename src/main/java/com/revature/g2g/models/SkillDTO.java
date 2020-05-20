@@ -1,6 +1,6 @@
 package com.revature.g2g.models;
 
-import com.revature.g2g.data.DataInput;
+import com.revature.g2g.services.helpers.SanitizerHelper;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -37,7 +37,7 @@ public class SkillDTO {
 	}
 	
 	public void setName(String source) {
-		this.name = DataInput.sanitize(source);
+		this.name = SanitizerHelper.sanitize(source);
 	}
 	
 }

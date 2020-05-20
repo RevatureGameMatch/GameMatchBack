@@ -18,8 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.revature.g2g.api.templates.MessageTemplate;
-import com.revature.g2g.models.Game;
-import com.revature.g2g.models.GameDTO;
 import com.revature.g2g.models.Player;
 import com.revature.g2g.models.PlayerDTO;
 import com.revature.g2g.models.Room;
@@ -28,7 +26,6 @@ import com.revature.g2g.models.Skill;
 import com.revature.g2g.models.SkillDTO;
 import com.revature.g2g.models.SkillPlayerChangeJT;
 import com.revature.g2g.models.SurveyDTO;
-import com.revature.g2g.models.SurveySkillDTO;
 import com.revature.g2g.models.SurveySubmitDTO;
 import com.revature.g2g.services.business.SurveyService;
 import com.revature.g2g.services.handlers.PlayerHandler;
@@ -92,77 +89,6 @@ public class SurveyController {
 		this.surveyService = surveyService;
 	}
 	
-	@PostMapping
-	public ResponseEntity<List<RoomDTO>> getSurveys(@Valid @RequestBody PlayerDTO dto){
-		Player player = authenticatorHelper.getPlayer(dto);
-		List<RoomDTO> returnThis = new ArrayList<>();
-		
-		if(player == null) {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-		}
-		List<Room> rooms = playerRoomJTHandler.findSurveyRooms(player);
-		for (Room room : rooms) {
-			returnThis.add(new RoomDTO(room) );
-		}
-		return ResponseEntity.status(HttpStatus.ACCEPTED).body(returnThis);
-	}
-	
-	public List<SurveyDTO> templateGeneratingLoop(RoomDTO room, PlayerDTO player){
-		Room innerRoom = new Room(room);
-		Player innerPlayer = new Player(player);
-		List<Player> players = playerRoomJTHandler.findPlayers(innerRoom );
-		List<Skill> skills = skillGameJTHandler.findByGame(innerRoom.getGame() );
-		List<SkillPlayerChangeJT> skillPlayerChangeJTList = skillPlayerChangeJTHandler.findBy(innerRoom, innerPlayer);
-		SurveySkillDTO[] arr = new SurveySkillDTO[skills.size()];
-		List<SurveyDTO> returnThis = new ArrayList<>();
-		
-		for (Player p: players) {
-			if(p.equals(new Player(player)) ) {
-				continue;
-			}
-			ArrayList<SurveySkillDTO> surveySkillTemplateArray = skillGeneratingLoop(arr, skills, p, innerPlayer, innerRoom, skillPlayerChangeJTList);
-			SurveyDTO surveyDTO = new SurveyDTO(player, surveySkillTemplateArray.toArray(arr));
-			
-			returnThis.add(surveyDTO);
-		}
-		
-		return returnThis;
-	}
-
-	private ArrayList<SurveySkillDTO> skillGeneratingLoop(SurveySkillDTO[] arr, List<Skill> skills, Player p, Player modifiedBy, 
-			Room room, List<SkillPlayerChangeJT> skillPlayerChangeJTList) {
-		ArrayList<SurveySkillDTO> surveySkillDTOArray = new ArrayList<>();
-		int size = skillPlayerChangeJTList.size();
-		Game game = room.getGame();
-		GameDTO gd = new GameDTO(game);
-		SkillDTO sd = null; 
-		
-		for (Skill s: skills) {
-			boolean found = false;
-			if (size != 0) {
-				for (SkillPlayerChangeJT spc: skillPlayerChangeJTList) {
-					if(spc.getSkillPlayerJT().getSkill().equals(s) && spc.getPlayer().equals(p)) {
-						sd = new SkillDTO(s);
-						double val = spc.getValue();
-						SurveySkillDTO surveySkillTemplate = new SurveySkillDTO(
-								sd, (val * 100), gd);
-						surveySkillDTOArray.add(surveySkillTemplate);
-						found = true;
-						break;
-					}
-				}
-			}
-			if (!found) {
-				sd = new SkillDTO(s);
-				SurveySkillDTO surveySkillDTO = new SurveySkillDTO(
-						sd, 0, gd);
-				surveySkillDTOArray.add(surveySkillDTO);	
-			}
-		}
-		return surveySkillDTOArray;
-	}
-
-
 	@PostMapping("/room/id/{id}/submit")
 	public ResponseEntity<MessageTemplate> insertSurvey(@Valid @RequestBody SurveySubmitDTO dto, @PathVariable("id") int roomId){
 		Player modifiedBy = authenticatorHelper.getPlayer(new PlayerDTO(dto.getModifiedBy()) );
@@ -204,8 +130,8 @@ public class SurveyController {
 		}
 		List<SurveyDTO> result = new ArrayList<>();
 		for(Room room : roomList) {
-			RoomDTO outerRoom = new RoomDTO(room);
-			result.add(buildSurveyDTO(outerRoom, dto));
+			RoomDTO resultRoom = new RoomDTO(room);
+			result.add(buildSurveyDTO(resultRoom, dto));
 		}
 		return ResponseEntity.ok(result);
 	}
@@ -230,22 +156,20 @@ public class SurveyController {
 		Player innerPlayer = new Player(player);
 		List<Player> players = playerRoomJTHandler.findPlayers(innerRoom);
 		List<Skill> skills = skillGameJTHandler.findByGame(innerRoom.getGame());
-		List<PlayerDTO> outerPlayers = new ArrayList<>();
-		List<SkillDTO> outerSkills = new ArrayList<>();
+		List<PlayerDTO> resultPlayers = new ArrayList<>();
+		List<SkillDTO> resultSkills = new ArrayList<>();
 
-		while(players.remove(innerPlayer)) {
-			//Empty because all we want to loop over is the remove, which returns a boolean
-		};
+		players.remove(innerPlayer); // can't rate yourself
 
 		SurveyDTO result = new SurveyDTO();
 		for (Player play : players) {
-			outerPlayers.add(new PlayerDTO(play) );
+			resultPlayers.add(new PlayerDTO(play) );
 		}
 		for (Skill skill : skills) {
-			outerSkills.add(new SkillDTO(skill) );
+			resultSkills.add(new SkillDTO(skill) );
 		}
-		result.setPlayers(outerPlayers);
-		result.setSkills(outerSkills);
+		result.setPlayers(resultPlayers);
+		result.setSkills(resultSkills);
 		result.setRoom(room);
 		return result;
 	}

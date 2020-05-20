@@ -6,8 +6,9 @@ import org.jsoup.safety.Whitelist;
 // TODO: move this to a more appropriate folder
 public class SanitizerHelper {
 	public static String sanitize(String source) {
+		if (source == null) return null;
 		String result = Jsoup.clean(source, Whitelist.none());
-		result.replace(";", "_");
+		result = result.replace(";", "_");
 		
 		return result;
 	}

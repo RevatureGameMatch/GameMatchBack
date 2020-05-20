@@ -3,6 +3,8 @@ package com.revature.g2g.models;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
 
+import com.revature.g2g.data.DataInput;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -13,12 +15,10 @@ public class DiscordInviteDTO {
 	private String guildName;
 	private long channelId;
 	private String channelName;
-	private long inviteId;
 	private String inviteCode;
 	private String urlApp;
 	private String urlWeb;
 	private String username;
-	// TODO: Isn't this something we need to protect?  Different class may be needed.
 	private String discordCode;
 	private RoomDTO room;
 	private PlayerDTO player;
@@ -27,7 +27,7 @@ public class DiscordInviteDTO {
 	public DiscordInviteDTO(DiscordInvite invite) {
 		super();
 		this.setId(invite.getId());
-		this.setUsername(Jsoup.clean(invite.getUsername(), Whitelist.none()) );
+		this.setUsername(invite.getUsername() );
 		this.setDiscordCode(invite.getDiscordCode() );
 		this.setRoom(new RoomDTO(invite.getRoom()) );
 		this.setPlayer(new PlayerDTO(invite.getPlayer()) );
@@ -38,14 +38,13 @@ public class DiscordInviteDTO {
 		super();
 		this.setId(source.getId());
 		this.setGuildId(source.getGuildId());
-		this.setGuildName(Jsoup.clean(source.getGuildName(), Whitelist.none()) );
+		this.setGuildName(source.getGuildName() );
 		this.setChannelId(source.getChannelId() );
-		this.setChannelName(Jsoup.clean(source.getChannelName(), Whitelist.none()) );
-		this.setInviteId(source.getInviteId());
+		this.setChannelName(source.getChannelName() );
 		this.setInviteCode(source.getInviteCode());
-		this.setUrlApp(Jsoup.clean(source.getUrlApp(), Whitelist.none()) );
-		this.setUrlWeb(Jsoup.clean(source.getUrlWeb(), Whitelist.none()) );
-		this.setUsername(Jsoup.clean(source.getUsername(), Whitelist.none()) );
+		this.setUrlApp(source.getUrlApp() );
+		this.setUrlWeb(source.getUrlWeb() );
+		this.setUsername(source.getUsername() );
 		this.setDiscordCode(source.getDiscordCode() );
 		this.setRoom(source.getRoom() );
 		this.setPlayer(source.getPlayer() );
@@ -53,4 +52,27 @@ public class DiscordInviteDTO {
 		
 	}
 
+	public void setGuildName(String source) {
+		this.guildName = DataInput.sanitize(source);
+	}
+	
+	public void setChannelName(String source) {
+		this.channelName = DataInput.sanitize(source);
+	}
+		
+	public void setUrlApp(String source) {
+		this.urlApp = DataInput.sanitize(source);
+	}
+	
+	public void setUrlWeb(String source) {
+		this.urlWeb = DataInput.sanitize(source);
+	}
+	
+	public void setUsername(String source) {
+		this.username = DataInput.sanitize(source);
+	}
+	
+	public void setDiscordCode(String source) {
+		this.discordCode = DataInput.sanitize(source);
+	}
 }

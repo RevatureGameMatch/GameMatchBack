@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.revature.g2g.api.templates.MessageTemplate;
-import com.revature.g2g.api.templates.SurveySkillTemplate;
 import com.revature.g2g.models.Game;
+import com.revature.g2g.models.GameDTO;
 import com.revature.g2g.models.Player;
 import com.revature.g2g.models.PlayerDTO;
 import com.revature.g2g.models.Room;
@@ -28,6 +28,7 @@ import com.revature.g2g.models.Skill;
 import com.revature.g2g.models.SkillDTO;
 import com.revature.g2g.models.SkillPlayerChangeJT;
 import com.revature.g2g.models.SurveyDTO;
+import com.revature.g2g.models.SurveySkillDTO;
 import com.revature.g2g.models.SurveySubmitDTO;
 import com.revature.g2g.services.business.SurveyService;
 import com.revature.g2g.services.handlers.PlayerHandler;
@@ -112,14 +113,14 @@ public class SurveyController {
 		List<Player> players = playerRoomJTHandler.findPlayers(innerRoom );
 		List<Skill> skills = skillGameJTHandler.findByGame(innerRoom.getGame() );
 		List<SkillPlayerChangeJT> skillPlayerChangeJTList = skillPlayerChangeJTHandler.findBy(innerRoom, innerPlayer);
-		SurveySkillTemplate[] arr = new SurveySkillTemplate[skills.size()];
+		SurveySkillDTO[] arr = new SurveySkillDTO[skills.size()];
 		List<SurveyDTO> returnThis = new ArrayList<>();
 		
 		for (Player p: players) {
 			if(p.equals(new Player(player)) ) {
 				continue;
 			}
-			ArrayList<SurveySkillTemplate> surveySkillTemplateArray = skillGeneratingLoop(arr, skills, p, innerPlayer, innerRoom, skillPlayerChangeJTList);
+			ArrayList<SurveySkillDTO> surveySkillTemplateArray = skillGeneratingLoop(arr, skills, p, innerPlayer, innerRoom, skillPlayerChangeJTList);
 			SurveyDTO surveyDTO = new SurveyDTO(player, surveySkillTemplateArray.toArray(arr));
 			
 			returnThis.add(surveyDTO);
@@ -128,32 +129,37 @@ public class SurveyController {
 		return returnThis;
 	}
 
-	private ArrayList<SurveySkillTemplate> skillGeneratingLoop(SurveySkillTemplate[] arr, List<Skill> skills, Player p, Player modifiedBy, 
+	private ArrayList<SurveySkillDTO> skillGeneratingLoop(SurveySkillDTO[] arr, List<Skill> skills, Player p, Player modifiedBy, 
 			Room room, List<SkillPlayerChangeJT> skillPlayerChangeJTList) {
-		ArrayList<SurveySkillTemplate> surveySkillTemplateArray = new ArrayList<>();
+		ArrayList<SurveySkillDTO> surveySkillDTOArray = new ArrayList<>();
 		int size = skillPlayerChangeJTList.size();
 		Game game = room.getGame();
+		GameDTO gd = new GameDTO(game);
+		SkillDTO sd = null; 
+		
 		for (Skill s: skills) {
 			boolean found = false;
 			if (size != 0) {
 				for (SkillPlayerChangeJT spc: skillPlayerChangeJTList) {
 					if(spc.getSkillPlayerJT().getSkill().equals(s) && spc.getPlayer().equals(p)) {
+						sd = new SkillDTO(s);
 						double val = spc.getValue();
-						SurveySkillTemplate surveySkillTemplate = new SurveySkillTemplate(
-								s, (val * 100), game);
-						surveySkillTemplateArray.add(surveySkillTemplate);
+						SurveySkillDTO surveySkillTemplate = new SurveySkillDTO(
+								sd, (val * 100), gd);
+						surveySkillDTOArray.add(surveySkillTemplate);
 						found = true;
 						break;
 					}
 				}
 			}
 			if (!found) {
-				SurveySkillTemplate surveySkillTemplate = new SurveySkillTemplate(
-						s, 0, game);
-				surveySkillTemplateArray.add(surveySkillTemplate);	
+				sd = new SkillDTO(s);
+				SurveySkillDTO surveySkillDTO = new SurveySkillDTO(
+						sd, 0, gd);
+				surveySkillDTOArray.add(surveySkillDTO);	
 			}
 		}
-		return surveySkillTemplateArray;
+		return surveySkillDTOArray;
 	}
 
 

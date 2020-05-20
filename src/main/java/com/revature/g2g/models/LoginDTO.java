@@ -1,7 +1,6 @@
 package com.revature.g2g.models;
 
-import org.jsoup.Jsoup;
-import org.jsoup.safety.Whitelist;
+import com.revature.g2g.data.DataInput;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,8 +12,8 @@ public class LoginDTO {
 	
 	public LoginDTO(String neoUserName, String neoPassword) {
 		super();
-		this.setUsername(Jsoup.clean(neoUserName, Whitelist.none()));
-		this.setPassword(Jsoup.clean(neoPassword, Whitelist.none()));
+		this.setUsername(DataInput.sanitize(neoUserName) );
+		this.setPassword(DataInput.sanitize(neoPassword) );
 	}
 	
 	public LoginDTO(LoginDTO other) {

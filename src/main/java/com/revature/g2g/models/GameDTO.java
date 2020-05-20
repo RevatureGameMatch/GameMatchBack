@@ -3,6 +3,8 @@ package com.revature.g2g.models;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
 
+import com.revature.g2g.data.DataInput;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -18,20 +20,31 @@ public class GameDTO {
 	public GameDTO(Game source) {
 		super();
 		this.setGameId(source.getGameId() );
-		this.setName(Jsoup.clean(source.getName(), Whitelist.none()) );
-		this.setLink(Jsoup.clean(source.getLink(), Whitelist.none()) );
-		this.setDescription(Jsoup.clean(source.getDescription(), Whitelist.none()) );
+		this.setName(source.getName() );
+		this.setLink(source.getLink() );
+		this.setDescription(source.getDescription() );
 		this.setRawgId(source.getRawgId() );
 	}
 
 	public GameDTO(GameDTO source) {
 		super();
 		this.setGameId(source.getGameId() );
-		this.setName(Jsoup.clean(source.getName(), Whitelist.none()) );
-		this.setLink(Jsoup.clean(source.getLink(), Whitelist.none()) );
-		this.setDescription(Jsoup.clean(source.getDescription(), Whitelist.none()) );
+		this.setName(source.getName() );
+		this.setLink(source.getLink() );
+		this.setDescription(source.getDescription() );
 		this.setRawgId(source.getRawgId() );
 		this.setSender(source.getSender() );
 	}
+	
+	public void setDescription(String details) {
+		this.description = DataInput.sanitize(details);
+	}
+	
+	public void setLink(String neoLink) {
+		this.link = DataInput.sanitize(neoLink);
+	}
 
+	public void setName(String neoName) {
+		this.name = DataInput.sanitize(neoName);
+	}
 }

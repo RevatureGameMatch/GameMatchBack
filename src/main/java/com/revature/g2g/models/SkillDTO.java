@@ -1,5 +1,7 @@
 package com.revature.g2g.models;
 
+import com.revature.g2g.data.DataInput;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -12,7 +14,7 @@ public class SkillDTO {
 	public SkillDTO(Skill skill) {
 		super();
 		this.skillId = skill.getSkillId();
-		this.name = skill.getName();
+		this.name = DataInput.sanitize(skill.getName() );
 		this.parentSkill = new SkillDTO(skill.getParentSkill(), true );
 	}
 	

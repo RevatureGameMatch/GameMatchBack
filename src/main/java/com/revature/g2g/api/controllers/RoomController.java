@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.revature.g2g.models.DiscordInvite;
 import com.revature.g2g.models.DiscordInviteDTO;
 import com.revature.g2g.models.Game;
 import com.revature.g2g.models.Player;
@@ -185,21 +186,13 @@ public class RoomController {
 		}
 		Room room = roomOpt.get();
 		PlayerRoomJT alreadyInRoom = playerRoomJTHandler.findByPlayerAndRoom(player, room);
-		Invite invite = roomHelper.getInvite(room,player);
+		DiscordInvite invite = roomHelper.getInvite(room,player);
 		if(alreadyInRoom == null) {
 			room.setCurrentPlayers(room.getCurrentPlayers() + 1);
 			roomHandler.save(room);
 			skillPlayerJTService.checkThenAddGamesSkills(player, room.getGame());
 		}
-		DiscordInviteDTO discordInviteDTO = new DiscordInviteDTO();
-		discordInviteDTO.setChannelId(room.getDiscordVoiceChannelId());
-		discordInviteDTO.setChannelName(room.getName());
-		Guild guild = guildHelper.getGuild();
-		discordInviteDTO.setGuildId(guild.getIdLong());
-		discordInviteDTO.setGuildName(guild.getName());
-		discordInviteDTO.setInviteCode(invite.getCode());
-		discordInviteDTO.setUrlWeb(invite.getUrl());
-		discordInviteDTO.setUrlApp("discord://discordapp.com/invite/" + invite.getCode());
+		DiscordInviteDTO discordInviteDTO = new DiscordInviteDTO(invite);
 		return ResponseEntity.status(HttpStatus.CREATED).body(discordInviteDTO);
 	}
 	

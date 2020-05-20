@@ -1,8 +1,5 @@
 package com.revature.g2g.models;
 
-import org.jsoup.Jsoup;
-import org.jsoup.safety.Whitelist;
-
 import com.revature.g2g.data.DataInput;
 
 import lombok.Data;

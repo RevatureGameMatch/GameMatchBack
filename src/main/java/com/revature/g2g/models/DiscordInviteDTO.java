@@ -1,8 +1,5 @@
 package com.revature.g2g.models;
 
-import org.jsoup.Jsoup;
-import org.jsoup.safety.Whitelist;
-
 import com.revature.g2g.data.DataInput;
 
 import lombok.Data;
@@ -11,11 +8,6 @@ import lombok.NoArgsConstructor;
 @Data @NoArgsConstructor
 public class DiscordInviteDTO {
 	private long id;
-	private long guildId;
-	private String guildName;
-	private long channelId;
-	private String channelName;
-	private String inviteCode;
 	private String urlApp;
 	private String urlWeb;
 	private String username;
@@ -37,11 +29,6 @@ public class DiscordInviteDTO {
 	public DiscordInviteDTO(DiscordInviteDTO source) {
 		super();
 		this.setId(source.getId());
-		this.setGuildId(source.getGuildId());
-		this.setGuildName(source.getGuildName() );
-		this.setChannelId(source.getChannelId() );
-		this.setChannelName(source.getChannelName() );
-		this.setInviteCode(source.getInviteCode());
 		this.setUrlApp(source.getUrlApp() );
 		this.setUrlWeb(source.getUrlWeb() );
 		this.setUsername(source.getUsername() );
@@ -52,14 +39,6 @@ public class DiscordInviteDTO {
 		
 	}
 
-	public void setGuildName(String source) {
-		this.guildName = DataInput.sanitize(source);
-	}
-	
-	public void setChannelName(String source) {
-		this.channelName = DataInput.sanitize(source);
-	}
-		
 	public void setUrlApp(String source) {
 		this.urlApp = DataInput.sanitize(source);
 	}
@@ -74,5 +53,7 @@ public class DiscordInviteDTO {
 	
 	public void setDiscordCode(String source) {
 		this.discordCode = DataInput.sanitize(source);
+		this.urlApp = String.format("discord://discordapp.com/invite/%s", this.discordCode);
+		this.urlWeb = String.format("https://discord.gg/%s", this.discordCode);
 	}
 }

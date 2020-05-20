@@ -1,8 +1,5 @@
 package com.revature.g2g.models;
 
-import org.jsoup.Jsoup;
-import org.jsoup.safety.Whitelist;
-
 import com.revature.g2g.data.DataInput;
 
 import lombok.Data;
@@ -18,8 +15,8 @@ public class PlayerDTO {
 
 	public PlayerDTO(Player source) {
 		super();
-		this.setPlayerEmail(DataInput.sanitize(source.getPlayerEmail()) );
-		this.setPlayerUsername(DataInput.sanitize(source.getPlayerUsername()) );
+		this.setPlayerEmail(source.getPlayerEmail() );
+		this.setPlayerUsername(source.getPlayerUsername() );
 		this.setPlayerId(source.getPlayerId());
 		PlayerRole role = source.getPlayerRole();
 		try {
@@ -31,8 +28,8 @@ public class PlayerDTO {
 
 	public PlayerDTO(PlayerDTO source) {
 		super();
-		this.setPlayerEmail(DataInput.sanitize(source.getPlayerEmail()) );
-		this.setPlayerUsername(DataInput.sanitize(source.getPlayerUsername()) );
+		this.setPlayerEmail(source.getPlayerEmail() );
+		this.setPlayerUsername(source.getPlayerUsername() );
 		this.setPlayerId(source.getPlayerId());
 		PlayerRole role = source.getPlayerRole();
 		try {
@@ -43,4 +40,11 @@ public class PlayerDTO {
 		this.setMessage(DataInput.sanitize(source.getMessage()) );
 	}
 
+	public void setPlayerUsername(String source) {
+		this.playerUsername = DataInput.sanitize(source);
+	}
+	
+	public void setPlayerEmail(String source) {
+		this.playerEmail = DataInput.sanitize(source);
+	}
 }

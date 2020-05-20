@@ -14,14 +14,14 @@ public class SkillDTO {
 	public SkillDTO(Skill skill) {
 		super();
 		this.skillId = skill.getSkillId();
-		this.name = DataInput.sanitize(skill.getName() );
+		this.setName(skill.getName() );
 		this.parentSkill = new SkillDTO(skill.getParentSkill(), true );
 	}
 	
 	public SkillDTO(Skill skill, boolean stopParentSkill){ 
 		super(); 
 		this.skillId = skill.getSkillId(); 
-		this.name = skill.getName(); 
+		this.setName(skill.getName() ); 
 		if (stopParentSkill){ 
 			this.parentSkill = new SkillDTO(skill.getParentSkill(), false); 
 		} else{ 
@@ -34,6 +34,10 @@ public class SkillDTO {
 		this.skillId = skill.getSkillId(); 
 		this.name = skill.getName(); 
 			this.parentSkill = new SkillDTO(skill.getParentSkill() ); 
+	}
+	
+	public void setName(String source) {
+		this.name = DataInput.sanitize(source);
 	}
 	
 }

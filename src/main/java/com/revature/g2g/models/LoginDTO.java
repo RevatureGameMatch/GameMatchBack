@@ -12,12 +12,20 @@ public class LoginDTO {
 	
 	public LoginDTO(String neoUserName, String neoPassword) {
 		super();
-		this.setUsername(DataInput.sanitize(neoUserName) );
-		this.setPassword(DataInput.sanitize(neoPassword) );
+		this.setUsername(neoUserName);
+		this.setPassword(neoPassword);
 	}
 	
 	public LoginDTO(LoginDTO other) {
 		this(other.getUsername(), other.getPassword() );
+	}
+	
+	public void setPassword(String source) {
+		this.password = DataInput.sanitize(source);
+	}
+
+	public void setUsername(String source) {
+		this.username = DataInput.sanitize(source);
 	}
 
 }

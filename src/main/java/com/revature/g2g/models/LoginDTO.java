@@ -26,6 +26,7 @@ public class LoginDTO {
 	}
 
 	public void setPlayerUsername(String source) {
+
 		this.playerUsername = SanitizerHelper.sanitize(source);
 	}
 

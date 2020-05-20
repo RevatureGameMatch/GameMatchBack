@@ -124,10 +124,11 @@ public class SurveyController {
 		if(player == null) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 		}
-		List<Room> roomList = playerRoomJTHandler.findSurveyRooms(player).stream().distinct().collect(Collectors.toList());
+		List<Room> roomList = playerRoomJTHandler.findSurveyRooms(player);
 		if( roomList == null || roomList.isEmpty()) {
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 		}
+		roomList = roomList.stream().distinct().collect(Collectors.toList());
 		List<SurveyDTO> result = new ArrayList<>();
 		for(Room room : roomList) {
 			RoomDTO resultRoom = new RoomDTO(room);
@@ -155,7 +156,13 @@ public class SurveyController {
 		Room innerRoom = new Room(room);
 		Player innerPlayer = new Player(player);
 		List<Player> players = playerRoomJTHandler.findPlayers(innerRoom);
+		if(!players.isEmpty()) {
+			players = players.stream().distinct().collect(Collectors.toList());
+		}
 		List<Skill> skills = skillGameJTHandler.findByGame(innerRoom.getGame());
+		if(!skills.isEmpty()) {
+			skills = skills.stream().distinct().collect(Collectors.toList());
+		}
 		List<PlayerDTO> resultPlayers = new ArrayList<>();
 		List<SkillDTO> resultSkills = new ArrayList<>();
 

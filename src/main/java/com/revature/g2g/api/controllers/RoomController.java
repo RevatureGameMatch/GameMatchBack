@@ -37,7 +37,6 @@ import com.revature.g2g.services.handlers.RoomHandler;
 import com.revature.g2g.services.helpers.AuthenticatorHelper;
 import com.revature.g2g.services.helpers.LoggerSingleton;
 import com.revature.g2g.services.helpers.RoomHelper;
-import com.revature.g2g.services.jda.helpers.GuildHelper;
 
 @CrossOrigin
 @RestController
@@ -50,7 +49,6 @@ public class RoomController {
 	private PlayerRoomService playerRoomService;
 	private LoggerSingleton loggerSingleton;
 	private GameHandler gameHandler;
-	private GuildHelper guildHelper;
 	private SkillPlayerJTService skillPlayerJTService;
 	
 	@Autowired
@@ -86,11 +84,6 @@ public class RoomController {
 	@Autowired
 	public void setGameHandler(GameHandler gameHandler) {
 		this.gameHandler = gameHandler;
-	}
-	
-	@Autowired
-	public void setGuildHelper(GuildHelper guildHelper) {
-		this.guildHelper = guildHelper;
 	}
 	
 	@Autowired

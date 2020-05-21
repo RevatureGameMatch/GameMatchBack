@@ -15,14 +15,16 @@ public class SkillDTO {
 		super();
 		this.skillId = skill.getSkillId();
 		this.setName(skill.getName() );
-		this.parentSkill = new SkillDTO(skill.getParentSkill(), true );
+		if(this.parentSkill != null) {
+			this.parentSkill = new SkillDTO(skill.getParentSkill(), true );
+		}
 	}
 	
 	public SkillDTO(Skill skill, boolean stopParentSkill){ 
 		super(); 
 		this.skillId = skill.getSkillId(); 
 		this.setName(skill.getName() ); 
-		if (stopParentSkill){ 
+		if (stopParentSkill && skill.getParentSkill() != null){ 
 			this.parentSkill = new SkillDTO(skill.getParentSkill(), false); 
 		} else{ 
 			this.parentSkill = null; 

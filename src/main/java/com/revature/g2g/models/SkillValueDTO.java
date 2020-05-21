@@ -2,21 +2,25 @@ package com.revature.g2g.models;
 
 import java.util.Objects;
 
+import javax.validation.constraints.DecimalMin;
+
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data @NoArgsConstructor
 public class SkillValueDTO {
-	private Skill skill;
+	private SkillDTO skill;
+	
+	@DecimalMin(value="0.01")
 	private double value;
-	public SkillValueDTO() {
-		super();
-	}
-	public SkillValueDTO(Skill skill, double value) {
+	
+	public SkillValueDTO(SkillDTO skill, double value) {
 		super();
 		this.skill = skill;
 		this.value = value;
 	}
-	public Skill getSkill() {
-		return skill;
-	}
-	public void setSkill(Skill skill) {
+
+	public void setSkill(SkillDTO skill) {
 		this.skill = skill;
 	}
 	public double getValue() {

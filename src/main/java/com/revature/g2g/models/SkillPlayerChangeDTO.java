@@ -1,5 +1,7 @@
 package com.revature.g2g.models;
 
+import javax.validation.constraints.DecimalMin;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -9,8 +11,12 @@ public class SkillPlayerChangeDTO {
 	private SkillPlayerDTO skillPlayer;
 	private PlayerDTO player;
 	private PlayerDTO modifiedBy;
+	
+	@DecimalMin(value="0.01", inclusive=true)
 	private float expertise;
 	private RoomDTO room;
+	
+	@DecimalMin(value="0.01", inclusive=true)
 	private float value;
 
 	public SkillPlayerChangeDTO(SkillPlayerChangeJT source) {

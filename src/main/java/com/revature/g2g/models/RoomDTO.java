@@ -2,8 +2,9 @@ package com.revature.g2g.models;
 
 import java.util.Date;
 
-import org.jsoup.Jsoup;
-import org.jsoup.safety.Whitelist;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.PastOrPresent;
 
 import com.revature.g2g.services.helpers.SanitizerHelper;
 
@@ -13,14 +14,30 @@ import lombok.NoArgsConstructor;
 @Data @NoArgsConstructor
 public class RoomDTO {
 	private long roomId;
+	
+	@Digits(integer=18, fraction = 0)
 	private long discordTextChannelId;
+	
+	@Digits(integer=18, fraction = 0)
 	private long discordVoiceChannelId;
+	
+	@Digits(integer=6, fraction = 0)
 	private long discordRoleId;
+	
+	@PastOrPresent
 	private Date created;
+	
+	@PastOrPresent
 	private Date closed;
+	
 	private String name;
+	
+	@Min(value=1)
 	private int currentPlayers;
+	
+	@Min(value=2)
 	private int maxPlayers;
+	
 	private String description;
 	private RoomStatus status;
 	private RoomPlayStyle style;

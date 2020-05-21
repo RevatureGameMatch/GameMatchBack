@@ -19,6 +19,7 @@ import com.revature.g2g.models.Player;
 import com.revature.g2g.models.PlayerDTO;
 import com.revature.g2g.models.PlayerRole;
 import com.revature.g2g.models.Skill;
+import com.revature.g2g.models.SkillDTO;
 import com.revature.g2g.models.SkillValueDTO;
 import com.revature.g2g.services.business.SkillPlayerJTService;
 import com.revature.g2g.services.handlers.PlayerHandler;
@@ -106,7 +107,7 @@ public class PlayerController {
 		List<SkillValueDTO> skills = new ArrayList<>();
 		for(Skill skill : set) {
 			double value = skillPlayerJTHandler.findValue(player, skill);
-			skills.add(new SkillValueDTO(skill, value));
+			skills.add(new SkillValueDTO(new SkillDTO(skill), value));
 		}
 		return skills;
 	}

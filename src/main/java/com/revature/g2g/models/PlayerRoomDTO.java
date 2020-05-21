@@ -2,6 +2,8 @@ package com.revature.g2g.models;
 
 import java.util.Date;
 
+import javax.validation.constraints.PastOrPresent;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -11,7 +13,11 @@ public class PlayerRoomDTO {
 	private PlayerDTO player;
 	private PlayerDTO sender;
 	private RoomDTO room;
+	
+	@PastOrPresent
 	private Date joined;
+	
+	@PastOrPresent
 	private Date left;
 	
 	public PlayerRoomDTO(PlayerRoomJT source) {

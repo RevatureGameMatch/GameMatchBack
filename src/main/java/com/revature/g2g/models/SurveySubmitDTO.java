@@ -1,13 +1,16 @@
 package com.revature.g2g.models;
 
+import javax.validation.constraints.DecimalMin;
+
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
 public class SurveySubmitDTO {
 	private PlayerDTO player;
 	private PlayerDTO modifiedBy;
 	private SkillDTO skill;
+	
+	@DecimalMin(value="0.01")
 	private float value;
 
 	public SurveySubmitDTO() {

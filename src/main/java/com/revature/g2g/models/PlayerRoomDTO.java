@@ -3,13 +3,16 @@ package com.revature.g2g.models;
 import java.util.Date;
 
 import javax.validation.constraints.PastOrPresent;
+import javax.validation.constraints.Positive;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data @NoArgsConstructor
 public class PlayerRoomDTO {
+	@Positive
 	private long playerRoomId;
+	
 	private PlayerDTO player;
 	private PlayerDTO sender;
 	private RoomDTO room;

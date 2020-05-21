@@ -1,6 +1,7 @@
 package com.revature.g2g.models;
 
 import javax.validation.constraints.Email;
+import javax.validation.constraints.Positive;
 
 import com.revature.g2g.services.helpers.SanitizerHelper;
 
@@ -9,7 +10,9 @@ import lombok.NoArgsConstructor;
 
 @Data @NoArgsConstructor
 public class PlayerDTO {
+	@Positive
 	private long playerId;
+	
 	private String playerUsername;
 	
 	@Email

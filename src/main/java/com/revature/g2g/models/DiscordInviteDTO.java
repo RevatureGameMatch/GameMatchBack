@@ -1,5 +1,7 @@
 package com.revature.g2g.models;
 
+import javax.validation.constraints.Positive;
+
 import com.revature.g2g.services.helpers.SanitizerHelper;
 
 import lombok.Data;
@@ -7,7 +9,9 @@ import lombok.NoArgsConstructor;
 
 @Data @NoArgsConstructor
 public class DiscordInviteDTO {
+	@Positive
 	private long id;
+	
 	private String urlApp;
 	private String urlWeb;
 	private String username;

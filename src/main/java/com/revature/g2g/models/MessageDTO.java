@@ -8,6 +8,7 @@ import lombok.Data;
 public class MessageDTO {
 	@NotNull
 	private String message;
+	
 	public MessageDTO(String message) {
 		super();
 		this.message = message;

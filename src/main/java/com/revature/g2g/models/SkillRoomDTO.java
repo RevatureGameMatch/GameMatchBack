@@ -1,13 +1,16 @@
 package com.revature.g2g.models;
 
 import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Positive;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data @NoArgsConstructor
 public class SkillRoomDTO {
+	@Positive
 	private long skillRoomId;
+	
 	private SkillDTO skill;
 	private RoomDTO room;
 	

@@ -28,7 +28,7 @@ public class SkillDTO {
 		super(); 
 		this.skillId = skill.getSkillId(); 
 		this.setName(skill.getName() ); 
-		if (stopParentSkill && skill.getParentSkill() != null){ 
+		if (stopParentSkill && (skill.getParentSkill() != null)){ 
 			this.parentSkill = new SkillDTO(skill.getParentSkill(), false); 
 		} else{ 
 			this.parentSkill = null; 

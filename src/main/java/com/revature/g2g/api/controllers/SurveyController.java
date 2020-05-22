@@ -173,7 +173,7 @@ public class SurveyController {
 			resultPlayers.add(new PlayerDTO(play) );
 		}
 		for (Skill skill : skills) {
-			resultSkills.add(new SkillDTO(skill) );
+			resultSkills.add(new SkillDTO(skill, true));
 		}
 		result.setPlayers(resultPlayers);
 		result.setSkills(resultSkills);

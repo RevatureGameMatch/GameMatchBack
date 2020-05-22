@@ -49,6 +49,7 @@ public class SkillGameJTGenerator implements DataGenerator {
 			assignSkillsToGame(game.getName(), new SkillPriorityTemplate[] {
 				new SkillPriorityTemplate("Fun to Play With",5),
 				new SkillPriorityTemplate("Good at Game", 5),
+				new SkillPriorityTemplate(game.getName(), 7)
 			});
 		}
 		assignSkillsToGame("DnD5e", new SkillPriorityTemplate[] { 

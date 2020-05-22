@@ -20,7 +20,7 @@ public class GameGenerator implements DataGenerator {
 	}
 	@Override
 	public void generate() {
-		make("DnD5e", "Dungeons & Dragons 5th Ed. Classic TTRPG. Tell a story together, guide your heroes through quests for treasure, battle with deadly foes, daring rescues, courtly intrigue, and much more.", "https://dnd.wizards.com/",13482);
+		make("DnD5e", "Dungeons and Dragons 5th Ed. Classic TTRPG. Tell a story together, guide your heroes through quests for treasure, battle with deadly foes, daring rescues, courtly intrigue, and much more.", "https://dnd.wizards.com/",13482);
 		make("Halo 5: Guardians", "A mysterious and unstoppable force threatens the galaxy. The Spartans of Fireteam Osiris and Blue Team must embark on a journey that will change the course of history and the future of mankind. First person shooter.", "https://www.halowaypoint.com/en-us/games/halo-infinite",8444);
 		make("Call of Duty: Warzone", "Welcome to Warzone. Battle Royale. Drop in, armor up, loot for rewards, and battle your way to the top. First person shooter.", "https://www.callofduty.com/warzone",418467);
 		make("Minecraft", "Explore your own unique world as you build, mine, battle mobs, and more. Sandbox.", "https://www.minecraft.net/en-us/",22509);

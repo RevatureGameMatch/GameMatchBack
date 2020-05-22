@@ -14,7 +14,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
-import org.hibernate.validator.constraints.Email;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
 import org.springframework.stereotype.Component;
@@ -45,7 +44,6 @@ public class Player implements Serializable {
 	@Column(name = "player_username", unique = true)
 	private String playerUsername;
 	
-	@Email(message="You must submit a valid email. This will be used for account recovery.")
 	@Column(name = "player_email", unique = true)
 	private String playerEmail;
 	

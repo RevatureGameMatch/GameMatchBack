@@ -51,7 +51,7 @@ public class GuildVoiceEventListener extends ListenerAdapter{
 		if(jda != null) {
 			jda.addEventListener(this);
 		}else {
-			loggerSingleton.getExceptionLogger().trace("GuildVoiceEventListener: listener not set as JDA was null");
+			this.loggerSingleton.getExceptionLogger().trace("GuildVoiceEventListener: listener not set as JDA was null");
 		}
 	}
 	@Override

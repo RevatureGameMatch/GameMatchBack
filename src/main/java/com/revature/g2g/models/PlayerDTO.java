@@ -1,7 +1,8 @@
 package com.revature.g2g.models;
 
-import javax.validation.constraints.Email;
 import javax.validation.constraints.Positive;
+
+import org.hibernate.validator.constraints.Email;
 
 import com.revature.g2g.services.helpers.SanitizerHelper;
 

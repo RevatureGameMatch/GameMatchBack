@@ -1,6 +1,5 @@
 package com.revature.g2g.models;
 
-import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Positive;
 
 import lombok.Data;
@@ -14,7 +13,6 @@ public class SkillRoomDTO {
 	private SkillDTO skill;
 	private RoomDTO room;
 	
-	@DecimalMin(value="0.01", inclusive=true)
 	private double minValue;
 	
 	public SkillRoomDTO(SkillRoomJT source) {

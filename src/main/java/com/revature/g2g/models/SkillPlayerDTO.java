@@ -13,11 +13,7 @@ public class SkillPlayerDTO {
 	
 	private SkillDTO skill;
 	private PlayerDTO player;
-	
-	@DecimalMin(value="0.01", inclusive=true)
 	private double value;
-	
-	@DecimalMin(value="0.01", inclusive=true)
 	private double expertise;
 
 	public SkillPlayerDTO(SkillPlayerJT source) {

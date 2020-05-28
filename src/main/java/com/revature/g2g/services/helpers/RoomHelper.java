@@ -99,7 +99,7 @@ public class RoomHelper {
 		}
 		return original;
 	}
-	public Invite getInvite(Room room, Player player) {
+	public DiscordInvite getInvite(Room room, Player player) {
 		if(room.getStatus().equals(RoomStatus.CLOSED))return null;
 		JDA jda = jdaSingleton.getJda();
 		if(jda != null) {
@@ -112,7 +112,7 @@ public class RoomHelper {
 			discordInvite.setPlayer(player);
 			discordInvite.setStatus(DiscordInviteStatus.CREATED);
 			discordInviteHandler.save(discordInvite);
-			return invite;
+			return discordInvite;
 		}else {
 			return null;
 		}

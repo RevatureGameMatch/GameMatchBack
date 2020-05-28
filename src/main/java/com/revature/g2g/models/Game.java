@@ -2,6 +2,7 @@ package com.revature.g2g.models;
 
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -15,6 +16,8 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.jsoup.Jsoup;
+import org.jsoup.safety.Whitelist;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -73,19 +76,32 @@ public class Game implements Serializable{
 	public Game(long gameId, String name, String link, String description, int rawgId, Set<SkillGameJT> skills) {
 		super();
 		this.gameId = gameId;
-		this.name = name;
-		this.link = link;
-		this.description = description;
+		this.setName(Jsoup.clean(name, Whitelist.none()) );
+		this.setLink(Jsoup.clean(link, Whitelist.none()) );
+		this.setDescription(Jsoup.clean(description, Whitelist.none()) );
 		this.rawgId = rawgId;
 		this.skills = skills;
 	}
 
+	public Game(Game source) {
+		this.gameId = source.getGameId();
+		this.setName(Jsoup.clean(source.getName(), Whitelist.none()) );
+		this.setLink(Jsoup.clean(source.getLink(), Whitelist.none()) );
+		this.setDescription(Jsoup.clean(source.getDescription(), Whitelist.none()) );
+		this.rawgId = source.getRawgId();
+	}
+	
 	public Game(GameDTO source) {
 		this();
 		this.gameId = source.getGameId();
-		this.name = source.getName();
-		this.link = source.getLink();
-		this.description = source.getDescription();
+		this.setName(Jsoup.clean(source.getName(), Whitelist.none()) );
+		this.setLink(Jsoup.clean(source.getLink(), Whitelist.none()) );
+		this.setDescription(Jsoup.clean(source.getDescription(), Whitelist.none()) );
 		this.rawgId = source.getRawgId();
 	}
+
+	public Game(Optional<Game> source) {
+		this(source.get());
+	}
+
 }

@@ -14,14 +14,12 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
-import org.hibernate.validator.constraints.Email;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.revature.g2g.api.templates.PlayerTemplate;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -46,7 +44,6 @@ public class Player implements Serializable {
 	@Column(name = "player_username", unique = true)
 	private String playerUsername;
 	
-	@Email(message="You must submit a valid email. This will be used for account recovery.")
 	@Column(name = "player_email", unique = true)
 	private String playerEmail;
 	
@@ -83,25 +80,16 @@ public class Player implements Serializable {
 		this.playerRole = playerRole;
 	}
 	
-	public Player(PlayerTemplate template) {
-		super();
-		this.playerId = template.getPlayerId();
-		this.playerUsername = Jsoup.clean(template.getPlayerUsername(), Whitelist.none());
-		this.playerEmail = Jsoup.clean(template.getPlayerEmail(), Whitelist.none());
-		this.playerPassword = Jsoup.clean(template.getPlayerPassword(), Whitelist.none());
-		PlayerRole role = template.getPlayerRole();
-		if(role instanceof PlayerRole) {
-			this.playerRole = role;
-		}else {
-			this.playerRole = PlayerRole.PLAYER;
-		}
-	}
-	
 	public Player(PlayerDTO source) {
 		this();
-		this.playerId = source.getPlayerId();
-		this.playerUsername = source.getPlayerUsername();
-		this.playerEmail = source.getPlayerEmail();
-		this.playerRole = source.getPlayerRole();
+		this.setPlayerEmail(Jsoup.clean(source.getPlayerEmail(), Whitelist.none()));
+		this.setPlayerUsername(Jsoup.clean(source.getPlayerUsername(), Whitelist.none()));
+		this.setPlayerId(source.getPlayerId());
+		PlayerRole role = source.getPlayerRole();
+		try {
+			this.setPlayerRole(PlayerRole.valueOf(role.toString()));
+		}catch (IllegalArgumentException e) {
+			this.setPlayerRole(PlayerRole.PLAYER);
+		}
 	}
 }

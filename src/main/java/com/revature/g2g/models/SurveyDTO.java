@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 
 @Data @NoArgsConstructor
 public class SurveyDTO {
-	private List<Player> players;
-	private List<Skill> skills;
-	private Room room;
+	private List<PlayerDTO> players;
+	private List<SkillDTO> skills;
+	private RoomDTO room;
 }

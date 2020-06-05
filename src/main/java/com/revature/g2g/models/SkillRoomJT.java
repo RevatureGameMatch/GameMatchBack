@@ -21,7 +21,7 @@ import lombok.ToString;
 
 @Component
 @Entity
-@Table(name = "G3G_SKILL_ROOM_JT")
+@Table(name = "G2G_SKILL_ROOM_JT")
 @Getter @Setter @EqualsAndHashCode @ToString
 public class SkillRoomJT implements Serializable{
 	private static final long serialVersionUID = 3217583926494781567L;

@@ -30,7 +30,7 @@ import lombok.ToString;
 @Component
 @JsonIgnoreProperties(value = { "skills" })
 @Entity
-@Table(name = "G3G_GAME")
+@Table(name = "G2G_GAME")
 @Getter @Setter @EqualsAndHashCode(exclude = {"skills"}) @ToString(exclude = {"skills"})
 public class Game implements Serializable{
 	private static final long serialVersionUID = 2159855250913785420L;

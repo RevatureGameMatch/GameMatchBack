@@ -21,7 +21,7 @@ import lombok.ToString;
 
 @Component
 @Entity
-@Table(name = "G3G_SKILL_PLAYER_CHANGE_JT")
+@Table(name = "G2G_SKILL_PLAYER_CHANGE_JT")
 @Getter @Setter @EqualsAndHashCode @ToString
 public class SkillPlayerChangeJT implements Serializable{
 	private static final long serialVersionUID = -253737794481944410L;

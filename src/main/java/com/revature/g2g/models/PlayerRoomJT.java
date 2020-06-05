@@ -22,7 +22,7 @@ import lombok.ToString;
 
 @Component
 @Entity
-@Table(name = "G3G_PLAYER_ROOM_JT")
+@Table(name = "G2G_PLAYER_ROOM_JT")
 @Getter @Setter @EqualsAndHashCode @ToString
 public class PlayerRoomJT implements Serializable{
 	private static final long serialVersionUID = -7131529712503037883L;
